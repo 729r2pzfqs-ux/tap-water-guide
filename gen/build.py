@@ -1049,6 +1049,7 @@ print(f"Built {len(REGION_META)} region hub pages")
 # ---------------------------------------------------------------------------
 
 ISO2SLUG = {
+    # Existing
     "JP": "japan", "IT": "italy", "CR": "costa-rica", "MX": "mexico", "ES": "spain",
     "PT": "portugal", "IS": "iceland", "FR": "france", "DE": "germany", "HR": "croatia",
     "GR": "greece", "TR": "turkey", "TH": "thailand", "MA": "morocco", "IN": "india",
@@ -1066,6 +1067,43 @@ ISO2SLUG = {
     "RU": "russia", "BS": "bahamas", "EE": "estonia", "AL": "albania", "RO": "romania",
     "BM": "bermuda", "IL": "israel", "UA": "ukraine", "BE": "belgium", "MT": "malta",
     "EC": "ecuador", "PA": "panama", "CN": "china", "TW": "taiwan",
+    # Africa (new)
+    "DZ": "algeria", "AO": "angola", "BJ": "benin", "BW": "botswana", "BF": "burkina-faso",
+    "BI": "burundi", "CV": "cabo-verde", "CM": "cameroon", "CF": "central-african-republic",
+    "TD": "chad", "KM": "comoros", "CG": "congo-republic", "CD": "dr-congo",
+    "CI": "cote-d-ivoire", "DJ": "djibouti", "GQ": "equatorial-guinea", "ER": "eritrea",
+    "SZ": "eswatini", "ET": "ethiopia", "GA": "gabon", "GM": "gambia", "GH": "ghana",
+    "GN": "guinea", "GW": "guinea-bissau", "LS": "lesotho", "LR": "liberia", "LY": "libya",
+    "MG": "madagascar", "MW": "malawi", "ML": "mali", "MR": "mauritania", "MU": "mauritius",
+    "MZ": "mozambique", "NA": "namibia", "NE": "niger", "NG": "nigeria", "RW": "rwanda",
+    "ST": "sao-tome-and-principe", "SN": "senegal", "SC": "seychelles", "SL": "sierra-leone",
+    "SO": "somalia", "SS": "south-sudan", "SD": "sudan", "TG": "togo", "TN": "tunisia",
+    "UG": "uganda", "ZM": "zambia", "ZW": "zimbabwe",
+    # Europe (new)
+    "AD": "andorra", "BY": "belarus", "BA": "bosnia-and-herzegovina", "XK": "kosovo",
+    "LI": "liechtenstein", "LU": "luxembourg", "MD": "moldova", "MC": "monaco",
+    "MK": "north-macedonia", "SM": "san-marino", "RS": "serbia", "SK": "slovakia", "SI": "slovenia",
+    # Asia (new)
+    "AF": "afghanistan", "AM": "armenia", "AZ": "azerbaijan", "BD": "bangladesh",
+    "BT": "bhutan", "BN": "brunei", "KZ": "kazakhstan", "KG": "kyrgyzstan",
+    "MO": "macau", "MV": "maldives", "MN": "mongolia", "KP": "north-korea",
+    "PK": "pakistan", "TJ": "tajikistan", "TL": "timor-leste", "TM": "turkmenistan",
+    "UZ": "uzbekistan",
+    # Middle East (new)
+    "BH": "bahrain", "IR": "iran", "IQ": "iraq", "JO": "jordan", "KW": "kuwait",
+    "LB": "lebanon", "OM": "oman", "SA": "saudi-arabia", "SY": "syria", "YE": "yemen",
+    # Americas (new)
+    "AG": "antigua-and-barbuda", "AW": "aruba", "BB": "barbados", "BZ": "belize",
+    "CW": "curacao", "DM": "dominica", "GD": "grenada", "GT": "guatemala", "HT": "haiti",
+    "HN": "honduras", "JM": "jamaica", "PR": "puerto-rico", "KN": "saint-kitts-and-nevis",
+    "LC": "saint-lucia", "VC": "saint-vincent-and-the-grenadines", "TT": "trinidad-and-tobago",
+    "TC": "turks-and-caicos",
+    "BO": "bolivia", "GY": "guyana", "PY": "paraguay", "SR": "suriname", "VE": "venezuela",
+    # Oceania (new)
+    "FJ": "fiji", "KI": "kiribati", "MH": "marshall-islands", "FM": "micronesia",
+    "NR": "nauru", "PW": "palau", "PG": "papua-new-guinea", "WS": "samoa",
+    "SB": "solomon-islands", "TO": "tonga", "TV": "tuvalu", "VU": "vanuatu",
+    "PF": "french-polynesia", "CK": "cook-islands",
 }
 
 MAP_FILL = {
@@ -1083,6 +1121,44 @@ SMALL_TERRITORIES = {
     "malta": (14.4, 35.9),
     "bermuda": (-64.75, 32.3),
     "cayman-islands": (-81.2, 19.3),
+    # New small territories
+    "bahrain": (50.55, 26.07),
+    "comoros": (44.3, -12.2),
+    "cabo-verde": (-23.5, 15.0),
+    "mauritius": (57.55, -20.3),
+    "seychelles": (55.45, -4.7),
+    "sao-tome-and-principe": (6.6, 0.3),
+    "maldives": (73.5, 3.2),
+    "brunei": (114.9, 4.9),
+    "macau": (113.55, 22.2),
+    "andorra": (1.52, 42.5),
+    "liechtenstein": (9.55, 47.15),
+    "monaco": (7.42, 43.73),
+    "san-marino": (12.45, 43.94),
+    "vatican-city": (12.45, 41.9),
+    "antigua-and-barbuda": (-61.8, 17.1),
+    "aruba": (-70.0, 12.5),
+    "barbados": (-59.55, 13.2),
+    "curacao": (-69.0, 12.2),
+    "dominica": (-61.35, 15.4),
+    "grenada": (-61.7, 12.1),
+    "saint-kitts-and-nevis": (-62.75, 17.3),
+    "saint-lucia": (-61.0, 13.9),
+    "saint-vincent-and-the-grenadines": (-61.2, 13.25),
+    "trinidad-and-tobago": (-61.25, 10.45),
+    "turks-and-caicos": (-71.8, 21.8),
+    "puerto-rico": (-66.5, 18.2),
+    "cook-islands": (-159.8, -21.2),
+    "french-polynesia": (-149.5, -17.5),
+    "kiribati": (173.0, 1.4),
+    "marshall-islands": (171.4, 7.1),
+    "micronesia": (158.2, 6.9),
+    "nauru": (166.9, -0.5),
+    "palau": (134.6, 7.5),
+    "samoa": (-172.0, -13.8),
+    "tonga": (-175.2, -21.2),
+    "tuvalu": (179.2, -8.5),
+    "kosovo": (20.9, 42.6),
 }
 
 

@@ -1365,4 +1365,18 @@ COUNTRIES = [
         meta_description="Taiwan's tap water meets WHO standards in Taipei, but most locals boil it due to aging building plumbing. See what travelers should know."),
 ]
 
+from data_new_africa import AFRICA_COUNTRIES
+from data_new_europe import EUROPE_COUNTRIES
+from data_new_asia import ASIA_COUNTRIES
+from data_new_middleeast import MIDDLEEAST_COUNTRIES
+from data_new_americas import AMERICAS_COUNTRIES
+from data_new_oceania import OCEANIA_COUNTRIES
+
+COUNTRIES.extend(AFRICA_COUNTRIES)
+COUNTRIES.extend(EUROPE_COUNTRIES)
+COUNTRIES.extend(ASIA_COUNTRIES)
+COUNTRIES.extend(MIDDLEEAST_COUNTRIES)
+COUNTRIES.extend(AMERICAS_COUNTRIES)
+COUNTRIES.extend(OCEANIA_COUNTRIES)
+
 BY_SLUG = {c["slug"]: c for c in COUNTRIES}
