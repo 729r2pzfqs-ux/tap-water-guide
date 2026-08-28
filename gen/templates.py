@@ -84,6 +84,7 @@ def nav(active=""):
         ("US Cities", "/rankings/best-tap-water-us/", "us"),
         ("World Cities", "/city/", "world"),
         ("Rankings", "/rankings/", "rankings"),
+        ("Hardness", "/water-hardness/", "hardness"),
         ("Guides", "/guides/", "guides"),
     ]
 

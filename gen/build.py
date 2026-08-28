@@ -13,6 +13,8 @@ from data_countries import COUNTRIES, BY_SLUG as COUNTRY_BY_SLUG
 from data_us_cities import US_CITIES, BY_SLUG as US_BY_SLUG
 from data_intl_cities import INTL_CITIES, BY_SLUG as INTL_BY_SLUG
 from data_guides import GUIDES
+from data_water_quality import CITY_WATER_QUALITY
+from data_water_hardness import HARDNESS_MAIN, HARDNESS_BY_COUNTRY
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -148,6 +150,56 @@ def sources_card(kind):
       <h2 class="text-xl font-bold text-gray-900 mb-3">Sources &amp; References</h2>
       <p class="text-sm text-gray-500 mb-3">The safety rating and guidance on this page draw on the following sources. See our <a href="/about/#sources" class="text-sky-700 hover:underline">full methodology</a>.</p>
       <ul class="space-y-2 text-sm">{lis}</ul>
+    </div>"""
+
+
+def contaminant_table(slug):
+    """Render a structured contaminant data table for a city, if data exists."""
+    wq = CITY_WATER_QUALITY.get(slug)
+    if not wq or not wq.get("contaminants"):
+        return ""
+    STATUS_ICON = {
+        "ok": '<span class="text-emerald-600" title="Below guideline limit">&#10003;</span>',
+        "elevated": '<span class="text-amber-500" title="Above health goal">&#9888;</span>',
+        "exceeds": '<span class="text-red-600" title="Exceeds guideline">&#10007;</span>',
+        "note": '<span class="text-gray-400" title="See context">&ndash;</span>',
+    }
+    rows = ""
+    for c in wq["contaminants"]:
+        name, val, unit, limit, limit_src, status = c
+        icon = STATUS_ICON.get(status, STATUS_ICON["note"])
+        pct = min(val / limit * 100, 100) if limit > 0 else 0
+        bar_color = "bg-emerald-400" if status == "ok" else ("bg-amber-400" if status == "elevated" else "bg-red-400")
+        rows += f"""<tr class="border-b border-gray-100 last:border-0">
+          <td class="py-2.5 pr-3 text-sm text-gray-900 font-medium">{name}</td>
+          <td class="py-2.5 pr-3 text-sm text-gray-700 tabular-nums">{val} {unit}</td>
+          <td class="py-2.5 pr-3 text-sm text-gray-500 tabular-nums">{limit} {unit}</td>
+          <td class="py-2.5 pr-3 hidden sm:table-cell" style="min-width:80px">
+            <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="{bar_color} h-1.5 rounded-full" style="width:{pct:.0f}%"></div></div>
+          </td>
+          <td class="py-2.5 text-sm text-center">{icon}</td>
+        </tr>"""
+    source = wq.get("source_name", "")
+    source_url = wq.get("source_url", "")
+    source_html = f' &mdash; <span class="text-xs text-gray-400">Source: {_source_link(source_url, source) if source_url else source}</span>' if source else ""
+    return f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" id="contaminant-data">
+      <h2 class="text-xl font-bold text-gray-900 mb-1">Water Quality Data</h2>
+      <p class="text-sm text-gray-500 mb-4">Key contaminants detected vs. regulatory limits. All values from the most recent published report{source_html}.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Contaminant</th>
+              <th class="pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Detected</th>
+              <th class="pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Limit</th>
+              <th class="pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">% of Limit</th>
+              <th class="pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-3">&#10003; = below limit &nbsp; &#9888; = above health goal &nbsp; &#10007; = exceeds guideline</p>
     </div>"""
 
 
@@ -307,6 +359,7 @@ def build_us_city_page(ci):
       {section_card('Water Source', f"<p>{ci['water_source']}</p>")}
       {section_card('EPA Compliance Status', f"<p>{ci['epa_status']}</p>")}
       {section_card('Notable Contaminants &amp; Context', contam_html)}
+      {contaminant_table(slug)}
       {section_card('How It Compares', f"<p>{ci['comparison']}</p>")}
       {section_card('Tips', tips_html)}
       {faq_html}
@@ -384,6 +437,7 @@ def build_intl_city_page(ci):
     <div class="space-y-6">
       {section_card('Water Source', f"<p>{ci['water_source']}</p>")}
       {section_card('Contaminants &amp; Concerns', f"<p>{ci['contaminants']}</p>")}
+      {contaminant_table(slug)}
       {section_card('Tips', tips_html)}
       {faq_html}
       {sources_card('intl')}
@@ -531,7 +585,7 @@ def build_homepage():
 </section>
 
 <section class="px-4 py-12 bg-white border-t border-gray-100">
-  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-6">
     <a href="/rankings/best-tap-water/" class="block bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-100 p-6 hover:shadow-md transition-shadow">
       <h3 class="font-bold text-gray-900 mb-2">Best Tap Water Worldwide</h3>
       <p class="text-sm text-gray-600">Countries where tap water is safest and best-tasting, from Iceland to Singapore.</p>
@@ -543,6 +597,10 @@ def build_homepage():
     <a href="/rankings/best-tap-water-us/" class="block bg-gradient-to-br from-sky-50 to-white rounded-xl border border-sky-100 p-6 hover:shadow-md transition-shadow">
       <h3 class="font-bold text-gray-900 mb-2">Best US City Water</h3>
       <p class="text-sm text-gray-600">Which American cities have the cleanest municipal tap water, and why.</p>
+    </a>
+    <a href="/water-hardness/" class="block bg-gradient-to-br from-sky-50 to-white rounded-xl border border-sky-100 p-6 hover:shadow-md transition-shadow">
+      <h3 class="font-bold text-gray-900 mb-2">Water Hardness Data</h3>
+      <p class="text-sm text-gray-600">Check hardness levels and contaminant data for any city or country.</p>
     </a>
   </div>
 </section>
@@ -1361,6 +1419,13 @@ def build_guides_index():
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Guides</h1>
     <p class="text-gray-600 mb-8">Practical, evergreen guides to drinking water safety &mdash; purification methods, travel precautions, water chemistry explained, and what to do when the tap can't be trusted. Each guide pairs with our <a href="/country/" class="text-sky-700 hover:underline">country</a> and <a href="/city/" class="text-sky-700 hover:underline">city</a> ratings.</p>
     <div class="grid md:grid-cols-2 gap-4">{cards}</div>
+
+    <div class="mt-8">
+      <a href="/water-hardness/" class="block bg-gradient-to-br from-sky-50 to-white rounded-xl border border-sky-100 p-6 hover:shadow-md transition-shadow">
+        <h2 class="font-bold text-gray-900 mb-2">Water Hardness &amp; Contaminant Data</h2>
+        <p class="text-sm text-gray-600">Look up hardness levels and water quality data for any city or country, with the hardness scale explained and practical solutions.</p>
+      </a>
+    </div>
   </div>
 </section>
 """
@@ -1376,6 +1441,140 @@ for _g in GUIDES:
     build_guide_page(_g)
 build_guides_index()
 print(f"Built {len(GUIDES)} guide pages and guides index")
+
+# ---------------------------------------------------------------------------
+# WATER HARDNESS SECTION (/water-hardness/ and /water-hardness/by-country/)
+# ---------------------------------------------------------------------------
+
+def build_water_hardness_main():
+    h = HARDNESS_MAIN
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Water Hardness", None)])
+    sections_html = "".join(section_card(heading, body) for heading, body in h["sections"])
+    faq_html, faq_ld = faq_block(h["faqs"])
+
+    # Hardness quick-lookup: pick 12 popular cities with known hardness for a teaser grid
+    HARDNESS_TEASER_SLUGS = ["new-york-city", "london", "paris", "tokyo", "las-vegas", "rome",
+                             "berlin", "sydney", "chicago", "madrid", "singapore-city", "seattle"]
+    teaser_cards = ""
+    all_city_data = {c["slug"]: c for c in US_CITIES}
+    all_city_data.update({c["slug"]: c for c in INTL_CITIES})
+    for s in HARDNESS_TEASER_SLUGS:
+        cd = all_city_data.get(s)
+        if not cd:
+            continue
+        h_text = cd["hardness"].split(",")[0]
+        level = hardness_level(cd["hardness"])
+        level_label = HARDNESS_LABELS[level - 1] if level else "Variable"
+        level_colors = {1: "text-sky-600", 2: "text-sky-700", 3: "text-sky-800", 4: "text-sky-900"}
+        lc = level_colors.get(level, "text-gray-500")
+        cname = re.sub(r"<[^<]+?>", "", cd.get("name", ""))
+        teaser_cards += f'''<a href="/city/{s}/" class="block bg-white rounded-lg border border-gray-200 p-3 hover:border-sky-300 hover:shadow-md transition-all">
+          <div class="font-semibold text-gray-900 text-sm">{cname}</div>
+          <div class="{lc} text-sm font-medium">{level_label}</div>
+        </a>'''
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      {reviewed_badge()}
+    </div>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{h['title']}</h1>
+    <p class="text-lg text-gray-700 leading-relaxed mb-6">{h['intro']}</p>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-3">Quick Lookup: Popular Cities</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{teaser_cards}</div>
+      <p class="text-sm text-gray-500 mt-3">Every <a href="/city/" class="text-sky-700 hover:underline">city page</a> includes a hardness gauge and mg/L range.</p>
+    </div>
+
+    <div class="space-y-6">
+      {sections_html}
+      {faq_html}
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/water-hardness/by-country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by country &rarr;</a>
+      <a href="/guides/water-hardness-explained/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">In-depth water hardness guide &rarr;</a>
+      <a href="/guides/tds-in-drinking-water/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">TDS explained &rarr;</a>
+    </div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    if faq_ld:
+        schemas.append(faq_ld)
+    schemas.append(article_schema(h["title"], h["meta_description"], f"{DOMAIN}/water-hardness/"))
+    title = f"{h['title']} | TapWaterGuide"
+    html_out = page(title, h["meta_description"], "/water-hardness/", body, schemas=schemas, active_nav="guides")
+    write_page("/water-hardness/", html_out)
+    register("/water-hardness/", "0.8", "monthly")
+
+
+def build_water_hardness_by_country():
+    h = HARDNESS_BY_COUNTRY
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Water Hardness", "/water-hardness/"), ("By Country", None)])
+
+    # Build country hardness table, grouped by level
+    level_groups = {1: [], 2: [], 3: [], 4: [], 0: []}  # 0 = unknown
+    for c in COUNTRIES:
+        lvl = hardness_level(c["hardness"]) or 0
+        h_text = c["hardness"].split(",")[0].split(".")[0]
+        level_groups[lvl].append((c, h_text))
+
+    tables_html = ""
+    group_meta = [
+        (1, "Soft (0&ndash;60 mg/L)", "bg-sky-50", "border-sky-100"),
+        (2, "Moderate (61&ndash;120 mg/L)", "bg-sky-50", "border-sky-200"),
+        (3, "Hard (121&ndash;180 mg/L)", "bg-amber-50", "border-amber-100"),
+        (4, "Very Hard (180+ mg/L)", "bg-orange-50", "border-orange-100"),
+        (0, "Variable / Not Published", "bg-gray-50", "border-gray-200"),
+    ]
+    for lvl, label, bg, border in group_meta:
+        items = sorted(level_groups[lvl], key=lambda x: x[0]["name"])
+        if not items:
+            continue
+        rows = "".join(
+            f'''<a href="/country/{c['slug']}/" class="flex items-center justify-between px-4 py-3 hover:bg-sky-50 border-b border-gray-100 last:border-0">
+              <span class="text-gray-900 font-medium">{c['name']}</span>
+              <span class="text-sm text-gray-500">{h_text}</span>
+            </a>''' for c, h_text in items
+        )
+        tables_html += f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+          <div class="px-4 py-3 {bg} border-b {border}"><h2 class="font-bold text-gray-900">{label} ({len(items)} countries)</h2></div>
+          {rows}
+        </div>"""
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">{h['title']}</h1>
+    <p class="text-gray-600 leading-relaxed mb-8">{h['intro']}</p>
+    {tables_html}
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/water-hardness/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">&larr; Water Hardness Guide</a>
+      <a href="/country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">All country guides &rarr;</a>
+    </div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    title = f"{h['title']} | TapWaterGuide"
+    html_out = page(title, h["meta_description"], "/water-hardness/by-country/", body, schemas=schemas, active_nav="guides")
+    write_page("/water-hardness/by-country/", html_out)
+    register("/water-hardness/by-country/", "0.8", "monthly")
+
+
+build_water_hardness_main()
+build_water_hardness_by_country()
+print("Built water hardness section (2 pages)")
 
 # ---------------------------------------------------------------------------
 # ABOUT PAGE
