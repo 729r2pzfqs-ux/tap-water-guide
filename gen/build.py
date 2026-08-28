@@ -429,9 +429,15 @@ ALL_ENTITIES = (
 N_COUNTRIES = len(COUNTRIES)
 N_CITIES = len(US_CITIES) + len(INTL_CITIES)
 
-FEATURED_COUNTRIES = ["japan", "mexico", "italy", "thailand", "india", "spain", "france", "costa-rica", "greece", "vietnam", "morocco", "singapore"]
+# Shared search index consumed by the header search on every page
+with open(os.path.join(ROOT, "search-index.json"), "w", encoding="utf-8") as f:
+    _json.dump(ALL_ENTITIES, f, ensure_ascii=False)
+print(f"Built search-index.json with {len(ALL_ENTITIES)} entries")
+
+FEATURED_COUNTRIES = ["japan", "mexico", "italy", "thailand", "india", "spain", "france", "costa-rica", "greece", "vietnam", "morocco", "chile"]
 FEATURED_US = ["new-york-city", "chicago", "los-angeles", "san-francisco", "houston", "miami", "seattle", "las-vegas"]
-FEATURED_WORLD = ["paris", "london", "rome", "tokyo", "bangkok", "bali", "dubai", "cancun"]
+FEATURED_WORLD = ["paris", "london", "rome", "tokyo", "bangkok", "bali", "dubai", "cancun",
+                  "mexico-city", "madrid", "copenhagen", "milan"]
 
 
 def build_homepage():
@@ -1036,6 +1042,37 @@ def build_404():
 
 build_404()
 print("Built 404 page")
+
+# ---------------------------------------------------------------------------
+# REDIRECT STUBS (for renamed URLs; not registered in sitemap)
+# ---------------------------------------------------------------------------
+
+REDIRECTS = {
+    "/country/malta-country/": "/country/malta/",
+}
+
+
+def build_redirects():
+    for old, new in REDIRECTS.items():
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Redirecting&hellip;</title>
+<link rel="canonical" href="{DOMAIN}{new}">
+<meta http-equiv="refresh" content="0; url={new}">
+<meta name="robots" content="noindex">
+</head>
+<body><p>This page has moved to <a href="{new}">{DOMAIN}{new}</a>.</p></body>
+</html>"""
+        fs_path = os.path.join(ROOT, old.lstrip("/"), "index.html")
+        os.makedirs(os.path.dirname(fs_path), exist_ok=True)
+        with open(fs_path, "w", encoding="utf-8") as f:
+            f.write(html)
+
+
+build_redirects()
+print(f"Built {len(REDIRECTS)} redirect stubs")
 
 # ---------------------------------------------------------------------------
 # SITEMAP & ROBOTS & MANIFEST

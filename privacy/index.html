@@ -54,6 +54,11 @@
 <a href="/rankings/best-tap-water-us/" class="text-gray-600 hover:text-sky-700">US Cities</a>
 <a href="/city/" class="text-gray-600 hover:text-sky-700">World Cities</a>
 <a href="/rankings/" class="text-gray-600 hover:text-sky-700">Rankings</a>
+      <div class="relative">
+        <input id="navSearch" type="text" placeholder="Search&hellip;" autocomplete="off"
+          class="w-40 lg:w-56 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
+        <div id="navSearchResults" class="hidden absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 text-left"></div>
+      </div>
     </nav>
     <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden p-2" aria-label="Menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -61,6 +66,11 @@
   </div>
   <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
     <div class="px-4 py-3 space-y-1">
+      <div class="relative pb-2">
+        <input id="navSearchMobile" type="text" placeholder="Search a country or city&hellip;" autocomplete="off"
+          class="w-full bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm outline-none focus:border-sky-400">
+        <div id="navSearchMobileResults" class="hidden bg-white rounded-xl border border-gray-200 overflow-hidden mt-2"></div>
+      </div>
       <a href="/" class="block py-2 text-gray-700 font-medium">Home</a>
 <a href="/country/" class="block py-2 text-gray-700 font-medium">Countries</a>
 <a href="/rankings/best-tap-water-us/" class="block py-2 text-gray-700 font-medium">US Cities</a>
@@ -182,6 +192,45 @@ document.querySelectorAll('.faq-toggle').forEach(function(btn){
     if (chevron) chevron.classList.toggle('rotate-180');
   });
 });
+</script>
+<script>
+(function(){
+  var idx = null, loading = false;
+  function ensureIndex(cb){
+    if (idx) { cb(); return; }
+    if (loading) return;
+    loading = true;
+    fetch('/search-index.json').then(function(r){ return r.json(); }).then(function(d){ idx = d; cb(); }).catch(function(){ loading = false; });
+  }
+  var typeLabel = {country:'Country','us-city':'US City','world-city':'World City'};
+  function wire(inputId, resultsId){
+    var input = document.getElementById(inputId);
+    var results = document.getElementById(resultsId);
+    if (!input || !results) return;
+    function render(){
+      var q = input.value.trim().toLowerCase();
+      if (!q) { results.classList.add('hidden'); results.innerHTML=''; return; }
+      if (!idx) { ensureIndex(render); return; }
+      var m = idx.filter(function(e){ return e.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
+      results.innerHTML = m.length ? m.map(function(e){
+        return '<a href="'+e.href+'" class="flex items-center justify-between px-4 py-2.5 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">'+
+          '<span class="text-gray-900">'+e.name+'</span>'+
+          '<span class="text-xs text-gray-400">'+typeLabel[e.type]+'</span></a>';
+      }).join('') : '<div class="px-4 py-3 text-sm text-gray-500">No matches</div>';
+      results.classList.remove('hidden');
+    }
+    input.addEventListener('focus', function(){ ensureIndex(function(){}); });
+    input.addEventListener('input', render);
+  }
+  wire('navSearch','navSearchResults');
+  wire('navSearchMobile','navSearchMobileResults');
+  document.addEventListener('click', function(ev){
+    ['navSearchResults','navSearchMobileResults'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el && !ev.target.closest('#'+id) && !ev.target.closest('input')) el.classList.add('hidden');
+    });
+  });
+})();
 </script>
 </body>
 </html>

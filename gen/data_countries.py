@@ -1278,7 +1278,7 @@ COUNTRIES = [
         ],
         meta_description="Yes, Belgium's tap water is safe to drink nationwide and meets EU standards. See hardness differences between Flanders and Wallonia."),
 
-    dict(slug="malta-country", name="Malta", region="Europe",
+    dict(slug="malta", name="Malta", region="Europe",
         rating="Safe",
         quick_answer="Yes, tap water in Malta is safe to drink and meets EU Drinking Water Directive standards, though the high mineral content from desalination gives it a taste that leads most residents to prefer bottled or filtered water.",
         water_source="About 60% of Malta's water comes from reverse osmosis desalination plants, with the rest from groundwater. The Water Services Corporation (WSC) manages all public water supply across Malta and Gozo.",

@@ -593,7 +593,7 @@ INTL_CITIES = [
         ],
         meta_description="Yes, Brussels tap water is safe to drink and EU-compliant. See why it's hard and how to order it at restaurants."),
 
-    dict(slug="malta", name="Malta", country_slug="malta-country", country_name="Malta",
+    dict(slug="malta", name="Malta", country_slug="malta", country_name="Malta",
         rating="Safe",
         quick_answer="Yes, tap water in Malta is safe to drink and meets EU standards, though it is very hard and has a noticeable taste due to the blend of desalinated seawater and groundwater.",
         water_source="The Water Services Corporation (WSC) supplies Malta from approximately 60% reverse-osmosis desalinated seawater and 40% groundwater extracted from the island&rsquo;s limestone aquifer.",
