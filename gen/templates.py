@@ -6,12 +6,28 @@ SITE = "TapWaterGuide"
 DOMAIN = "https://tapwaterguide.org"
 GA_MEASUREMENT_ID = "G-FS0BXPE79Z"
 
+# Content dates for E-E-A-T signals. Bump LAST_REVIEWED whenever content data is updated.
+DATE_PUBLISHED = "2026-08-28"
+LAST_REVIEWED = "2026-08-28"
+LAST_REVIEWED_DISPLAY = "August 28, 2026"
+
+ORG_SCHEMA = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": SITE,
+    "url": DOMAIN,
+    "logo": f"{DOMAIN}/assets/android-chrome-512x512.png",
+    "email": "info@tapwaterguide.org",
+    "description": "The worldwide reference for tap water safety, built on WHO, EPA, EWG, and CDC guidance.",
+}
+
 RATING_STYLE = {
     "Safe": {
         "badge": "bg-emerald-50 text-emerald-700 border-emerald-200",
         "bar": "bg-emerald-500",
         "text": "text-emerald-700",
         "solid": "bg-emerald-600",
+        "hero": "from-emerald-50",
         "icon": "check",
     },
     "Generally Safe": {
@@ -19,6 +35,7 @@ RATING_STYLE = {
         "bar": "bg-sky-500",
         "text": "text-sky-700",
         "solid": "bg-sky-600",
+        "hero": "from-sky-50",
         "icon": "check",
     },
     "Caution": {
@@ -26,6 +43,7 @@ RATING_STYLE = {
         "bar": "bg-amber-500",
         "text": "text-amber-700",
         "solid": "bg-amber-600",
+        "hero": "from-amber-50",
         "icon": "alert",
     },
     "Not Safe": {
@@ -33,6 +51,7 @@ RATING_STYLE = {
         "bar": "bg-red-500",
         "text": "text-red-700",
         "solid": "bg-red-600",
+        "hero": "from-red-50",
         "icon": "x",
     },
 }
@@ -50,7 +69,7 @@ ICONS = {
 
 def rating_badge(rating, size="normal"):
     s = RATING_STYLE[rating]
-    pad = "px-3 py-1 text-sm" if size == "normal" else "px-4 py-1.5 text-base"
+    pad = "px-3 py-1 text-sm" if size == "normal" else "px-5 py-2 text-lg shadow-sm"
     return (
         f'<span class="inline-flex items-center gap-1.5 rounded-full border {pad} font-semibold {s["badge"]}">'
         f'{ICONS[s["icon"]]}{rating}</span>'
@@ -141,6 +160,7 @@ def footer():
         <div class="space-y-1 text-sm">
           <a href="/about/" class="block hover:text-white">About &amp; Data Sources</a>
           <a href="/about/#sources" class="block hover:text-white">Methodology</a>
+          <a href="/privacy/" class="block hover:text-white">Privacy Policy</a>
           <a href="/sitemap.xml" class="block hover:text-white">Sitemap</a>
         </div>
       </div>

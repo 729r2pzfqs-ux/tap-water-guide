@@ -7,6 +7,7 @@ import html as htmlmod
 sys.path.insert(0, os.path.dirname(__file__))
 from templates import (
     page, rating_badge, breadcrumbs, faq_block, stat_pill, RATING_STYLE, ICONS, DOMAIN, SITE,
+    DATE_PUBLISHED, LAST_REVIEWED, LAST_REVIEWED_DISPLAY, ORG_SCHEMA,
 )
 from data_countries import COUNTRIES, BY_SLUG as COUNTRY_BY_SLUG
 from data_us_cities import US_CITIES, BY_SLUG as US_BY_SLUG
@@ -62,6 +63,107 @@ def bullet_list(items):
     return f'<ul class="space-y-2">{lis}</ul>'
 
 
+HARDNESS_LABELS = ["Soft", "Moderate", "Hard", "Very Hard"]
+
+
+def hardness_level(text):
+    """Parse free-text hardness into level 1-4, using the first-mentioned descriptor.
+    Returns None when hardness is unspecified or purely variable."""
+    t = re.sub(r"<[^>]+>", "", text).lower()
+    positions = []
+    vh = t.find("very hard")
+    if vh != -1:
+        positions.append((vh, 4))
+    t_masked = t.replace("very hard", "#########")
+    h = t_masked.find("hard")
+    if h != -1:
+        positions.append((h, 3))
+    m = t.find("moderate")
+    if m != -1:
+        positions.append((m, 2))
+    s = t.find("soft")
+    if s != -1:
+        positions.append((s, 1))
+    if not positions:
+        return None
+    return min(positions)[1]
+
+
+def hardness_gauge(text):
+    """Visual 4-segment hardness scale. Empty string when level can't be determined."""
+    level = hardness_level(text)
+    if level is None:
+        return ""
+    segs = ""
+    labels = ""
+    seg_colors = ["bg-sky-300", "bg-sky-400", "bg-sky-600", "bg-sky-800"]
+    for i, label in enumerate(HARDNESS_LABELS):
+        active = (i + 1) == level
+        color = seg_colors[i] if active else "bg-gray-200"
+        segs += f'<div class="h-2 flex-1 rounded-full {color}"></div>'
+        lbl_cls = "text-gray-900 font-semibold" if active else "text-gray-400"
+        labels += f'<div class="flex-1 text-center text-xs {lbl_cls}">{label}</div>'
+    return f"""<div class="mt-4" aria-label="Water hardness scale: {HARDNESS_LABELS[level-1]}">
+      <div class="flex gap-1.5">{segs}</div>
+      <div class="flex gap-1.5 mt-1.5">{labels}</div>
+    </div>"""
+
+
+def reviewed_badge():
+    return (f'<span class="text-sm text-gray-400">Last reviewed: '
+            f'<time datetime="{LAST_REVIEWED}">{LAST_REVIEWED_DISPLAY}</time></span>')
+
+
+def _source_link(href, label):
+    return (f'<a href="{href}" target="_blank" rel="noopener" '
+            f'class="text-sky-700 hover:underline">{label}</a>')
+
+
+def sources_card(kind):
+    """Per-page sources & references section. kind: 'country' | 'us' | 'intl'"""
+    common = [
+        _source_link("https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/water-safety-and-quality/drinking-water-quality-guidelines",
+                     "WHO Guidelines for Drinking-water Quality"),
+    ]
+    if kind == "country":
+        items = common + [
+            _source_link("https://wwwnc.cdc.gov/travel/destinations/list", "CDC Travelers' Health destination pages"),
+            _source_link("https://washdata.org/", "WHO/UNICEF Joint Monitoring Programme (JMP)"),
+            "National and municipal water utility public quality reports",
+        ]
+    elif kind == "us":
+        items = [
+            _source_link("https://www.epa.gov/sdwa", "US EPA Safe Drinking Water Act regulations"),
+            _source_link("https://www.ewg.org/tapwater/", "EWG Tap Water Database"),
+            "The utility's most recent Consumer Confidence Report (CCR)",
+        ] + common
+    else:  # intl city
+        items = common + [
+            _source_link("https://wwwnc.cdc.gov/travel/destinations/list", "CDC Travelers' Health destination pages"),
+            "The municipal water utility's published quality data",
+        ]
+    lis = "".join(f'<li class="flex items-start gap-2"><span class="text-sky-500 mt-1.5">&bull;</span><span>{i}</span></li>' for i in items)
+    return f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" id="page-sources">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Sources &amp; References</h2>
+      <p class="text-sm text-gray-500 mb-3">The safety rating and guidance on this page draw on the following sources. See our <a href="/about/#sources" class="text-sky-700 hover:underline">full methodology</a>.</p>
+      <ul class="space-y-2 text-sm">{lis}</ul>
+    </div>"""
+
+
+def article_schema(headline, description, url):
+    return {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": headline,
+        "description": description,
+        "url": url,
+        "datePublished": DATE_PUBLISHED,
+        "dateModified": LAST_REVIEWED,
+        "author": {"@type": "Organization", "name": f"{SITE} Editorial Team", "url": f"{DOMAIN}/about/"},
+        "publisher": {"@type": "Organization", "name": SITE, "url": DOMAIN},
+    }
+
+
 # ---------------------------------------------------------------------------
 # COUNTRY PAGES
 # ---------------------------------------------------------------------------
@@ -103,7 +205,7 @@ def build_country_page(c):
         </div>"""
 
     body = f"""
-<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+<section class="bg-gradient-to-b {rs['hero']} to-white px-4 py-6 border-b border-gray-100">
   <div class="max-w-4xl mx-auto">
     {bc_html}
   </div>
@@ -114,6 +216,8 @@ def build_country_page(c):
     <div class="flex flex-wrap items-center gap-3 mb-4">
       {rating_badge(c['rating'], size='large')}
       <span class="text-sm text-gray-400">{c['region']}</span>
+      <span class="text-gray-300">&middot;</span>
+      {reviewed_badge()}
     </div>
     <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Is Tap Water Safe to Drink in {c['name']}?</h1>
     <p class="text-lg text-gray-700 leading-relaxed mb-6">{c['quick_answer']}</p>
@@ -129,12 +233,13 @@ def build_country_page(c):
       {section_card('Water Source', f"<p>{c['water_source']}</p>")}
       {section_card('Contaminants &amp; Concerns', f"<p>{c['contaminants']}</p>")}
       {section_card('Regional Variations', f"<p>{c['regional']}</p>")}
-      {section_card('Water Hardness', f"<p>{c['hardness']}.</p>")}
+      {section_card('Water Hardness', f"<p>{c['hardness']}.</p>" + hardness_gauge(c['hardness']))}
       {section_card('Do Locals Drink Tap Water?', f"<p>{c['locals_drink']}</p>")}
       {section_card('Tips for Travelers', tips_html)}
       {section_card('Recommended Precautions', precautions_html)}
       {cities_html}
       {faq_html}
+      {sources_card('country')}
       {other_html}
     </div>
 
@@ -148,14 +253,7 @@ def build_country_page(c):
     schemas = [bc_ld]
     if faq_ld:
         schemas.append(faq_ld)
-    schemas.append({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": f"Is Tap Water Safe to Drink in {c['name']}?",
-        "description": c["meta_description"],
-        "url": f"{DOMAIN}/country/{slug}/",
-        "publisher": {"@type": "Organization", "name": SITE, "url": DOMAIN},
-    })
+    schemas.append(article_schema(f"Is Tap Water Safe to Drink in {c['name']}?", c["meta_description"], f"{DOMAIN}/country/{slug}/"))
 
     title = f"Is Tap Water Safe in {c['name']}? Drinking Water Guide | TapWaterGuide"
     html = page(title, c["meta_description"], f"/country/{slug}/", body, schemas=schemas, active_nav="countries")
@@ -169,6 +267,7 @@ def build_country_page(c):
 
 def build_us_city_page(ci):
     slug = ci["slug"]
+    rs = RATING_STYLE[ci["rating"]]
     bc_html, bc_ld = breadcrumbs([("Home", "/"), ("US Cities", "/rankings/best-tap-water-us/"), (ci["name"], None)])
 
     contam_html = bullet_list(ci["contaminants"])
@@ -180,7 +279,7 @@ def build_us_city_page(ci):
     other_links = "".join(f'<a href="/city/{o["slug"]}/" class="text-sky-700 hover:underline">{o["name"]}</a>' for o in other_us[:6])
 
     body = f"""
-<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+<section class="bg-gradient-to-b {rs['hero']} to-white px-4 py-6 border-b border-gray-100">
   <div class="max-w-4xl mx-auto">{bc_html}</div>
 </section>
 
@@ -189,16 +288,19 @@ def build_us_city_page(ci):
     <div class="flex flex-wrap items-center gap-3 mb-4">
       {rating_badge(ci['rating'], size='large')}
       <span class="text-sm text-gray-400">{ci['state']}, United States</span>
+      <span class="text-gray-300">&middot;</span>
+      {reviewed_badge()}
     </div>
     <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Is Tap Water Safe to Drink in {ci['name']}?</h1>
     <p class="text-lg text-gray-700 leading-relaxed mb-6">{ci['quick_answer']}</p>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
       {info_card(ICON_DROP, 'Hardness', ci['hardness'].split(',')[0])}
       {info_card(ICON_SOURCE, 'pH', ci['ph'])}
       {info_card(ICON_MAP, 'TDS', ci['tds'])}
       {info_card(ICON_PEOPLE, 'EPA Status', 'Compliant')}
     </div>
+    <div class="mb-8">{hardness_gauge(ci['hardness'])}</div>
 
     <div class="space-y-6">
       {section_card('Water Source', f"<p>{ci['water_source']}</p>")}
@@ -207,6 +309,7 @@ def build_us_city_page(ci):
       {section_card('How It Compares', f"<p>{ci['comparison']}</p>")}
       {section_card('Tips', tips_html)}
       {faq_html}
+      {sources_card('us')}
       <div class="bg-sky-50 rounded-xl border border-sky-100 p-6">
         <h2 class="text-lg font-bold text-gray-900 mb-3">More US Cities</h2>
         <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm">{other_links}</div>
@@ -222,14 +325,7 @@ def build_us_city_page(ci):
     schemas = [bc_ld]
     if faq_ld:
         schemas.append(faq_ld)
-    schemas.append({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": f"Is Tap Water Safe to Drink in {ci['name']}?",
-        "description": ci["meta_description"],
-        "url": f"{DOMAIN}/city/{slug}/",
-        "publisher": {"@type": "Organization", "name": SITE, "url": DOMAIN},
-    })
+    schemas.append(article_schema(f"Is Tap Water Safe to Drink in {ci['name']}?", ci["meta_description"], f"{DOMAIN}/city/{slug}/"))
     title = f"Is Tap Water Safe in {ci['name']}, {ci['state']}? | TapWaterGuide"
     html = page(title, ci["meta_description"], f"/city/{slug}/", body, schemas=schemas, active_nav="us")
     write_page(f"/city/{slug}/", html)
@@ -242,6 +338,7 @@ def build_us_city_page(ci):
 
 def build_intl_city_page(ci):
     slug = ci["slug"]
+    rs = RATING_STYLE[ci["rating"]]
     country = COUNTRY_BY_SLUG[ci["country_slug"]]
     bc_html, bc_ld = breadcrumbs([
         ("Home", "/"), ("Countries", "/country/"),
@@ -261,7 +358,7 @@ def build_intl_city_page(ci):
         </div>"""
 
     body = f"""
-<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+<section class="bg-gradient-to-b {rs['hero']} to-white px-4 py-6 border-b border-gray-100">
   <div class="max-w-4xl mx-auto">{bc_html}</div>
 </section>
 
@@ -270,21 +367,25 @@ def build_intl_city_page(ci):
     <div class="flex flex-wrap items-center gap-3 mb-4">
       {rating_badge(ci['rating'], size='large')}
       <span class="text-sm text-gray-400">{country['name']}</span>
+      <span class="text-gray-300">&middot;</span>
+      {reviewed_badge()}
     </div>
     <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Is Tap Water Safe to Drink in {ci['name']}?</h1>
     <p class="text-lg text-gray-700 leading-relaxed mb-6">{ci['quick_answer']}</p>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
       {info_card(ICON_DROP, 'Hardness', ci['hardness'].split(',')[0])}
       {info_card(ICON_MAP, 'Country', country['name'])}
       {info_card(ICON_PEOPLE, 'Rating', ci['rating'])}
     </div>
+    <div class="mb-8">{hardness_gauge(ci['hardness'])}</div>
 
     <div class="space-y-6">
       {section_card('Water Source', f"<p>{ci['water_source']}</p>")}
       {section_card('Contaminants &amp; Concerns', f"<p>{ci['contaminants']}</p>")}
       {section_card('Tips', tips_html)}
       {faq_html}
+      {sources_card('intl')}
       {sib_html}
     </div>
 
@@ -297,14 +398,7 @@ def build_intl_city_page(ci):
     schemas = [bc_ld]
     if faq_ld:
         schemas.append(faq_ld)
-    schemas.append({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": f"Is Tap Water Safe to Drink in {ci['name']}?",
-        "description": ci["meta_description"],
-        "url": f"{DOMAIN}/city/{slug}/",
-        "publisher": {"@type": "Organization", "name": SITE, "url": DOMAIN},
-    })
+    schemas.append(article_schema(f"Is Tap Water Safe to Drink in {ci['name']}?", ci["meta_description"], f"{DOMAIN}/city/{slug}/"))
     title = f"Is Tap Water Safe in {ci['name']}, {country['name']}? | TapWaterGuide"
     html = page(title, ci["meta_description"], f"/city/{slug}/", body, schemas=schemas, active_nav="world")
     write_page(f"/city/{slug}/", html)
@@ -467,7 +561,7 @@ document.addEventListener('click', function(ev) {{
             "target": f"{DOMAIN}/?q={{search_term_string}}",
             "query-input": "required name=search_term_string",
         },
-    }]
+    }, ORG_SCHEMA]
     title = "TapWaterGuide.org &mdash; Is Tap Water Safe to Drink? Check Any Country or City"
     desc = f"Check tap water safety for {N_COUNTRIES} countries and {N_CITIES} cities worldwide, built on WHO, EPA, EWG, and CDC data. Free, answer-first drinking water guide."
     html = page(title, desc, "/", body, schemas=schemas, active_nav="home")
@@ -843,6 +937,75 @@ build_about()
 print("Built about page")
 
 # ---------------------------------------------------------------------------
+# PRIVACY POLICY PAGE
+# ---------------------------------------------------------------------------
+
+def build_privacy():
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Privacy Policy", None)])
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-8">
+  <div class="max-w-3xl mx-auto">
+    {bc_html}
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mt-4 mb-3">Privacy Policy</h1>
+    <p class="text-gray-600">Effective date: <time datetime="{LAST_REVIEWED}">{LAST_REVIEWED_DISPLAY}</time></p>
+  </div>
+</section>
+
+<section class="px-4 py-8">
+  <div class="max-w-3xl mx-auto space-y-6">
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Overview</h2>
+      <p class="text-gray-600 leading-relaxed">TapWaterGuide.org is a free informational reference. We do not require accounts, do not collect names or email addresses through the site, and do not sell any data. This policy explains the limited data collected automatically when you visit.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Analytics</h2>
+      <p class="text-gray-600 leading-relaxed mb-3">We use Google Analytics 4 to understand aggregate site usage &mdash; which pages are visited, from which countries, and on which device types. Google Analytics uses cookies and collects data such as your approximate location (city level), browser type, and pages viewed. IP addresses are not logged or stored by us.</p>
+      <p class="text-gray-600 leading-relaxed">You can opt out of Google Analytics with the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" class="text-sky-700 hover:underline">Google Analytics Opt-out Browser Add-on</a>, or by using a content blocker or your browser's tracking protection.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Cookies</h2>
+      <p class="text-gray-600 leading-relaxed">The only cookies set by this site are those used by Google Analytics for anonymous usage measurement. We set no advertising, personalization, or tracking cookies of our own.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Third-Party Services</h2>
+      <p class="text-gray-600 leading-relaxed">Pages load fonts from Google Fonts and analytics scripts from Google. These services may receive standard technical request data (such as your IP address) as part of serving those files. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="text-sky-700 hover:underline">Google's Privacy Policy</a> for how Google handles this data. External links to sources such as WHO, EPA, EWG, and CDC lead to sites with their own privacy policies.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Your Rights</h2>
+      <p class="text-gray-600 leading-relaxed">Depending on your jurisdiction (including the EU/EEA under GDPR and California under CCPA), you may have rights to access, correct, or delete personal data. Because we collect no directly identifying information, such requests generally apply to Google Analytics data, which you can control through the opt-out tools above. For any privacy question or request, contact us and we will respond promptly.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Changes to This Policy</h2>
+      <p class="text-gray-600 leading-relaxed">If our data practices change (for example, if advertising is introduced), this policy will be updated and the effective date revised before those changes take effect.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Contact</h2>
+      <p class="text-gray-600">Questions about this policy or your data:</p>
+      <p class="mt-3"><a href="mailto:info@tapwaterguide.org" class="text-sky-600 hover:text-sky-800 font-medium">info@tapwaterguide.org</a></p>
+    </div>
+
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    title = "Privacy Policy | TapWaterGuide"
+    desc = "TapWaterGuide's privacy policy: what limited data is collected via analytics, how cookies are used, and how to opt out."
+    html = page(title, desc, "/privacy/", body, schemas=schemas, active_nav="")
+    write_page("/privacy/", html)
+    register("/privacy/", "0.3", "yearly")
+
+
+build_privacy()
+print("Built privacy page")
+
+# ---------------------------------------------------------------------------
 # 404 PAGE
 # ---------------------------------------------------------------------------
 
@@ -883,6 +1046,7 @@ def build_sitemap():
     for path, priority, changefreq in ALL_PAGES:
         entries.append(f"""  <url>
     <loc>{DOMAIN}{path}</loc>
+    <lastmod>{LAST_REVIEWED}</lastmod>
     <changefreq>{changefreq}</changefreq>
     <priority>{priority}</priority>
   </url>""")
