@@ -15,6 +15,7 @@ from data_intl_cities import INTL_CITIES, BY_SLUG as INTL_BY_SLUG
 from data_guides import GUIDES
 from data_water_quality import CITY_WATER_QUALITY
 from data_water_hardness import HARDNESS_MAIN, HARDNESS_BY_COUNTRY
+from data_us_water import US_STATES, STATE_BY_ABBR, CITY_UTILITIES, zip_prefix_to_state
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -479,6 +480,7 @@ ALL_ENTITIES = (
     [dict(name=c["name"], slug=c["slug"], type="country", rating=c["rating"], href=f"/country/{c['slug']}/") for c in COUNTRIES]
     + [dict(name=f"{c['name']}, {c['state']}", slug=c["slug"], type="us-city", rating=c["rating"], href=f"/city/{c['slug']}/") for c in US_CITIES]
     + [dict(name=re.sub('<[^<]+?>', '', c["name"]), slug=c["slug"], type="world-city", rating=c["rating"], href=f"/city/{c['slug']}/") for c in INTL_CITIES]
+    + [dict(name=f"{s['name']} water quality", slug=s["slug"], type="us-state", rating="", href=f"/us-water-quality/{s['slug']}/") for s in US_STATES]
 )
 
 N_COUNTRIES = len(COUNTRIES)
@@ -1795,6 +1797,388 @@ def build_redirects():
 
 build_redirects()
 print(f"Built {len(REDIRECTS)} redirect stubs")
+
+# ---------------------------------------------------------------------------
+# US WATER QUALITY LOOKUP (/us-water-quality/) + 50 STATE PAGES (+ DC)
+# ---------------------------------------------------------------------------
+
+US_STATE_NAME_TO_ABBR = {s["name"]: s["abbr"] for s in US_STATES}
+US_CITIES_BY_STATE_ABBR = {}
+for _ci in US_CITIES:
+    US_CITIES_BY_STATE_ABBR.setdefault(US_STATE_NAME_TO_ABBR[_ci["state"]], []).append(_ci)
+
+
+def _wq_plain(s):
+    return htmlmod.unescape(re.sub(r"<[^>]+>", "", s)).strip()
+
+
+def _wq_short(s, maxlen=64):
+    """Compress a long contaminant sentence into a short label for JSON."""
+    t = _wq_plain(s)
+    for sep in (" — ", "—", ";", " ("):
+        t = t.split(sep)[0]
+    t = t.strip().rstrip(",.")
+    if len(t) > maxlen:
+        t = t[:maxlen].rsplit(" ", 1)[0].rstrip(",;:") + "…"
+    return t
+
+
+def _wq_first_sentence(s):
+    t = _wq_plain(s)
+    m = re.match(r"(.+?\.)(\s|$)", t)
+    return m.group(1) if m else t
+
+
+def build_us_water_data():
+    """Compact JSON consumed by the client-side ZIP/city lookup."""
+    zs = zip_prefix_to_state()
+    cities = []
+    zc = {}
+    for ci in US_CITIES:
+        util, prefixes = CITY_UTILITIES[ci["slug"]]
+        idx = len(cities)
+        cities.append(dict(
+            s=ci["slug"], n=ci["name"], st=US_STATE_NAME_TO_ABBR[ci["state"]],
+            u=util, r=ci["rating"],
+            k=[_wq_short(c) for c in ci["contaminants"][:4]],
+            e=_wq_first_sentence(ci["epa_status"]),
+        ))
+        for p in prefixes:
+            zc[p] = idx
+    states = {}
+    for s in US_STATES:
+        states[s["abbr"]] = dict(
+            n=s["name"], slug=s["slug"], sys=s["n_systems"],
+            c=[name for name, _note in s["contaminants"]],
+            v=_wq_first_sentence(s["violations"]),
+        )
+    data = dict(zs=zs, zc=zc, cities=cities, states=states)
+    os.makedirs(os.path.join(ROOT, "us-water-quality"), exist_ok=True)
+    with open(os.path.join(ROOT, "us-water-quality", "data.json"), "w", encoding="utf-8") as f:
+        _json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    return len(zs), len(zc)
+
+
+US_WQ_LOOKUP_SCRIPT = """<script>
+(function(){
+  var D = null, loading = false, queued = null;
+  var input = document.getElementById('usq');
+  var results = document.getElementById('usqResults');
+  var RB = {'Safe':'bg-emerald-50 text-emerald-700 border-emerald-200',
+            'Generally Safe':'bg-sky-50 text-sky-700 border-sky-200',
+            'Caution':'bg-amber-50 text-amber-700 border-amber-200',
+            'Not Safe':'bg-red-50 text-red-700 border-red-200'};
+  var ASSESS = {'Safe':'Safe to drink \\u2014 this system meets federal Safe Drinking Water Act standards.',
+                'Generally Safe':'Generally safe \\u2014 meets federal standards with local caveats worth reading in the full report.',
+                'Caution':'Use caution \\u2014 review the full report and current local advisories.',
+                'Not Safe':'Not considered reliably safe \\u2014 see the full report.'};
+  function load(cb){
+    if (D) { cb(); return; }
+    if (loading) { queued = cb; return; }
+    loading = true;
+    fetch('/us-water-quality/data.json').then(function(r){ return r.json(); }).then(function(d){
+      D = d; cb(); if (queued) { var q = queued; queued = null; q(); }
+    }).catch(function(){ loading = false; });
+  }
+  function badge(r){
+    return '<span class="inline-flex items-center rounded-full border px-3 py-1 text-sm font-semibold ' + (RB[r]||RB['Safe']) + '">' + r + '</span>';
+  }
+  function cityCard(c, via){
+    var st = D.states[c.st] || {n:c.st, slug:''};
+    var ks = c.k.map(function(k){
+      return '<li class="flex items-start gap-2 text-sm text-gray-600"><span class="text-sky-500 mt-0.5">&bull;</span><span>' + k + '</span></li>';
+    }).join('');
+    var viol = (c.r === 'Safe' || c.r === 'Generally Safe')
+      ? 'No unresolved health-based violations in current federal reporting.'
+      : 'See the full city report for current advisories.';
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
+      '<div class="flex flex-wrap items-center justify-between gap-3 mb-1">' +
+        '<h3 class="text-lg font-bold text-gray-900">' + c.u + '</h3>' + badge(c.r) + '</div>' +
+      '<p class="text-sm text-gray-500 mb-4">Serves ' + c.n + ', ' + st.n + (via ? ' &middot; matched from ' + via : '') + '</p>' +
+      '<p class="text-sm text-gray-700 mb-4 font-medium">' + (ASSESS[c.r]||'') + '</p>' +
+      '<div class="grid md:grid-cols-2 gap-4 mb-4">' +
+        '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Key contaminants monitored</div><ul class="space-y-1">' + ks + '</ul></div>' +
+        '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">EPA compliance</div><p class="text-sm text-gray-600">' + c.e + '</p>' +
+        '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2 mt-3">Violations</div><p class="text-sm text-gray-600">' + viol + '</p></div>' +
+      '</div>' +
+      '<div class="flex flex-wrap gap-3">' +
+        '<a href="/city/' + c.s + '/" class="px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700">Full ' + c.n + ' water report &rarr;</a>' +
+        (st.slug ? '<a href="/us-water-quality/' + st.slug + '/" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:border-sky-300">' + st.n + ' overview</a>' : '') +
+      '</div>' +
+      '<p class="text-xs text-gray-400 mt-4">ZIP-based matching is approximate &mdash; the utility serving your address may differ. Confirm with your water bill or your utility\\u2019s annual Consumer Confidence Report.</p></div>';
+  }
+  function stateCard(abbr, via){
+    var st = D.states[abbr];
+    if (!st) return notFound();
+    var chips = st.c.map(function(n){
+      return '<span class="inline-block px-3 py-1 bg-sky-50 border border-sky-100 rounded-full text-sm text-sky-700">' + n + '</span>';
+    }).join(' ');
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
+      '<div class="flex flex-wrap items-center justify-between gap-3 mb-1">' +
+        '<h3 class="text-lg font-bold text-gray-900">' + st.n + ' &mdash; statewide overview</h3>' +
+        '<span class="text-sm text-gray-500">' + st.sys + ' community water systems</span></div>' +
+      (via ? '<p class="text-sm text-gray-500 mb-4">Matched from ' + via + ' &middot; no utility-level record for this ZIP in our database yet</p>' : '<p class="mb-4"></p>') +
+      '<p class="text-sm text-gray-700 mb-4">' + st.v + '</p>' +
+      '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Common contaminants in ' + st.n + '</div>' +
+      '<div class="flex flex-wrap gap-2 mb-5">' + chips + '</div>' +
+      '<div class="flex flex-wrap gap-3">' +
+        '<a href="/us-water-quality/' + st.slug + '/" class="px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700">' + st.n + ' water quality guide &rarr;</a>' +
+      '</div>' +
+      '<p class="text-xs text-gray-400 mt-4">For utility-level detail, check the annual Consumer Confidence Report your water provider publishes (linked from your water bill or city website).</p></div>';
+  }
+  function notFound(){
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
+      '<h3 class="text-lg font-bold text-gray-900 mb-2">No match found</h3>' +
+      '<p class="text-sm text-gray-600 mb-3">We couldn\\u2019t match that ZIP code or city. Try a 5-digit US ZIP code (military and territory ZIP codes aren\\u2019t covered yet), or browse the state guides below.</p>' +
+      '<a href="#us-states" class="text-sm text-sky-700 hover:underline">Browse all state guides &rarr;</a></div>';
+  }
+  function suggestions(list){
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden text-left">' + list.map(function(m){
+      return '<button type="button" data-q="' + m.q + '" class="usq-sugg w-full flex items-center justify-between px-4 py-3 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">' +
+        '<span class="text-gray-900">' + m.label + '</span><span class="text-xs text-gray-400">' + m.kind + '</span></button>';
+    }).join('') + '</div>';
+  }
+  function run(q){
+    q = (q || '').trim();
+    if (!q) { results.innerHTML = ''; return; }
+    load(function(){
+      var html;
+      var zip = q.replace(/[^0-9]/g, '');
+      if (/^[0-9]{5}$/.test(zip)) {
+        var p = zip.slice(0, 3);
+        if (D.zc[p] !== undefined) html = cityCard(D.cities[D.zc[p]], 'ZIP ' + zip);
+        else if (D.zs[p]) html = stateCard(D.zs[p], 'ZIP ' + zip);
+        else html = notFound();
+      } else {
+        var ql = q.toLowerCase();
+        var cm = D.cities.filter(function(c){ return c.n.toLowerCase().indexOf(ql) === 0; });
+        if (!cm.length) cm = D.cities.filter(function(c){ return c.n.toLowerCase().indexOf(ql) !== -1; });
+        var sm = [];
+        for (var ab in D.states) { if (D.states[ab].n.toLowerCase().indexOf(ql) !== -1) sm.push(ab); }
+        if (cm.length === 1 && !sm.length) html = cityCard(cm[0], null);
+        else if (!cm.length && sm.length === 1) html = stateCard(sm[0], null);
+        else if (cm.length || sm.length) {
+          html = suggestions(cm.slice(0, 6).map(function(c){
+            return {q: c.n + ', ' + c.st, label: c.n + ', ' + c.st + ' \\u2014 ' + c.u, kind: 'City'};
+          }).concat(sm.slice(0, 4).map(function(ab){
+            return {q: D.states[ab].n, label: D.states[ab].n + ' \\u2014 statewide overview', kind: 'State'};
+          })));
+        } else html = notFound();
+      }
+      results.innerHTML = html;
+      results.querySelectorAll('.usq-sugg').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var v = btn.getAttribute('data-q').split(',')[0];
+          input.value = v; run(v);
+        });
+      });
+      if (window.gtag) gtag('event', 'us_water_lookup', {search_term: q});
+    });
+  }
+  if (!input || !results) return;
+  input.addEventListener('focus', function(){ load(function(){}); });
+  input.addEventListener('input', function(){ run(input.value); });
+  document.getElementById('usqForm').addEventListener('submit', function(ev){ ev.preventDefault(); run(input.value); });
+  var m = window.location.search.match(/[?&]q=([^&]+)/);
+  if (m) { var q0 = decodeURIComponent(m[1].replace(/\\+/g, ' ')); input.value = q0; run(q0); }
+})();
+</script>"""
+
+
+def us_wq_search_form(state_name=None):
+    """The ZIP/city search input. On the hub it is wired to inline JS; on state
+    pages it submits to the hub with ?q=."""
+    placeholder = "Enter a ZIP code or city name…" if not state_name else f"Enter a {state_name} ZIP code…"
+    return f"""<form id="usqForm" action="/us-water-quality/" method="get" class="max-w-xl mx-auto">
+      <div class="flex items-center gap-2 bg-white rounded-full border border-gray-200 shadow-sm p-2 focus-within:border-sky-400">
+        <span class="pl-3 text-gray-400">{ICONS['search']}</span>
+        <input id="usq" name="q" type="text" inputmode="search" placeholder="{placeholder}" autocomplete="off"
+          class="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-400 py-1.5">
+        <button type="submit" class="px-5 py-2 bg-sky-600 text-white rounded-full text-sm font-semibold hover:bg-sky-700">Search</button>
+      </div>
+    </form>"""
+
+
+def build_us_water_index():
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("US Water Quality", None)])
+    n_states = len(US_STATES)
+    n_us_cities = len(US_CITIES)
+
+    state_links = "".join(
+        f'<a href="/us-water-quality/{s["slug"]}/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all">'
+        f'<span class="font-medium text-gray-900">{s["name"]}</span>'
+        f'<span class="text-xs text-gray-400">{len(US_CITIES_BY_STATE_ABBR.get(s["abbr"], []))} cities</span></a>'
+        for s in sorted(US_STATES, key=lambda x: x["name"])
+    )
+
+    faqs = [
+        ("How do I find out what's in my tap water?",
+         "Enter your 5-digit ZIP code or city name above. We match it to the water utility serving that area and show the key contaminants it monitors, its EPA compliance status, and a safety assessment. For the legally binding detail, read your utility's annual Consumer Confidence Report (CCR), which every US water system must publish."),
+        ("Is tap water safe to drink in the United States?",
+         "For over 90% of Americans on community water systems, yes &mdash; the water meets all EPA Safe Drinking Water Act standards. Most violations occur in small rural systems, and most large-city concerns involve legacy plumbing (lead service lines) rather than the treated water itself."),
+        ("What does an EPA violation actually mean?",
+         "Violations range from serious (a contaminant exceeding a health-based Maximum Contaminant Level) to administrative (a missed monitoring deadline). Health-based violations trigger public notification requirements; utilities must tell you when your water is unsafe and what to do."),
+        ("Why does my ZIP code only show state-level results?",
+         "Our utility-level database covers the 100 largest US city systems so far. ZIP codes outside those service areas fall back to a state overview. ZIP matching is also approximate &mdash; ZIP boundaries don't follow utility service areas exactly &mdash; so always confirm with your water bill or CCR."),
+    ]
+    faq_html, faq_ld = faq_block(faqs)
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+
+<section class="px-4 py-12 md:py-20 bg-gradient-to-b from-white via-sky-50 to-white">
+  <div class="max-w-3xl mx-auto text-center">
+    <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">US Tap Water Quality<br>by ZIP Code</h1>
+    <p class="text-lg text-gray-600 mb-8">Look up the water utility serving your area, the contaminants it monitors, and whether it meets EPA standards &mdash; built on EPA Safe Drinking Water Act and EWG Tap Water Database reporting.</p>
+    {us_wq_search_form()}
+    <div id="usqResults" class="mt-6 max-w-3xl mx-auto"></div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">
+      {stat_pill('State guides', str(n_states))}
+      {stat_pill('City water reports', str(n_us_cities))}
+      {stat_pill('ZIP areas mapped', '940+')}
+      {stat_pill('US water systems', '~49,000')}
+    </div>
+  </div>
+</section>
+
+<section class="px-4 py-8" id="us-states">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Water Quality by State</h2>
+    <p class="text-gray-600 mb-6">Every state guide covers major utilities, common contaminants, violation patterns, and the cities we've profiled in depth.</p>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3">{state_links}</div>
+  </div>
+</section>
+
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    {section_card('How This Lookup Works', '''<p>Your ZIP code's first three digits identify a USPS regional area, which we map to the major water utility serving it &mdash; or to your state when no profiled utility covers that area. Utility profiles draw on EPA Safe Drinking Water Act compliance reporting, EWG Tap Water Database entries, and each utility's published Consumer Confidence Reports.</p><p>ZIP boundaries don't follow utility service areas exactly, so treat results as a starting point: your water bill names your actual provider, and their annual CCR is the authoritative record of what's in your water.</p>''')}
+    {faq_html}
+    {sources_card('us')}
+  </div>
+</section>
+{US_WQ_LOOKUP_SCRIPT}
+"""
+    schemas = [bc_ld, faq_ld,
+               article_schema("US Tap Water Quality by ZIP Code",
+                              "Look up US tap water quality by ZIP code or city: utility names, contaminants, EPA violations, and safety assessments for all 50 states.",
+                              f"{DOMAIN}/us-water-quality/")]
+    title = "US Tap Water Quality by ZIP Code &mdash; Utility Lookup | TapWaterGuide"
+    desc = "Free US tap water lookup: enter a ZIP code or city to see your water utility, key contaminants, EPA violations, and a safety assessment. All 50 states covered."
+    html = page(title, desc, "/us-water-quality/", body, schemas=schemas, active_nav="uswater")
+    write_page("/us-water-quality/", html)
+    register("/us-water-quality/", "0.9", "weekly")
+
+
+def build_us_state_page(s):
+    slug = s["slug"]
+    abbr = s["abbr"]
+    cities = sorted(US_CITIES_BY_STATE_ABBR.get(abbr, []), key=lambda c: c["name"])
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("US Water Quality", "/us-water-quality/"), (s["name"], None)])
+
+    overview_html = "".join(f"<p>{p}</p>" for p in s["overview"])
+
+    contam_cards = "".join(
+        f"""<div class="bg-white rounded-lg border border-gray-200 p-4">
+          <div class="font-semibold text-gray-900 mb-1">{name}</div>
+          <p class="text-sm text-gray-600">{note}</p>
+        </div>""" for name, note in s["contaminants"]
+    )
+
+    cities_html = ""
+    if cities:
+        cards = "".join(
+            f'''<a href="/city/{ci["slug"]}/" class="block bg-white rounded-lg border border-gray-200 p-4 hover:border-sky-300 hover:shadow-md transition-all">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-semibold text-gray-900">{ci["name"]}</span>
+                {rating_badge(ci["rating"])}
+              </div>
+              <p class="text-sm text-gray-500 mt-2">{CITY_UTILITIES[ci["slug"]][0]}</p>
+            </a>''' for ci in cities
+        )
+        cities_html = f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">City Water Reports in {s['name']}</h2>
+          <div class="grid sm:grid-cols-2 gap-3">{cards}</div>
+        </div>"""
+    else:
+        cities_html = f"""<div class="bg-sky-50 rounded-xl border border-sky-100 p-6">
+          <h2 class="text-lg font-bold text-gray-900 mb-2">City Reports for {s['name']}</h2>
+          <p class="text-gray-600 text-sm">We haven't published individual city water reports for {s['name']} yet. Use the <a href="/us-water-quality/" class="text-sky-700 hover:underline">ZIP lookup</a> for a statewide assessment, and check your utility's annual Consumer Confidence Report for local detail.</p>
+        </div>"""
+
+    faq_html, faq_ld = faq_block(s["faqs"])
+
+    others = sorted([x for x in US_STATES if x["slug"] != slug], key=lambda x: x["name"])
+    oi = next(i for i, x in enumerate(others) if x["name"] >= s["name"]) if any(x["name"] >= s["name"] for x in others) else 0
+    window = (others[oi:oi + 3] + others[:3])[:3] + (others[oi - 3:oi] if oi >= 3 else others[-3:])
+    seen, neighbors = set(), []
+    for o in window:
+        if o["slug"] not in seen:
+            seen.add(o["slug"])
+            neighbors.append(o)
+    neighbors = neighbors[:6]
+    other_html = f"""<div class="bg-sky-50 rounded-xl border border-sky-100 p-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-3">Other State Water Guides</h2>
+      <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm">{"".join(f'<a href="/us-water-quality/{o["slug"]}/" class="text-sky-700 hover:underline">{o["name"]}</a>' for o in neighbors)}
+        <a href="/us-water-quality/#us-states" class="text-sky-700 hover:underline font-medium">All states &rarr;</a></div>
+    </div>"""
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <span class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-semibold bg-sky-50 text-sky-700 border-sky-200">{ICONS['pin']}United States</span>
+      {reviewed_badge()}
+    </div>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{s['name']} Tap Water Quality</h1>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      {stat_pill('Community water systems', s['n_systems'])}
+      {stat_pill('City reports on this site', str(len(cities)) if cities else '&mdash;')}
+      {stat_pill('Tracked contaminants', str(len(s['contaminants'])))}
+      {stat_pill('Data reviewed', LAST_REVIEWED_DISPLAY)}
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-3 text-center">Check a {s['name']} ZIP Code</h2>
+      {us_wq_search_form(s['name'])}
+    </div>
+
+    <div class="space-y-6">
+      {section_card('Overview', overview_html)}
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Common Contaminants in {s['name']}</h2>
+        <div class="grid sm:grid-cols-2 gap-3">{contam_cards}</div>
+      </div>
+      {section_card('Violations &amp; Compliance', f"<p>{s['violations']}</p>")}
+      {cities_html}
+      {faq_html}
+      {sources_card('us')}
+      {other_html}
+    </div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    if faq_ld:
+        schemas.append(faq_ld)
+    schemas.append(article_schema(f"{s['name']} Tap Water Quality", s["meta_description"], f"{DOMAIN}/us-water-quality/{slug}/"))
+    title = f"{s['name']} Tap Water Quality: Contaminants &amp; Violations | TapWaterGuide"
+    html = page(title, s["meta_description"], f"/us-water-quality/{slug}/", body, schemas=schemas, active_nav="uswater")
+    write_page(f"/us-water-quality/{slug}/", html)
+    register(f"/us-water-quality/{slug}/", "0.8", "monthly")
+
+
+_n_zip, _n_zip_city = build_us_water_data()
+build_us_water_index()
+for _s in US_STATES:
+    build_us_state_page(_s)
+print(f"Built US water quality hub, data.json ({_n_zip} ZIP prefixes, {_n_zip_city} mapped to utilities), and {len(US_STATES)} state pages")
 
 # ---------------------------------------------------------------------------
 # SITEMAP & ROBOTS & MANIFEST

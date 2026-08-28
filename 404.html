@@ -53,6 +53,7 @@
 <a href="/map/" class="text-gray-600 hover:text-sky-700">Map</a>
 <a href="/country/" class="text-gray-600 hover:text-sky-700">Countries</a>
 <a href="/rankings/best-tap-water-us/" class="text-gray-600 hover:text-sky-700">US Cities</a>
+<a href="/us-water-quality/" class="text-gray-600 hover:text-sky-700">US Water</a>
 <a href="/city/" class="text-gray-600 hover:text-sky-700">World Cities</a>
 <a href="/rankings/" class="text-gray-600 hover:text-sky-700">Rankings</a>
 <a href="/water-hardness/" class="text-gray-600 hover:text-sky-700">Hardness</a>
@@ -78,6 +79,7 @@
 <a href="/map/" class="block py-2 text-gray-700 font-medium">Map</a>
 <a href="/country/" class="block py-2 text-gray-700 font-medium">Countries</a>
 <a href="/rankings/best-tap-water-us/" class="block py-2 text-gray-700 font-medium">US Cities</a>
+<a href="/us-water-quality/" class="block py-2 text-gray-700 font-medium">US Water</a>
 <a href="/city/" class="block py-2 text-gray-700 font-medium">World Cities</a>
 <a href="/rankings/" class="block py-2 text-gray-700 font-medium">Rankings</a>
 <a href="/water-hardness/" class="block py-2 text-gray-700 font-medium">Hardness</a>
@@ -119,6 +121,7 @@
         <h4 class="text-white font-medium mb-3">Explore</h4>
         <div class="space-y-1 text-sm">
           <a href="/map/" class="block hover:text-white">World Safety Map</a>
+          <a href="/us-water-quality/" class="block hover:text-white">US Water Quality by ZIP</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
           <a href="/guides/" class="block hover:text-white">Guides</a>
@@ -175,7 +178,7 @@ document.querySelectorAll('.faq-toggle').forEach(function(btn){
     loading = true;
     fetch('/search-index.json').then(function(r){ return r.json(); }).then(function(d){ idx = d; cb(); }).catch(function(){ loading = false; });
   }
-  var typeLabel = {country:'Country','us-city':'US City','world-city':'World City'};
+  var typeLabel = {country:'Country','us-city':'US City','world-city':'World City','us-state':'US State'};
   function wire(inputId, resultsId){
     var input = document.getElementById(inputId);
     var results = document.getElementById(resultsId);

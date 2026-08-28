@@ -82,6 +82,7 @@ def nav(active=""):
         ("Map", "/map/", "map"),
         ("Countries", "/country/", "countries"),
         ("US Cities", "/rankings/best-tap-water-us/", "us"),
+        ("US Water", "/us-water-quality/", "uswater"),
         ("World Cities", "/city/", "world"),
         ("Rankings", "/rankings/", "rankings"),
         ("Hardness", "/water-hardness/", "hardness"),
@@ -144,7 +145,7 @@ NAV_SEARCH_SCRIPT = """<script>
     loading = true;
     fetch('/search-index.json').then(function(r){ return r.json(); }).then(function(d){ idx = d; cb(); }).catch(function(){ loading = false; });
   }
-  var typeLabel = {country:'Country','us-city':'US City','world-city':'World City'};
+  var typeLabel = {country:'Country','us-city':'US City','world-city':'World City','us-state':'US State'};
   function wire(inputId, resultsId){
     var input = document.getElementById(inputId);
     var results = document.getElementById(resultsId);
@@ -193,6 +194,7 @@ def footer():
         <h4 class="text-white font-medium mb-3">Explore</h4>
         <div class="space-y-1 text-sm">
           <a href="/map/" class="block hover:text-white">World Safety Map</a>
+          <a href="/us-water-quality/" class="block hover:text-white">US Water Quality by ZIP</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
           <a href="/guides/" class="block hover:text-white">Guides</a>

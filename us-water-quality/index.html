@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Tap Water Quality by ZIP Code &mdash; Utility Lookup | TapWaterGuide</title>
+<meta name="description" content="Free US tap water lookup: enter a ZIP code or city to see your water utility, key contaminants, EPA violations, and a safety assessment. All 50 states covered.">
+<link rel="canonical" href="https://tapwaterguide.org/us-water-quality/">
+<link rel="alternate" hreflang="en" href="https://tapwaterguide.org/us-water-quality/">
+<link rel="alternate" hreflang="x-default" href="https://tapwaterguide.org/us-water-quality/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FS0BXPE79Z"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-FS0BXPE79Z');</script>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<meta name="theme-color" content="#0284c7">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>*{font-family:'Inter',sans-serif}body{background:#f8fafc}</style>
+<meta property="og:title" content="US Tap Water Quality by ZIP Code &mdash; Utility Lookup | TapWaterGuide">
+<meta property="og:description" content="Free US tap water lookup: enter a ZIP code or city to see your water utility, key contaminants, EPA violations, and a safety assessment. All 50 states covered.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tapwaterguide.org/us-water-quality/">
+<meta property="og:site_name" content="TapWaterGuide">
+<meta property="og:image" content="https://tapwaterguide.org/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="US Tap Water Quality by ZIP Code &mdash; Utility Lookup | TapWaterGuide">
+<meta name="twitter:description" content="Free US tap water lookup: enter a ZIP code or city to see your water utility, key contaminants, EPA violations, and a safety assessment. All 50 states covered.">
+<meta name="twitter:image" content="https://tapwaterguide.org/assets/og-default.png">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tapwaterguide.org/"}, {"@type": "ListItem", "position": 2, "name": "US Water Quality"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I find out what's in my tap water?", "acceptedAnswer": {"@type": "Answer", "text": "Enter your 5-digit ZIP code or city name above. We match it to the water utility serving that area and show the key contaminants it monitors, its EPA compliance status, and a safety assessment. For the legally binding detail, read your utility's annual Consumer Confidence Report (CCR), which every US water system must publish."}}, {"@type": "Question", "name": "Is tap water safe to drink in the United States?", "acceptedAnswer": {"@type": "Answer", "text": "For over 90% of Americans on community water systems, yes &mdash; the water meets all EPA Safe Drinking Water Act standards. Most violations occur in small rural systems, and most large-city concerns involve legacy plumbing (lead service lines) rather than the treated water itself."}}, {"@type": "Question", "name": "What does an EPA violation actually mean?", "acceptedAnswer": {"@type": "Answer", "text": "Violations range from serious (a contaminant exceeding a health-based Maximum Contaminant Level) to administrative (a missed monitoring deadline). Health-based violations trigger public notification requirements; utilities must tell you when your water is unsafe and what to do."}}, {"@type": "Question", "name": "Why does my ZIP code only show state-level results?", "acceptedAnswer": {"@type": "Answer", "text": "Our utility-level database covers the 100 largest US city systems so far. ZIP codes outside those service areas fall back to a state overview. ZIP matching is also approximate &mdash; ZIP boundaries don't follow utility service areas exactly &mdash; so always confirm with your water bill or CCR."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "US Tap Water Quality by ZIP Code", "description": "Look up US tap water quality by ZIP code or city: utility names, contaminants, EPA violations, and safety assessments for all 50 states.", "url": "https://tapwaterguide.org/us-water-quality/", "datePublished": "2026-08-28", "dateModified": "2026-08-28", "author": {"@type": "Organization", "name": "TapWaterGuide Editorial Team", "url": "https://tapwaterguide.org/about/"}, "publisher": {"@type": "Organization", "name": "TapWaterGuide", "url": "https://tapwaterguide.org"}}</script>
+</head>
+<body class="text-gray-700 min-h-screen flex flex-col">
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <div class="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      </div>
+      <div>
+        <div class="font-bold text-gray-900 leading-tight">TapWaterGuide</div>
+        <div class="text-xs text-gray-500 leading-tight">Worldwide water safety reference</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm">
+      <a href="/" class="text-gray-600 hover:text-sky-700">Home</a>
+<a href="/map/" class="text-gray-600 hover:text-sky-700">Map</a>
+<a href="/country/" class="text-gray-600 hover:text-sky-700">Countries</a>
+<a href="/rankings/best-tap-water-us/" class="text-gray-600 hover:text-sky-700">US Cities</a>
+<a href="/us-water-quality/" class="text-sky-700 font-semibold">US Water</a>
+<a href="/city/" class="text-gray-600 hover:text-sky-700">World Cities</a>
+<a href="/rankings/" class="text-gray-600 hover:text-sky-700">Rankings</a>
+<a href="/water-hardness/" class="text-gray-600 hover:text-sky-700">Hardness</a>
+<a href="/guides/" class="text-gray-600 hover:text-sky-700">Guides</a>
+      <div class="relative">
+        <input id="navSearch" type="text" placeholder="Search&hellip;" autocomplete="off"
+          class="w-40 lg:w-56 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
+        <div id="navSearchResults" class="hidden absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 text-left"></div>
+      </div>
+    </nav>
+    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden p-2" aria-label="Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+    <div class="px-4 py-3 space-y-1">
+      <div class="relative pb-2">
+        <input id="navSearchMobile" type="text" placeholder="Search a country or city&hellip;" autocomplete="off"
+          class="w-full bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm outline-none focus:border-sky-400">
+        <div id="navSearchMobileResults" class="hidden bg-white rounded-xl border border-gray-200 overflow-hidden mt-2"></div>
+      </div>
+      <a href="/" class="block py-2 text-gray-700 font-medium">Home</a>
+<a href="/map/" class="block py-2 text-gray-700 font-medium">Map</a>
+<a href="/country/" class="block py-2 text-gray-700 font-medium">Countries</a>
+<a href="/rankings/best-tap-water-us/" class="block py-2 text-gray-700 font-medium">US Cities</a>
+<a href="/us-water-quality/" class="block py-2 text-gray-700 font-medium">US Water</a>
+<a href="/city/" class="block py-2 text-gray-700 font-medium">World Cities</a>
+<a href="/rankings/" class="block py-2 text-gray-700 font-medium">Rankings</a>
+<a href="/water-hardness/" class="block py-2 text-gray-700 font-medium">Hardness</a>
+<a href="/guides/" class="block py-2 text-gray-700 font-medium">Guides</a>
+    </div>
+  </div>
+</header>
+<main class="flex-1">
+
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto"><nav class="flex items-center gap-2 text-sm flex-wrap" aria-label="Breadcrumb"><a href="/" class="hover:text-sky-700">Home</a> <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> <span class="text-gray-500" aria-current="page">US Water Quality</span></nav></div>
+</section>
+
+<section class="px-4 py-12 md:py-20 bg-gradient-to-b from-white via-sky-50 to-white">
+  <div class="max-w-3xl mx-auto text-center">
+    <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">US Tap Water Quality<br>by ZIP Code</h1>
+    <p class="text-lg text-gray-600 mb-8">Look up the water utility serving your area, the contaminants it monitors, and whether it meets EPA standards &mdash; built on EPA Safe Drinking Water Act and EWG Tap Water Database reporting.</p>
+    <form id="usqForm" action="/us-water-quality/" method="get" class="max-w-xl mx-auto">
+      <div class="flex items-center gap-2 bg-white rounded-full border border-gray-200 shadow-sm p-2 focus-within:border-sky-400">
+        <span class="pl-3 text-gray-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+        <input id="usq" name="q" type="text" inputmode="search" placeholder="Enter a ZIP code or city name…" autocomplete="off"
+          class="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-400 py-1.5">
+        <button type="submit" class="px-5 py-2 bg-sky-600 text-white rounded-full text-sm font-semibold hover:bg-sky-700">Search</button>
+      </div>
+    </form>
+    <div id="usqResults" class="mt-6 max-w-3xl mx-auto"></div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">
+      <div class="bg-white rounded-lg border border-gray-200 px-4 py-3 text-center">
+      <div class="text-lg font-bold text-sky-700">51</div>
+      <div class="text-xs text-gray-500">State guides</div>
+    </div>
+      <div class="bg-white rounded-lg border border-gray-200 px-4 py-3 text-center">
+      <div class="text-lg font-bold text-sky-700">100</div>
+      <div class="text-xs text-gray-500">City water reports</div>
+    </div>
+      <div class="bg-white rounded-lg border border-gray-200 px-4 py-3 text-center">
+      <div class="text-lg font-bold text-sky-700">940+</div>
+      <div class="text-xs text-gray-500">ZIP areas mapped</div>
+    </div>
+      <div class="bg-white rounded-lg border border-gray-200 px-4 py-3 text-center">
+      <div class="text-lg font-bold text-sky-700">~49,000</div>
+      <div class="text-xs text-gray-500">US water systems</div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="px-4 py-8" id="us-states">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Water Quality by State</h2>
+    <p class="text-gray-600 mb-6">Every state guide covers major utilities, common contaminants, violation patterns, and the cities we've profiled in depth.</p>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3"><a href="/us-water-quality/alabama/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Alabama</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/alaska/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Alaska</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/arizona/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Arizona</span><span class="text-xs text-gray-400">5 cities</span></a><a href="/us-water-quality/arkansas/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Arkansas</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/california/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">California</span><span class="text-xs text-gray-400">20 cities</span></a><a href="/us-water-quality/colorado/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Colorado</span><span class="text-xs text-gray-400">3 cities</span></a><a href="/us-water-quality/connecticut/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Connecticut</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/delaware/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Delaware</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/florida/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Florida</span><span class="text-xs text-gray-400">6 cities</span></a><a href="/us-water-quality/georgia/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Georgia</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/hawaii/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Hawaii</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/idaho/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Idaho</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/illinois/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Illinois</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/indiana/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Indiana</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/iowa/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Iowa</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/kansas/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Kansas</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/kentucky/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Kentucky</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/louisiana/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Louisiana</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/maine/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Maine</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/maryland/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Maryland</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/massachusetts/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Massachusetts</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/michigan/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Michigan</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/minnesota/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Minnesota</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/mississippi/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Mississippi</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/missouri/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Missouri</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/montana/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Montana</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/nebraska/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Nebraska</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/nevada/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Nevada</span><span class="text-xs text-gray-400">3 cities</span></a><a href="/us-water-quality/new-hampshire/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">New Hampshire</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/new-jersey/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">New Jersey</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/new-mexico/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">New Mexico</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/new-york/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">New York</span><span class="text-xs text-gray-400">3 cities</span></a><a href="/us-water-quality/north-carolina/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">North Carolina</span><span class="text-xs text-gray-400">6 cities</span></a><a href="/us-water-quality/north-dakota/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">North Dakota</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/ohio/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Ohio</span><span class="text-xs text-gray-400">3 cities</span></a><a href="/us-water-quality/oklahoma/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Oklahoma</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/oregon/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Oregon</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/pennsylvania/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Pennsylvania</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/rhode-island/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Rhode Island</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/south-carolina/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">South Carolina</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/south-dakota/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">South Dakota</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/tennessee/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Tennessee</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/texas/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Texas</span><span class="text-xs text-gray-400">10 cities</span></a><a href="/us-water-quality/utah/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Utah</span><span class="text-xs text-gray-400">1 cities</span></a><a href="/us-water-quality/vermont/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Vermont</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/virginia/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Virginia</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/washington/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Washington</span><span class="text-xs text-gray-400">3 cities</span></a><a href="/us-water-quality/washington-dc/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Washington, DC</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/west-virginia/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">West Virginia</span><span class="text-xs text-gray-400">0 cities</span></a><a href="/us-water-quality/wisconsin/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Wisconsin</span><span class="text-xs text-gray-400">2 cities</span></a><a href="/us-water-quality/wyoming/" class="flex items-center justify-between bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-sky-300 hover:shadow-md transition-all"><span class="font-medium text-gray-900">Wyoming</span><span class="text-xs text-gray-400">0 cities</span></a></div>
+  </div>
+</section>
+
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">How This Lookup Works</h2>
+      <div class="text-gray-600 leading-relaxed space-y-3"><p>Your ZIP code's first three digits identify a USPS regional area, which we map to the major water utility serving it &mdash; or to your state when no profiled utility covers that area. Utility profiles draw on EPA Safe Drinking Water Act compliance reporting, EWG Tap Water Database entries, and each utility's published Consumer Confidence Reports.</p><p>ZIP boundaries don't follow utility service areas exactly, so treat results as a starting point: your water bill names your actual provider, and their annual CCR is the authoritative record of what's in your water.</p></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h2>
+      <div><div class="border-b border-gray-100 last:border-0">
+          <button type="button" class="faq-toggle w-full flex items-center justify-between gap-4 text-left py-4" aria-expanded="false" aria-controls="faq-0">
+            <span class="font-semibold text-gray-900">How do I find out what's in my tap water?</span>
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 faq-chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-0" class="faq-panel hidden pb-4 text-gray-600 leading-relaxed">Enter your 5-digit ZIP code or city name above. We match it to the water utility serving that area and show the key contaminants it monitors, its EPA compliance status, and a safety assessment. For the legally binding detail, read your utility's annual Consumer Confidence Report (CCR), which every US water system must publish.</div>
+        </div><div class="border-b border-gray-100 last:border-0">
+          <button type="button" class="faq-toggle w-full flex items-center justify-between gap-4 text-left py-4" aria-expanded="false" aria-controls="faq-1">
+            <span class="font-semibold text-gray-900">Is tap water safe to drink in the United States?</span>
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 faq-chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-1" class="faq-panel hidden pb-4 text-gray-600 leading-relaxed">For over 90% of Americans on community water systems, yes &mdash; the water meets all EPA Safe Drinking Water Act standards. Most violations occur in small rural systems, and most large-city concerns involve legacy plumbing (lead service lines) rather than the treated water itself.</div>
+        </div><div class="border-b border-gray-100 last:border-0">
+          <button type="button" class="faq-toggle w-full flex items-center justify-between gap-4 text-left py-4" aria-expanded="false" aria-controls="faq-2">
+            <span class="font-semibold text-gray-900">What does an EPA violation actually mean?</span>
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 faq-chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-2" class="faq-panel hidden pb-4 text-gray-600 leading-relaxed">Violations range from serious (a contaminant exceeding a health-based Maximum Contaminant Level) to administrative (a missed monitoring deadline). Health-based violations trigger public notification requirements; utilities must tell you when your water is unsafe and what to do.</div>
+        </div><div class="border-b border-gray-100 last:border-0">
+          <button type="button" class="faq-toggle w-full flex items-center justify-between gap-4 text-left py-4" aria-expanded="false" aria-controls="faq-3">
+            <span class="font-semibold text-gray-900">Why does my ZIP code only show state-level results?</span>
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 faq-chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-3" class="faq-panel hidden pb-4 text-gray-600 leading-relaxed">Our utility-level database covers the 100 largest US city systems so far. ZIP codes outside those service areas fall back to a state overview. ZIP matching is also approximate &mdash; ZIP boundaries don't follow utility service areas exactly &mdash; so always confirm with your water bill or CCR.</div>
+        </div></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" id="page-sources">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Sources &amp; References</h2>
+      <p class="text-sm text-gray-500 mb-3">The safety rating and guidance on this page draw on the following sources. See our <a href="/about/#sources" class="text-sky-700 hover:underline">full methodology</a>.</p>
+      <ul class="space-y-2 text-sm"><li class="flex items-start gap-2"><span class="text-sky-500 mt-1.5">&bull;</span><span><a href="https://www.epa.gov/sdwa" target="_blank" rel="noopener" class="text-sky-700 hover:underline">US EPA Safe Drinking Water Act regulations</a></span></li><li class="flex items-start gap-2"><span class="text-sky-500 mt-1.5">&bull;</span><span><a href="https://www.ewg.org/tapwater/" target="_blank" rel="noopener" class="text-sky-700 hover:underline">EWG Tap Water Database</a></span></li><li class="flex items-start gap-2"><span class="text-sky-500 mt-1.5">&bull;</span><span>The utility's most recent Consumer Confidence Report (CCR)</span></li><li class="flex items-start gap-2"><span class="text-sky-500 mt-1.5">&bull;</span><span><a href="https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/water-safety-and-quality/drinking-water-quality-guidelines" target="_blank" rel="noopener" class="text-sky-700 hover:underline">WHO Guidelines for Drinking-water Quality</a></span></li></ul>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var D = null, loading = false, queued = null;
+  var input = document.getElementById('usq');
+  var results = document.getElementById('usqResults');
+  var RB = {'Safe':'bg-emerald-50 text-emerald-700 border-emerald-200',
+            'Generally Safe':'bg-sky-50 text-sky-700 border-sky-200',
+            'Caution':'bg-amber-50 text-amber-700 border-amber-200',
+            'Not Safe':'bg-red-50 text-red-700 border-red-200'};
+  var ASSESS = {'Safe':'Safe to drink \u2014 this system meets federal Safe Drinking Water Act standards.',
+                'Generally Safe':'Generally safe \u2014 meets federal standards with local caveats worth reading in the full report.',
+                'Caution':'Use caution \u2014 review the full report and current local advisories.',
+                'Not Safe':'Not considered reliably safe \u2014 see the full report.'};
+  function load(cb){
+    if (D) { cb(); return; }
+    if (loading) { queued = cb; return; }
+    loading = true;
+    fetch('/us-water-quality/data.json').then(function(r){ return r.json(); }).then(function(d){
+      D = d; cb(); if (queued) { var q = queued; queued = null; q(); }
+    }).catch(function(){ loading = false; });
+  }
+  function badge(r){
+    return '<span class="inline-flex items-center rounded-full border px-3 py-1 text-sm font-semibold ' + (RB[r]||RB['Safe']) + '">' + r + '</span>';
+  }
+  function cityCard(c, via){
+    var st = D.states[c.st] || {n:c.st, slug:''};
+    var ks = c.k.map(function(k){
+      return '<li class="flex items-start gap-2 text-sm text-gray-600"><span class="text-sky-500 mt-0.5">&bull;</span><span>' + k + '</span></li>';
+    }).join('');
+    var viol = (c.r === 'Safe' || c.r === 'Generally Safe')
+      ? 'No unresolved health-based violations in current federal reporting.'
+      : 'See the full city report for current advisories.';
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
+      '<div class="flex flex-wrap items-center justify-between gap-3 mb-1">' +
+        '<h3 class="text-lg font-bold text-gray-900">' + c.u + '</h3>' + badge(c.r) + '</div>' +
+      '<p class="text-sm text-gray-500 mb-4">Serves ' + c.n + ', ' + st.n + (via ? ' &middot; matched from ' + via : '') + '</p>' +
+      '<p class="text-sm text-gray-700 mb-4 font-medium">' + (ASSESS[c.r]||'') + '</p>' +
+      '<div class="grid md:grid-cols-2 gap-4 mb-4">' +
+        '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Key contaminants monitored</div><ul class="space-y-1">' + ks + '</ul></div>' +
+        '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">EPA compliance</div><p class="text-sm text-gray-600">' + c.e + '</p>' +
+        '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2 mt-3">Violations</div><p class="text-sm text-gray-600">' + viol + '</p></div>' +
+      '</div>' +
+      '<div class="flex flex-wrap gap-3">' +
+        '<a href="/city/' + c.s + '/" class="px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700">Full ' + c.n + ' water report &rarr;</a>' +
+        (st.slug ? '<a href="/us-water-quality/' + st.slug + '/" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:border-sky-300">' + st.n + ' overview</a>' : '') +
+      '</div>' +
+      '<p class="text-xs text-gray-400 mt-4">ZIP-based matching is approximate &mdash; the utility serving your address may differ. Confirm with your water bill or your utility\u2019s annual Consumer Confidence Report.</p></div>';
+  }
+  function stateCard(abbr, via){
+    var st = D.states[abbr];
+    if (!st) return notFound();
+    var chips = st.c.map(function(n){
+      return '<span class="inline-block px-3 py-1 bg-sky-50 border border-sky-100 rounded-full text-sm text-sky-700">' + n + '</span>';
+    }).join(' ');
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
+      '<div class="flex flex-wrap items-center justify-between gap-3 mb-1">' +
+        '<h3 class="text-lg font-bold text-gray-900">' + st.n + ' &mdash; statewide overview</h3>' +
+        '<span class="text-sm text-gray-500">' + st.sys + ' community water systems</span></div>' +
+      (via ? '<p class="text-sm text-gray-500 mb-4">Matched from ' + via + ' &middot; no utility-level record for this ZIP in our database yet</p>' : '<p class="mb-4"></p>') +
+      '<p class="text-sm text-gray-700 mb-4">' + st.v + '</p>' +
+      '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Common contaminants in ' + st.n + '</div>' +
+      '<div class="flex flex-wrap gap-2 mb-5">' + chips + '</div>' +
+      '<div class="flex flex-wrap gap-3">' +
+        '<a href="/us-water-quality/' + st.slug + '/" class="px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700">' + st.n + ' water quality guide &rarr;</a>' +
+      '</div>' +
+      '<p class="text-xs text-gray-400 mt-4">For utility-level detail, check the annual Consumer Confidence Report your water provider publishes (linked from your water bill or city website).</p></div>';
+  }
+  function notFound(){
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
+      '<h3 class="text-lg font-bold text-gray-900 mb-2">No match found</h3>' +
+      '<p class="text-sm text-gray-600 mb-3">We couldn\u2019t match that ZIP code or city. Try a 5-digit US ZIP code (military and territory ZIP codes aren\u2019t covered yet), or browse the state guides below.</p>' +
+      '<a href="#us-states" class="text-sm text-sky-700 hover:underline">Browse all state guides &rarr;</a></div>';
+  }
+  function suggestions(list){
+    return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden text-left">' + list.map(function(m){
+      return '<button type="button" data-q="' + m.q + '" class="usq-sugg w-full flex items-center justify-between px-4 py-3 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">' +
+        '<span class="text-gray-900">' + m.label + '</span><span class="text-xs text-gray-400">' + m.kind + '</span></button>';
+    }).join('') + '</div>';
+  }
+  function run(q){
+    q = (q || '').trim();
+    if (!q) { results.innerHTML = ''; return; }
+    load(function(){
+      var html;
+      var zip = q.replace(/[^0-9]/g, '');
+      if (/^[0-9]{5}$/.test(zip)) {
+        var p = zip.slice(0, 3);
+        if (D.zc[p] !== undefined) html = cityCard(D.cities[D.zc[p]], 'ZIP ' + zip);
+        else if (D.zs[p]) html = stateCard(D.zs[p], 'ZIP ' + zip);
+        else html = notFound();
+      } else {
+        var ql = q.toLowerCase();
+        var cm = D.cities.filter(function(c){ return c.n.toLowerCase().indexOf(ql) === 0; });
+        if (!cm.length) cm = D.cities.filter(function(c){ return c.n.toLowerCase().indexOf(ql) !== -1; });
+        var sm = [];
+        for (var ab in D.states) { if (D.states[ab].n.toLowerCase().indexOf(ql) !== -1) sm.push(ab); }
+        if (cm.length === 1 && !sm.length) html = cityCard(cm[0], null);
+        else if (!cm.length && sm.length === 1) html = stateCard(sm[0], null);
+        else if (cm.length || sm.length) {
+          html = suggestions(cm.slice(0, 6).map(function(c){
+            return {q: c.n + ', ' + c.st, label: c.n + ', ' + c.st + ' \u2014 ' + c.u, kind: 'City'};
+          }).concat(sm.slice(0, 4).map(function(ab){
+            return {q: D.states[ab].n, label: D.states[ab].n + ' \u2014 statewide overview', kind: 'State'};
+          })));
+        } else html = notFound();
+      }
+      results.innerHTML = html;
+      results.querySelectorAll('.usq-sugg').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var v = btn.getAttribute('data-q').split(',')[0];
+          input.value = v; run(v);
+        });
+      });
+      if (window.gtag) gtag('event', 'us_water_lookup', {search_term: q});
+    });
+  }
+  if (!input || !results) return;
+  input.addEventListener('focus', function(){ load(function(){}); });
+  input.addEventListener('input', function(){ run(input.value); });
+  document.getElementById('usqForm').addEventListener('submit', function(ev){ ev.preventDefault(); run(input.value); });
+  var m = window.location.search.match(/[?&]q=([^&]+)/);
+  if (m) { var q0 = decodeURIComponent(m[1].replace(/\+/g, ' ')); input.value = q0; run(q0); }
+})();
+</script>
+
+</main>
+<footer class="bg-gray-900 text-gray-400 px-4 py-10 mt-16">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 bg-sky-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <span class="text-white font-bold">TapWaterGuide</span>
+        </div>
+        <p class="text-sm">The worldwide reference for tap water safety, quality, and drinkability &mdash; built on WHO, EPA, EWG and CDC data.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-medium mb-3">Explore</h4>
+        <div class="space-y-1 text-sm">
+          <a href="/map/" class="block hover:text-white">World Safety Map</a>
+          <a href="/us-water-quality/" class="block hover:text-white">US Water Quality by ZIP</a>
+          <a href="/country/" class="block hover:text-white">All Countries</a>
+          <a href="/city/" class="block hover:text-white">All Cities</a>
+          <a href="/guides/" class="block hover:text-white">Guides</a>
+          <a href="/rankings/best-tap-water/" class="block hover:text-white">Best Tap Water Worldwide</a>
+          <a href="/rankings/worst-tap-water/" class="block hover:text-white">Countries to Avoid</a>
+          <a href="/rankings/best-tap-water-us/" class="block hover:text-white">Best US City Water</a>
+          <a href="/rankings/best-tap-water-cities/" class="block hover:text-white">Best Tap Water Cities</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-medium mb-3">Popular Countries</h4>
+        <div class="space-y-1 text-sm">
+          <a href="/country/japan/" class="block hover:text-white">Japan</a>
+          <a href="/country/mexico/" class="block hover:text-white">Mexico</a>
+          <a href="/country/italy/" class="block hover:text-white">Italy</a>
+          <a href="/country/thailand/" class="block hover:text-white">Thailand</a>
+          <a href="/country/india/" class="block hover:text-white">India</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-medium mb-3">Site</h4>
+        <div class="space-y-1 text-sm">
+          <a href="/about/" class="block hover:text-white">About &amp; Data Sources</a>
+          <a href="/about/#sources" class="block hover:text-white">Methodology</a>
+          <a href="/privacy/" class="block hover:text-white">Privacy Policy</a>
+          <a href="/sitemap.xml" class="block hover:text-white">Sitemap</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-6 text-sm text-center">
+      <p>&copy; 2026 TapWaterGuide.org &mdash; Worldwide Tap Water Safety Reference</p>
+      <p class="mt-1 text-gray-500">Informational reference only, not medical advice. Water quality changes over time &mdash; always check current local advisories before travel.</p>
+    </div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll('.faq-toggle').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    panel.classList.toggle('hidden');
+    var chevron = btn.querySelector('.faq-chevron');
+    if (chevron) chevron.classList.toggle('rotate-180');
+  });
+});
+</script>
+<script>
+(function(){
+  var idx = null, loading = false;
+  function ensureIndex(cb){
+    if (idx) { cb(); return; }
+    if (loading) return;
+    loading = true;
+    fetch('/search-index.json').then(function(r){ return r.json(); }).then(function(d){ idx = d; cb(); }).catch(function(){ loading = false; });
+  }
+  var typeLabel = {country:'Country','us-city':'US City','world-city':'World City','us-state':'US State'};
+  function wire(inputId, resultsId){
+    var input = document.getElementById(inputId);
+    var results = document.getElementById(resultsId);
+    if (!input || !results) return;
+    function render(){
+      var q = input.value.trim().toLowerCase();
+      if (!q) { results.classList.add('hidden'); results.innerHTML=''; return; }
+      if (!idx) { ensureIndex(render); return; }
+      var m = idx.filter(function(e){ return e.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
+      results.innerHTML = m.length ? m.map(function(e){
+        return '<a href="'+e.href+'" class="flex items-center justify-between px-4 py-2.5 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">'+
+          '<span class="text-gray-900">'+e.name+'</span>'+
+          '<span class="text-xs text-gray-400">'+typeLabel[e.type]+'</span></a>';
+      }).join('') : '<div class="px-4 py-3 text-sm text-gray-500">No matches</div>';
+      results.classList.remove('hidden');
+    }
+    input.addEventListener('focus', function(){ ensureIndex(function(){}); });
+    input.addEventListener('input', render);
+  }
+  wire('navSearch','navSearchResults');
+  wire('navSearchMobile','navSearchMobileResults');
+  document.addEventListener('click', function(ev){
+    ['navSearchResults','navSearchMobileResults'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el && !ev.target.closest('#'+id) && !ev.target.closest('input')) el.classList.add('hidden');
+    });
+  });
+})();
+</script>
+</body>
+</html>

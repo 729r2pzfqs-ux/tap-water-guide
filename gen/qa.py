@@ -44,7 +44,9 @@ for f in all_html_files:
         d = dmatch.group(1)
         descs.setdefault(d, []).append(rel)
 
-    for href in link_re.findall(html):
+    # Ignore hrefs inside inline scripts (JS-built markup templates, not real links)
+    html_no_scripts = re.sub(r"<script.*?</script>", "", html, flags=re.S)
+    for href in link_re.findall(html_no_scripts):
         if href.startswith("/assets/") or href == "/sitemap.xml" or href == "/robots.txt":
             continue
         if href.startswith("/#") or "#" in href and href.split("#")[0] == "":
