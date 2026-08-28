@@ -79,6 +79,7 @@ def rating_badge(rating, size="normal"):
 def nav(active=""):
     items = [
         ("Home", "/", "home"),
+        ("Map", "/map/", "map"),
         ("Countries", "/country/", "countries"),
         ("US Cities", "/rankings/best-tap-water-us/", "us"),
         ("World Cities", "/city/", "world"),
@@ -189,11 +190,13 @@ def footer():
       <div>
         <h4 class="text-white font-medium mb-3">Explore</h4>
         <div class="space-y-1 text-sm">
+          <a href="/map/" class="block hover:text-white">World Safety Map</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
           <a href="/rankings/best-tap-water/" class="block hover:text-white">Best Tap Water Worldwide</a>
           <a href="/rankings/worst-tap-water/" class="block hover:text-white">Countries to Avoid</a>
           <a href="/rankings/best-tap-water-us/" class="block hover:text-white">Best US City Water</a>
+          <a href="/rankings/best-tap-water-cities/" class="block hover:text-white">Best Tap Water Cities</a>
         </div>
       </div>
       <div>

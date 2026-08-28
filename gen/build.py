@@ -491,6 +491,20 @@ def build_homepage():
   </div>
 </section>
 
+<section class="px-4 py-8">
+  <div class="max-w-6xl mx-auto">
+    <a href="/map/" class="block bg-gradient-to-br from-sky-50 to-white rounded-xl border border-sky-100 p-6 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-1">Explore the World Safety Map</h2>
+          <p class="text-sm text-gray-600">Every country colored by tap water safety rating &mdash; click any country for its full guide.</p>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-sky-600 text-white rounded-lg font-medium hover:bg-sky-700">Open the map &rarr;</span>
+      </div>
+    </a>
+  </div>
+</section>
+
 <section class="px-4 py-12">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-2xl font-bold text-gray-900 mb-5">Popular Countries</h2>
@@ -599,8 +613,12 @@ def build_country_index():
               {rating_badge(c['rating'])}
             </a>''' for c in items
         )
+        region_slug_map = {"Europe": "europe", "Asia": "asia", "North America": "north-america",
+                           "South America": "south-america", "Africa": "africa", "Oceania": "oceania",
+                           "Middle East": "middle-east"}
+        rlink = f'<a href="/region/{region_slug_map[region]}/" class="text-sm text-sky-700 hover:underline font-normal">Region guide &rarr;</a>'
         sections += f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-          <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">{region}</h2></div>
+          <div class="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between"><h2 class="font-bold text-gray-900">{region}</h2>{rlink}</div>
           {rows}
         </div>"""
 
@@ -836,6 +854,10 @@ def build_rankings_index():
         <h2 class="font-bold text-gray-900 mb-2">Best US City Water</h2>
         <p class="text-sm text-gray-600">Which American cities have the cleanest tap water.</p>
       </a>
+      <a href="/rankings/best-tap-water-cities/" class="block bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-100 p-6 hover:shadow-md transition-shadow">
+        <h2 class="font-bold text-gray-900 mb-2">Best Tap Water Cities Worldwide</h2>
+        <p class="text-sm text-gray-600">World cities with the purest, best-tasting tap water.</p>
+      </a>
     </div>
   </div>
 </section>
@@ -848,11 +870,341 @@ def build_rankings_index():
     register("/rankings/", "0.8", "monthly")
 
 
+CITY_BEST_ORDER = ["reykjavik", "zurich", "vienna", "oslo", "copenhagen", "munich",
+                   "singapore-city", "tokyo", "sydney", "auckland"]
+
+
+def build_best_tap_water_cities():
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Rankings", "/rankings/"), ("Best Tap Water Cities", None)])
+    top = [INTL_BY_SLUG[s] for s in CITY_BEST_ORDER]
+    top_slugs = set(CITY_BEST_ORDER)
+    rest_safe = sorted([c for c in INTL_CITIES if c["rating"] == "Safe" and c["slug"] not in top_slugs],
+                       key=lambda x: re.sub('<[^<]+?>', '', x["name"]))
+
+    top_rows = "".join(ranking_row(f"{i+1}. {c['name']}", f"/city/{c['slug']}/", c["rating"], note=c["country_name"]) for i, c in enumerate(top))
+    rest_rows = "".join(ranking_row(c["name"], f"/city/{c['slug']}/", c["rating"], note=c["country_name"]) for c in rest_safe)
+
+    body = f"""
+<section class="bg-gradient-to-b from-emerald-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">Cities with the Best Tap Water in the World</h1>
+    <p class="text-gray-600 mb-8">Ranked by source purity, treatment quality, and taste. The top of this list is dominated by cities drawing on protected springs, alpine catchments, and glacial or volcanic sources &mdash; several need little or no chemical treatment at all.</p>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">Top 10</h2></div>
+      {top_rows}
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">Also Rated Safe</h2></div>
+      {rest_rows}
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/rankings/best-tap-water/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Best tap water by country &rarr;</a>
+      <a href="/city/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Browse all cities &rarr;</a>
+    </div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    title = "Best Tap Water Cities in the World: Rankings | TapWaterGuide"
+    desc = "Reykjavik, Zurich, and Vienna top the list of world cities with the best tap water, drawing on springs and alpine sources. See the full ranking."
+    html = page(title, desc, "/rankings/best-tap-water-cities/", body, schemas=schemas, active_nav="rankings")
+    write_page("/rankings/best-tap-water-cities/", html)
+    register("/rankings/best-tap-water-cities/", "0.9", "monthly")
+
+
 build_best_tap_water()
 build_worst_tap_water()
 build_best_tap_water_us()
+build_best_tap_water_cities()
 build_rankings_index()
 print("Built rankings pages")
+
+# ---------------------------------------------------------------------------
+# REGION HUB PAGES (/region/<slug>/)
+# ---------------------------------------------------------------------------
+
+REGION_META = {
+    "Europe": {
+        "slug": "europe",
+        "intro": "Europe has the most consistently safe tap water of any continent, anchored by the EU Drinking Water Directive &mdash; one of the strictest water quality frameworks in the world. Nearly all of Western, Northern, and Central Europe is safe to drink from the tap. The picture is more mixed in parts of the Balkans and Eastern Europe, where aging Soviet-era infrastructure can compromise well-treated water on its way to the tap.",
+        "desc": "Tap water is safe in most of Europe under strict EU standards. See safety ratings for every European country and city, from Iceland to Albania.",
+    },
+    "Asia": {
+        "slug": "asia",
+        "intro": "Asia spans the full spectrum of tap water safety. Japan, South Korea, Singapore, and Hong Kong treat water to among the highest standards on Earth, while in most of South and Southeast Asia &mdash; India, Thailand, Vietnam, Indonesia &mdash; even locals rely on boiled, filtered, or bottled water due to distribution infrastructure that recontaminates treated water before it reaches the tap.",
+        "desc": "Asia's tap water ranges from world-class (Japan, Singapore) to unsafe (India, Thailand, Vietnam). See ratings for every Asian country and city.",
+    },
+    "North America": {
+        "slug": "north-america",
+        "intro": "North America splits sharply at the Rio Grande. The United States and Canada maintain EPA- and Health Canada-regulated systems that are safe nationwide. Mexico and most of Central America are a different story &mdash; municipal treatment exists, but aging pipes and intermittent pressure make bottled water the norm. The Caribbean varies island by island, with desalination-dependent nations often faring better than expected.",
+        "desc": "US and Canadian tap water is safe; Mexico and most of Central America is not. See ratings for every North American country and city.",
+    },
+    "South America": {
+        "slug": "south-america",
+        "intro": "South America's tap water quality tracks closely with infrastructure investment. Chile and Uruguay lead the continent with reliably safe urban water, and Argentina's major cities are largely safe. Elsewhere &mdash; Peru, Ecuador, and much of Colombia and Brazil &mdash; treatment at the plant is often undone by distribution problems, making bottled or filtered water the sensible default for travelers.",
+        "desc": "Chile and Uruguay have South America's safest tap water; Peru and Ecuador require bottled water. See every country and city rating.",
+    },
+    "Africa": {
+        "slug": "africa",
+        "intro": "Africa has the world's largest gap between water treatment capability and reliable delivery. South Africa's major cities have historically maintained good municipal water, and Morocco's urban systems are chemically treated, but for most of the continent &mdash; including tourist destinations in Kenya, Tanzania, and Egypt &mdash; bottled or purified water is essential for visitors.",
+        "desc": "Most of Africa requires bottled water for travelers, with partial exceptions in South Africa's cities. See every African country and city rating.",
+    },
+    "Oceania": {
+        "slug": "oceania",
+        "intro": "Australia and New Zealand maintain some of the world's most reliable tap water, with strict national standards and well-funded utilities. Tap water is safe to drink in every major city and town in both countries. The smaller Pacific island nations vary widely and often depend on rainwater collection and limited treatment infrastructure.",
+        "desc": "Yes, tap water is safe throughout Australia and New Zealand. See ratings for Oceania's countries and major cities.",
+    },
+    "Middle East": {
+        "slug": "middle-east",
+        "intro": "The Middle East runs almost entirely on desalinated seawater, and the engineering is world-class &mdash; Israel, the UAE, and Qatar produce water that meets WHO standards at the plant. The catch is the last mile: rooftop storage tanks and building plumbing mean many residents still prefer bottled water, and travelers will find bottled water is the cultural default nearly everywhere.",
+        "desc": "Middle East tap water is desalinated to WHO standards in Israel, UAE, and Qatar, though bottled remains the local norm. See all ratings.",
+    },
+}
+
+RATING_ORDER = ["Safe", "Generally Safe", "Caution", "Not Safe"]
+
+
+def build_region_page(region_name):
+    meta = REGION_META[region_name]
+    rslug = meta["slug"]
+    countries = sorted([c for c in COUNTRIES if c["region"] == region_name], key=lambda x: x["name"])
+    if not countries:
+        return
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Countries", "/country/"), (region_name, None)])
+
+    groups_html = ""
+    for rating in RATING_ORDER:
+        group = [c for c in countries if c["rating"] == rating]
+        if not group:
+            continue
+        rows = "".join(
+            f'''<a href="/country/{c['slug']}/" class="flex items-center justify-between px-4 py-3 hover:bg-sky-50 border-b border-gray-100 last:border-0">
+              <span class="text-gray-900 font-medium">{c['name']}</span>
+              {rating_badge(c['rating'])}
+            </a>''' for c in group
+        )
+        groups_html += f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+          <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">{rating} ({len(group)})</h2></div>
+          {rows}
+        </div>"""
+
+    region_cities = sorted(
+        [ci for ci in INTL_CITIES if COUNTRY_BY_SLUG[ci["country_slug"]]["region"] == region_name],
+        key=lambda x: re.sub('<[^<]+?>', '', x["name"]))
+    cities_html = ""
+    if region_cities:
+        cards = "".join(
+            f'''<a href="/city/{ci["slug"]}/" class="block bg-white rounded-lg border border-gray-200 p-4 hover:border-sky-300 hover:shadow-md transition-all">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-gray-900">{ci["name"]}</span>
+                {rating_badge(ci["rating"])}
+              </div>
+              <div class="text-xs text-gray-400 mt-1">{ci["country_name"]}</div>
+            </a>''' for ci in region_cities
+        )
+        cities_html = f"""<h2 class="text-2xl font-bold text-gray-900 mb-4 mt-10">City Guides in {region_name}</h2>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3">{cards}</div>"""
+
+    other_regions = "".join(
+        f'<a href="/region/{REGION_META[r]["slug"]}/" class="text-sky-700 hover:underline">{r}</a>'
+        for r in REGION_META if r != region_name
+    )
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Safety in {region_name}</h1>
+    <p class="text-gray-600 leading-relaxed mb-8">{meta['intro']}</p>
+    {groups_html}
+    {cities_html}
+    <div class="bg-sky-50 rounded-xl border border-sky-100 p-6 mt-10">
+      <h2 class="text-lg font-bold text-gray-900 mb-3">Other Regions</h2>
+      <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm">{other_regions}</div>
+    </div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    title = f"Tap Water Safety in {region_name}: Every Country Rated | TapWaterGuide"
+    html = page(title, meta["desc"], f"/region/{rslug}/", body, schemas=schemas, active_nav="countries")
+    write_page(f"/region/{rslug}/", html)
+    register(f"/region/{rslug}/", "0.8", "monthly")
+
+
+for _region in REGION_META:
+    build_region_page(_region)
+print(f"Built {len(REGION_META)} region hub pages")
+
+# ---------------------------------------------------------------------------
+# INTERACTIVE WORLD MAP (/map/)
+# ---------------------------------------------------------------------------
+
+ISO2SLUG = {
+    "JP": "japan", "IT": "italy", "CR": "costa-rica", "MX": "mexico", "ES": "spain",
+    "PT": "portugal", "IS": "iceland", "FR": "france", "DE": "germany", "HR": "croatia",
+    "GR": "greece", "TR": "turkey", "TH": "thailand", "MA": "morocco", "IN": "india",
+    "VN": "vietnam", "KR": "south-korea", "AR": "argentina", "PE": "peru", "CO": "colombia",
+    "EG": "egypt", "PH": "philippines", "CU": "cuba", "BR": "brazil", "DO": "dominican-republic",
+    "SG": "singapore", "GB": "united-kingdom", "IE": "ireland", "AU": "australia",
+    "NZ": "new-zealand", "CA": "canada", "NL": "netherlands", "AT": "austria",
+    "CH": "switzerland", "CZ": "czech-republic", "HU": "hungary", "PL": "poland",
+    "NO": "norway", "SE": "sweden", "DK": "denmark", "FI": "finland", "ZA": "south-africa",
+    "KE": "kenya", "TZ": "tanzania", "ID": "indonesia", "MY": "malaysia", "KH": "cambodia",
+    "LA": "laos", "MM": "myanmar", "NP": "nepal", "AE": "united-arab-emirates",
+    "HK": "hong-kong", "LT": "lithuania", "LV": "latvia", "CY": "cyprus", "BG": "bulgaria",
+    "UY": "uruguay", "NI": "nicaragua", "KY": "cayman-islands", "SV": "el-salvador",
+    "LK": "sri-lanka", "QA": "qatar", "CL": "chile", "GE": "georgia", "ME": "montenegro",
+    "RU": "russia", "BS": "bahamas", "EE": "estonia", "AL": "albania", "RO": "romania",
+    "BM": "bermuda", "IL": "israel", "UA": "ukraine", "BE": "belgium", "MT": "malta",
+    "EC": "ecuador", "PA": "panama", "CN": "china", "TW": "taiwan",
+}
+
+MAP_FILL = {
+    "Safe": "#34d399",
+    "Generally Safe": "#38bdf8",
+    "Caution": "#fbbf24",
+    "Not Safe": "#f87171",
+}
+MAP_FILL_NONE = "#e5e7eb"
+
+# Small territories absent from the 110m map, drawn as circle markers: slug -> (lon, lat)
+SMALL_TERRITORIES = {
+    "singapore": (103.8, 1.35),
+    "hong-kong": (114.15, 22.3),
+    "malta": (14.4, 35.9),
+    "bermuda": (-64.75, 32.3),
+    "cayman-islands": (-81.2, 19.3),
+}
+
+
+def _map_project(lon, lat, w, h):
+    x = (lon + 180.0) / 360.0 * w
+    y = (85.0 - lat) / 145.0 * h
+    return round(x, 1), round(y, 1)
+
+
+def build_map_page():
+    with open(os.path.join(os.path.dirname(__file__), "world_map_data.json"), "r", encoding="utf-8") as f:
+        mapdata = _json.load(f)
+    w, h = mapdata["width"], mapdata["height"]
+
+    paths = []
+    for cdata in mapdata["countries"]:
+        iso = cdata["iso"]
+        slug = ISO2SLUG.get(iso)
+        if slug and slug in COUNTRY_BY_SLUG:
+            c = COUNTRY_BY_SLUG[slug]
+            fill = MAP_FILL[c["rating"]]
+            p = (f'<a href="/country/{slug}/"><path d="{cdata["path"]}" fill="{fill}" '
+                 f'fill-rule="evenodd" stroke="#fff" stroke-width="0.5" class="mc" '
+                 f'data-name="{c["name"]}" data-rating="{c["rating"]}"/></a>')
+        elif iso == "US":
+            p = (f'<a href="/rankings/best-tap-water-us/"><path d="{cdata["path"]}" fill="{MAP_FILL["Safe"]}" '
+                 f'fill-rule="evenodd" stroke="#fff" stroke-width="0.5" class="mc" '
+                 f'data-name="United States" data-rating="Safe &#8212; see city guides"/></a>')
+        else:
+            p = (f'<path d="{cdata["path"]}" fill="{MAP_FILL_NONE}" fill-rule="evenodd" '
+                 f'stroke="#fff" stroke-width="0.5" class="mc" data-name="{cdata["name"]}" '
+                 f'data-rating="Not yet covered"/>')
+        paths.append(p)
+
+    for slug, (lon, lat) in SMALL_TERRITORIES.items():
+        if slug not in COUNTRY_BY_SLUG:
+            continue
+        c = COUNTRY_BY_SLUG[slug]
+        x, y = _map_project(lon, lat, w, h)
+        fill = MAP_FILL[c["rating"]]
+        paths.append(
+            f'<a href="/country/{slug}/"><circle cx="{x}" cy="{y}" r="4" fill="{fill}" '
+            f'stroke="#fff" stroke-width="1" class="mc" data-name="{c["name"]}" '
+            f'data-rating="{c["rating"]}"/></a>')
+
+    legend_items = "".join(
+        f'''<span class="inline-flex items-center gap-2 text-sm text-gray-600">
+          <span class="inline-block w-4 h-4 rounded" style="background:{color}"></span>{label}</span>'''
+        for label, color in [("Safe", MAP_FILL["Safe"]), ("Generally Safe", MAP_FILL["Generally Safe"]),
+                             ("Caution", MAP_FILL["Caution"]), ("Not Safe", MAP_FILL["Not Safe"]),
+                             ("Not yet covered", MAP_FILL_NONE)]
+    )
+
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("World Map", None)])
+
+    n_safe = sum(1 for c in COUNTRIES if c["rating"] == "Safe")
+    n_gen = sum(1 for c in COUNTRIES if c["rating"] == "Generally Safe")
+    n_caution = sum(1 for c in COUNTRIES if c["rating"] == "Caution")
+    n_notsafe = sum(1 for c in COUNTRIES if c["rating"] == "Not Safe")
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-6xl mx-auto">{bc_html}</div>
+</section>
+<section class="px-4 py-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">World Tap Water Safety Map</h1>
+    <p class="text-gray-600 mb-6">Every country TapWaterGuide covers, colored by drinking water safety rating. Click any colored country for its full guide. Hover (or tap) for a quick verdict.</p>
+
+    <div class="flex flex-wrap gap-4 mb-4">{legend_items}</div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-2 md:p-4 relative">
+      <svg viewBox="0 0 {w} {h}" width="{int(w)}" height="{int(h)}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="World map of tap water safety ratings" style="width:100%;height:auto">
+        {''.join(paths)}
+      </svg>
+      <div id="mapTip" class="hidden absolute z-10 bg-gray-900 text-white text-sm rounded-lg px-3 py-1.5 pointer-events-none shadow-lg" style="max-width:220px"></div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+      {stat_pill('Safe', n_safe)}
+      {stat_pill('Generally Safe', n_gen)}
+      {stat_pill('Caution', n_caution)}
+      {stat_pill('Not Safe', n_notsafe)}
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Browse all countries as a list &rarr;</a>
+      <a href="/rankings/best-tap-water/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Best tap water rankings &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<style>
+.mc {{ transition: opacity .15s; cursor: pointer; }}
+a:hover .mc, .mc:hover {{ opacity: .75; }}
+</style>
+<script>
+(function(){{
+  var tip = document.getElementById('mapTip');
+  var box = tip.parentElement;
+  document.querySelectorAll('.mc').forEach(function(el){{
+    el.addEventListener('mousemove', function(ev){{
+      var r = box.getBoundingClientRect();
+      tip.innerHTML = '<strong>' + el.getAttribute('data-name') + '</strong><br>' + el.getAttribute('data-rating');
+      tip.style.left = Math.min(ev.clientX - r.left + 12, r.width - 230) + 'px';
+      tip.style.top = (ev.clientY - r.top + 12) + 'px';
+      tip.classList.remove('hidden');
+    }});
+    el.addEventListener('mouseleave', function(){{ tip.classList.add('hidden'); }});
+  }});
+}})();
+</script>
+"""
+    schemas = [bc_ld]
+    title = "World Tap Water Safety Map &mdash; Interactive | TapWaterGuide"
+    desc = f"Interactive world map of tap water safety: {len(COUNTRIES)} countries rated Safe, Generally Safe, Caution, or Not Safe. Click any country for details."
+    html = page(title, desc, "/map/", body, schemas=schemas, active_nav="map")
+    write_page("/map/", html)
+    register("/map/", "0.9", "monthly")
+
+
+build_map_page()
+print("Built world map page")
 
 # ---------------------------------------------------------------------------
 # ABOUT PAGE
