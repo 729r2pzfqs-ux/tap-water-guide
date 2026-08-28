@@ -570,17 +570,17 @@ def build_homepage():
 
 <section class="px-4 py-8 bg-white border-y border-gray-100">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-2xl font-bold text-gray-900 mb-5">Popular US Cities</h2>
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4">{us_cards}</div>
-    <a href="/rankings/best-tap-water-us/" class="text-sm text-sky-700 hover:underline font-medium">See all US city rankings &rarr;</a>
+    <h2 class="text-2xl font-bold text-gray-900 mb-5">Popular World Cities</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4">{world_cards}</div>
+    <a href="/city/" class="text-sm text-sky-700 hover:underline font-medium">Browse all world cities &rarr;</a>
   </div>
 </section>
 
 <section class="px-4 py-12">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-2xl font-bold text-gray-900 mb-5">Popular World Cities</h2>
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4">{world_cards}</div>
-    <a href="/city/" class="text-sm text-sky-700 hover:underline font-medium">Browse all world cities &rarr;</a>
+    <h2 class="text-2xl font-bold text-gray-900 mb-5">Popular US Cities</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4">{us_cards}</div>
+    <a href="/rankings/best-tap-water-us/" class="text-sm text-sky-700 hover:underline font-medium">See all US city rankings &rarr;</a>
   </div>
 </section>
 
@@ -733,15 +733,15 @@ def build_city_index():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Safety by City</h1>
-    <p class="text-gray-600 mb-8">Drinking water safety ratings for {len(US_CITIES)} US cities and {len(INTL_CITIES)} world cities. Select a city for water source, quality data, and practical tips.</p>
+    <p class="text-gray-600 mb-8">Drinking water safety ratings for {len(INTL_CITIES)} world cities and {len(US_CITIES)} US cities. Select a city for water source, quality data, and practical tips.</p>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">US Cities ({len(US_CITIES)})</h2></div>
-      {us_rows}
-    </div>
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">World Cities ({len(INTL_CITIES)})</h2></div>
       {intl_rows}
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">US Cities ({len(US_CITIES)})</h2></div>
+      {us_rows}
     </div>
   </div>
 </section>
