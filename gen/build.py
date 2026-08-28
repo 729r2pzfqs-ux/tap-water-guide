@@ -12,6 +12,7 @@ from templates import (
 from data_countries import COUNTRIES, BY_SLUG as COUNTRY_BY_SLUG
 from data_us_cities import US_CITIES, BY_SLUG as US_BY_SLUG
 from data_intl_cities import INTL_CITIES, BY_SLUG as INTL_BY_SLUG
+from data_guides import GUIDES
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -1205,6 +1206,100 @@ a:hover .mc, .mc:hover {{ opacity: .75; }}
 
 build_map_page()
 print("Built world map page")
+
+# ---------------------------------------------------------------------------
+# GUIDES CONTENT HUB (/guides/ and /guides/<slug>/)
+# ---------------------------------------------------------------------------
+
+GUIDE_BY_SLUG = {g["slug"]: g for g in GUIDES}
+
+
+def build_guide_page(g):
+    slug = g["slug"]
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Guides", "/guides/"), (g["title"], None)])
+
+    sections_html = "".join(section_card(heading, body) for heading, body in g["sections"])
+    faq_html, faq_ld = faq_block(g["faqs"])
+
+    related_links = "".join(
+        f'<a href="/guides/{r}/" class="text-sky-700 hover:underline">{GUIDE_BY_SLUG[r]["title"]}</a>'
+        for r in g["related"] if r in GUIDE_BY_SLUG
+    )
+    related_html = f"""<div class="bg-sky-50 rounded-xl border border-sky-100 p-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-3">Related Guides</h2>
+      <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm">{related_links}</div>
+    </div>"""
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      {reviewed_badge()}
+    </div>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{g['title']}</h1>
+    <p class="text-lg text-gray-700 leading-relaxed mb-6">{g['intro']}</p>
+
+    <div class="space-y-6">
+      {sections_html}
+      {faq_html}
+      {related_html}
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/guides/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">&larr; All guides</a>
+      <a href="/map/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Check any destination on the world safety map &rarr;</a>
+    </div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    if faq_ld:
+        schemas.append(faq_ld)
+    schemas.append(article_schema(g["title"], g["meta_description"], f"{DOMAIN}/guides/{slug}/"))
+
+    title = f"{g['title']} | TapWaterGuide"
+    html = page(title, g["meta_description"], f"/guides/{slug}/", body, schemas=schemas, active_nav="guides")
+    write_page(f"/guides/{slug}/", html)
+    register(f"/guides/{slug}/", "0.8", "monthly")
+
+
+def build_guides_index():
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Guides", None)])
+    cards = "".join(
+        f'''<a href="/guides/{g["slug"]}/" class="block bg-white rounded-xl border border-gray-200 p-6 hover:border-sky-300 hover:shadow-md transition-all">
+          <h2 class="font-bold text-gray-900 mb-2">{g["title"]}</h2>
+          <p class="text-sm text-gray-600">{g["meta_description"]}</p>
+        </a>''' for g in GUIDES
+    )
+
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Guides</h1>
+    <p class="text-gray-600 mb-8">Practical, evergreen guides to drinking water safety &mdash; purification methods, travel precautions, water chemistry explained, and what to do when the tap can't be trusted. Each guide pairs with our <a href="/country/" class="text-sky-700 hover:underline">country</a> and <a href="/city/" class="text-sky-700 hover:underline">city</a> ratings.</p>
+    <div class="grid md:grid-cols-2 gap-4">{cards}</div>
+  </div>
+</section>
+"""
+    schemas = [bc_ld]
+    title = "Tap Water Guides: Purification, Travel Safety &amp; Water Quality | TapWaterGuide"
+    desc = f"{len(GUIDES)} practical guides to tap water safety: purification methods, travel precautions, baby formula, hardness, TDS, and more."
+    html = page(title, desc, "/guides/", body, schemas=schemas, active_nav="guides")
+    write_page("/guides/", html)
+    register("/guides/", "0.9", "weekly")
+
+
+for _g in GUIDES:
+    build_guide_page(_g)
+build_guides_index()
+print(f"Built {len(GUIDES)} guide pages and guides index")
 
 # ---------------------------------------------------------------------------
 # ABOUT PAGE

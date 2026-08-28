@@ -84,6 +84,7 @@ def nav(active=""):
         ("US Cities", "/rankings/best-tap-water-us/", "us"),
         ("World Cities", "/city/", "world"),
         ("Rankings", "/rankings/", "rankings"),
+        ("Guides", "/guides/", "guides"),
     ]
 
     def cls(key):
@@ -193,6 +194,7 @@ def footer():
           <a href="/map/" class="block hover:text-white">World Safety Map</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
+          <a href="/guides/" class="block hover:text-white">Guides</a>
           <a href="/rankings/best-tap-water/" class="block hover:text-white">Best Tap Water Worldwide</a>
           <a href="/rankings/worst-tap-water/" class="block hover:text-white">Countries to Avoid</a>
           <a href="/rankings/best-tap-water-us/" class="block hover:text-white">Best US City Water</a>
