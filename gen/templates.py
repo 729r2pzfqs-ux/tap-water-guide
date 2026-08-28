@@ -4,6 +4,7 @@ import json
 
 SITE = "TapWaterGuide"
 DOMAIN = "https://tapwaterguide.org"
+GA_MEASUREMENT_ID = "G-FS0BXPE79Z"
 
 RATING_STYLE = {
     "Safe": {
@@ -242,6 +243,8 @@ def page(title, description, path, body, extra_head="", schemas=None, active_nav
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" hreflang="en" href="{canonical}">
 <link rel="alternate" hreflang="x-default" href="{canonical}">
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GA_MEASUREMENT_ID}');</script>
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
