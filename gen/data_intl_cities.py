@@ -1091,4 +1091,11 @@ INTL_CITIES = [
         meta_description="Yes, Johannesburg tap water is generally safe in maintained areas. Rand Water treats Vaal Dam supply to high standards."),
 ]
 
+# --- Expansion cities (2026) ---
+from expansion_europe import CITIES as _eu
+from expansion_asia import CITIES as _asia
+from expansion_americas import CITIES as _am
+from expansion_other import CITIES as _other
+INTL_CITIES.extend(_eu + _asia + _am + _other)
+
 BY_SLUG = {c["slug"]: c for c in INTL_CITIES}

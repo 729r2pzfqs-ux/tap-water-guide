@@ -8,7 +8,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 all_html_files = []
 for dirpath, dirnames, filenames in os.walk(ROOT):
-    if "node_modules" in dirpath or "/.git" in dirpath or "/gen" in dirpath:
+    if "node_modules" in dirpath or "/.git" in dirpath or "/gen/" in dirpath or dirpath.endswith("/gen"):
         continue
     for fn in filenames:
         if fn == "index.html" or fn == "404.html":
