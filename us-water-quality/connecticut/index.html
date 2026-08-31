@@ -156,6 +156,18 @@
       <h2 class="text-xl font-bold text-gray-900 mb-3">Violations &amp; Compliance</h2>
       <div class="text-gray-600 leading-relaxed space-y-3"><p>Connecticut consistently ranks among the states with the fewest health-based violations, helped by watershed-protection laws and consolidation into large professional utilities.</p></div>
     </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Water Hardness in Connecticut</h2>
+      <div class="text-gray-600 leading-relaxed space-y-3">
+        <p><strong>Soft, typically 15&ndash;60 mg/L.</strong> Connecticut's reservoir-fed systems on crystalline New England bedrock deliver consistently soft water.</p>
+      </div>
+      <div class="mt-4" aria-label="Water hardness scale: Soft">
+      <div class="flex gap-1.5"><div class="h-2 flex-1 rounded-full bg-sky-300"></div><div class="h-2 flex-1 rounded-full bg-gray-200"></div><div class="h-2 flex-1 rounded-full bg-gray-200"></div><div class="h-2 flex-1 rounded-full bg-gray-200"></div></div>
+      <div class="flex gap-1.5 mt-1.5"><div class="flex-1 text-center text-xs text-gray-900 font-semibold">Soft</div><div class="flex-1 text-center text-xs text-gray-400">Moderate</div><div class="flex-1 text-center text-xs text-gray-400">Hard</div><div class="flex-1 text-center text-xs text-gray-400">Very Hard</div></div>
+    </div>
+      
+      <p class="text-sm text-gray-500 mt-4">Hardness affects taste, limescale, and soap &mdash; not safety. Compare levels <a href="/water-hardness/by-city/" class="text-sky-700 hover:underline">across all cities</a> or read the <a href="/water-hardness/" class="text-sky-700 hover:underline">water hardness guide</a>.</p>
+    </div>
       <div class="bg-sky-50 rounded-xl border border-sky-100 p-6">
           <h2 class="text-lg font-bold text-gray-900 mb-2">City Reports for Connecticut</h2>
           <p class="text-gray-600 text-sm">We haven't published individual city water reports for Connecticut yet. Use the <a href="/us-water-quality/" class="text-sky-700 hover:underline">ZIP lookup</a> for a statewide assessment, and check your utility's annual Consumer Confidence Report for local detail.</p>
@@ -216,6 +228,7 @@
           <a href="/us-water-quality/" class="block hover:text-white">US Water Quality by ZIP</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
+          <a href="/water-hardness/by-city/" class="block hover:text-white">Water Hardness by City</a>
           <a href="/guides/" class="block hover:text-white">Guides</a>
           <a href="/rankings/best-tap-water/" class="block hover:text-white">Best Tap Water Worldwide</a>
           <a href="/rankings/worst-tap-water/" class="block hover:text-white">Countries to Avoid</a>
@@ -281,9 +294,10 @@ document.querySelectorAll('.faq-toggle').forEach(function(btn){
       if (!idx) { ensureIndex(render); return; }
       var m = idx.filter(function(e){ return e.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
       results.innerHTML = m.length ? m.map(function(e){
+        var meta = typeLabel[e.type] + (e.hardness ? ' &middot; ' + e.hardness + ' water' : '');
         return '<a href="'+e.href+'" class="flex items-center justify-between px-4 py-2.5 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">'+
           '<span class="text-gray-900">'+e.name+'</span>'+
-          '<span class="text-xs text-gray-400">'+typeLabel[e.type]+'</span></a>';
+          '<span class="text-xs text-gray-400">'+meta+'</span></a>';
       }).join('') : '<div class="px-4 py-3 text-sm text-gray-500">No matches</div>';
       results.classList.remove('hidden');
     }

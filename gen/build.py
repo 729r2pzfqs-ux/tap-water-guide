@@ -14,7 +14,8 @@ from data_us_cities import US_CITIES, BY_SLUG as US_BY_SLUG
 from data_intl_cities import INTL_CITIES, BY_SLUG as INTL_BY_SLUG
 from data_guides import GUIDES
 from data_water_quality import CITY_WATER_QUALITY
-from data_water_hardness import HARDNESS_MAIN, HARDNESS_BY_COUNTRY
+from data_water_hardness import HARDNESS_MAIN, HARDNESS_BY_COUNTRY, HARDNESS_BY_CITY
+from data_state_hardness import STATE_HARDNESS
 from data_us_water import US_STATES, STATE_BY_ABBR, CITY_UTILITIES, zip_prefix_to_state
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -67,30 +68,21 @@ def bullet_list(items):
     return f'<ul class="space-y-2">{lis}</ul>'
 
 
-HARDNESS_LABELS = ["Soft", "Moderate", "Hard", "Very Hard"]
+from hardness_util import HARDNESS_LABELS, hardness_level, parse_hardness_mgl, band_for_mgl
+
+HARDNESS_SEG_COLORS = ["bg-sky-300", "bg-sky-400", "bg-sky-600", "bg-sky-800"]
 
 
-def hardness_level(text):
-    """Parse free-text hardness into level 1-4, using the first-mentioned descriptor.
-    Returns None when hardness is unspecified or purely variable."""
-    t = re.sub(r"<[^>]+>", "", text).lower()
-    positions = []
-    vh = t.find("very hard")
-    if vh != -1:
-        positions.append((vh, 4))
-    t_masked = t.replace("very hard", "#########")
-    h = t_masked.find("hard")
-    if h != -1:
-        positions.append((h, 3))
-    m = t.find("moderate")
-    if m != -1:
-        positions.append((m, 2))
-    s = t.find("soft")
-    if s != -1:
-        positions.append((s, 1))
-    if not positions:
-        return None
-    return min(positions)[1]
+def hardness_gauge_mini(level):
+    """Compact 4-segment hardness gauge (no labels) for list rows. Empty when unknown."""
+    if not level:
+        return ""
+    segs = "".join(
+        f'<span class="h-1.5 flex-1 rounded-full {HARDNESS_SEG_COLORS[i] if (i + 1) == level else "bg-gray-200"}"></span>'
+        for i in range(4)
+    )
+    return (f'<span class="flex gap-1 w-24 shrink-0" aria-label="Water hardness: {HARDNESS_LABELS[level-1]}" '
+            f'title="{HARDNESS_LABELS[level-1]}">{segs}</span>')
 
 
 def hardness_gauge(text):
@@ -476,11 +468,17 @@ print(f"Built {len(COUNTRIES)} country pages, {len(US_CITIES)} US city pages, {l
 
 import json as _json
 
+def _hardness_label(text):
+    """Short hardness classification ('Soft'..'Very Hard') for search entries."""
+    lvl = hardness_level(text)
+    return HARDNESS_LABELS[lvl - 1] if lvl else ""
+
+
 ALL_ENTITIES = (
-    [dict(name=c["name"], slug=c["slug"], type="country", rating=c["rating"], href=f"/country/{c['slug']}/") for c in COUNTRIES]
-    + [dict(name=f"{c['name']}, {c['state']}", slug=c["slug"], type="us-city", rating=c["rating"], href=f"/city/{c['slug']}/") for c in US_CITIES]
-    + [dict(name=re.sub('<[^<]+?>', '', c["name"]), slug=c["slug"], type="world-city", rating=c["rating"], href=f"/city/{c['slug']}/") for c in INTL_CITIES]
-    + [dict(name=f"{s['name']} water quality", slug=s["slug"], type="us-state", rating="", href=f"/us-water-quality/{s['slug']}/") for s in US_STATES]
+    [dict(name=c["name"], slug=c["slug"], type="country", rating=c["rating"], hardness=_hardness_label(c["hardness"]), href=f"/country/{c['slug']}/") for c in COUNTRIES]
+    + [dict(name=f"{c['name']}, {c['state']}", slug=c["slug"], type="us-city", rating=c["rating"], hardness=_hardness_label(c["hardness"]), href=f"/city/{c['slug']}/") for c in US_CITIES]
+    + [dict(name=re.sub('<[^<]+?>', '', c["name"]), slug=c["slug"], type="world-city", rating=c["rating"], hardness=_hardness_label(c["hardness"]), href=f"/city/{c['slug']}/") for c in INTL_CITIES]
+    + [dict(name=f"{s['name']} water quality", slug=s["slug"], type="us-state", rating="", hardness=STATE_HARDNESS[s["abbr"]]["label"], href=f"/us-water-quality/{s['slug']}/") for s in US_STATES]
 )
 
 N_COUNTRIES = len(COUNTRIES)
@@ -1491,7 +1489,7 @@ def build_water_hardness_main():
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h2 class="text-lg font-bold text-gray-900 mb-3">Quick Lookup: Popular Cities</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{teaser_cards}</div>
-      <p class="text-sm text-gray-500 mt-3">Every <a href="/city/" class="text-sky-700 hover:underline">city page</a> includes a hardness gauge and mg/L range.</p>
+      <p class="text-sm text-gray-500 mt-3">Every <a href="/city/" class="text-sky-700 hover:underline">city page</a> includes a hardness gauge and mg/L range &mdash; or <a href="/water-hardness/by-city/" class="text-sky-700 hover:underline">compare all {len(US_CITIES) + len(INTL_CITIES)} cities on one page</a>.</p>
     </div>
 
     <div class="space-y-6">
@@ -1500,6 +1498,7 @@ def build_water_hardness_main():
     </div>
 
     <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/water-hardness/by-city/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by city &rarr;</a>
       <a href="/water-hardness/by-country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by country &rarr;</a>
       <a href="/guides/water-hardness-explained/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">In-depth water hardness guide &rarr;</a>
       <a href="/guides/tds-in-drinking-water/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">TDS explained &rarr;</a>
@@ -1512,7 +1511,7 @@ def build_water_hardness_main():
         schemas.append(faq_ld)
     schemas.append(article_schema(h["title"], h["meta_description"], f"{DOMAIN}/water-hardness/"))
     title = f"{h['title']} | TapWaterGuide"
-    html_out = page(title, h["meta_description"], "/water-hardness/", body, schemas=schemas, active_nav="guides")
+    html_out = page(title, h["meta_description"], "/water-hardness/", body, schemas=schemas, active_nav="hardness")
     write_page("/water-hardness/", html_out)
     register("/water-hardness/", "0.8", "monthly")
 
@@ -1562,6 +1561,7 @@ def build_water_hardness_by_country():
     {tables_html}
     <div class="mt-8 flex flex-wrap gap-3">
       <a href="/water-hardness/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">&larr; Water Hardness Guide</a>
+      <a href="/water-hardness/by-city/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by city &rarr;</a>
       <a href="/country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">All country guides &rarr;</a>
     </div>
   </div>
@@ -1569,14 +1569,128 @@ def build_water_hardness_by_country():
 """
     schemas = [bc_ld]
     title = f"{h['title']} | TapWaterGuide"
-    html_out = page(title, h["meta_description"], "/water-hardness/by-country/", body, schemas=schemas, active_nav="guides")
+    html_out = page(title, h["meta_description"], "/water-hardness/by-country/", body, schemas=schemas, active_nav="hardness")
     write_page("/water-hardness/by-country/", html_out)
     register("/water-hardness/by-country/", "0.8", "monthly")
 
 
+HBC_SORT_SCRIPT = """<script>
+(function(){
+  var buttons = document.querySelectorAll('.hbc-sort');
+  if (!buttons.length) return;
+  function sortRows(mode){
+    document.querySelectorAll('.hbc-rows').forEach(function(box){
+      var rows = Array.prototype.slice.call(box.children);
+      rows.sort(function(a, b){
+        if (mode === 'name') return a.getAttribute('data-name') < b.getAttribute('data-name') ? -1 : 1;
+        var am = parseFloat(a.getAttribute('data-mgl')) || 0;
+        var bm = parseFloat(b.getAttribute('data-mgl')) || 0;
+        return mode === 'asc' ? am - bm : bm - am;
+      });
+      rows.forEach(function(r){ box.appendChild(r); });
+    });
+    buttons.forEach(function(b){
+      var on = b.getAttribute('data-sort') === mode;
+      b.className = 'hbc-sort px-3 py-1.5 rounded-full text-sm font-medium border ' +
+        (on ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-gray-700 border-gray-200 hover:border-sky-300');
+    });
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ sortRows(b.getAttribute('data-sort')); });
+  });
+})();
+</script>"""
+
+
+def build_water_hardness_by_city():
+    h = HARDNESS_BY_CITY
+    bc_html, bc_ld = breadcrumbs([("Home", "/"), ("Water Hardness", "/water-hardness/"), ("By City", None)])
+
+    # Combine US and international cities into one list with a region label
+    all_cities = (
+        [(c, f"{c['state']}, US") for c in US_CITIES]
+        + [(c, c["country_name"]) for c in INTL_CITIES]
+    )
+
+    # Group by USGS band from the numeric mg/L value where one is published, so
+    # the group header, mg/L figure, and gauge always agree; fall back to the
+    # descriptive word only for cities with no number.
+    level_groups = {1: [], 2: [], 3: [], 4: [], 0: []}  # 0 = unknown
+    for c, region in all_cities:
+        lvl = band_for_mgl(c["hardness_mgl"]) or hardness_level(c["hardness"]) or 0
+        level_groups[lvl].append((c, region, lvl))
+
+    def mgl_text(c):
+        if c["hardness_min"] is not None:
+            if c["hardness_min"] == c["hardness_max"]:
+                return f'{c["hardness_min"]} mg/L'
+            return f'{c["hardness_min"]}&ndash;{c["hardness_max"]} mg/L'
+        if c["hardness_mgl"] is not None:
+            return f'~{c["hardness_mgl"]} mg/L'
+        return "varies"
+
+    tables_html = ""
+    group_meta = [
+        (1, "Soft (0&ndash;60 mg/L)", "bg-sky-50", "border-sky-100"),
+        (2, "Moderate (61&ndash;120 mg/L)", "bg-sky-50", "border-sky-200"),
+        (3, "Hard (121&ndash;180 mg/L)", "bg-amber-50", "border-amber-100"),
+        (4, "Very Hard (180+ mg/L)", "bg-orange-50", "border-orange-100"),
+        (0, "Variable / Not Published", "bg-gray-50", "border-gray-200"),
+    ]
+    for lvl, label, bg, border in group_meta:
+        items = sorted(level_groups[lvl], key=lambda x: re.sub("<[^<]+?>", "", x[0]["name"]))
+        if not items:
+            continue
+        rows = "".join(
+            f'''<a href="/city/{c['slug']}/" data-name="{c['slug']}" data-mgl="{c['hardness_mgl'] if c['hardness_mgl'] is not None else ''}"
+              class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-sky-50 border-b border-gray-100 last:border-0">
+              <span class="min-w-0"><span class="text-gray-900 font-medium">{re.sub("<[^<]+?>", "", c["name"])}</span>
+                <span class="text-sm text-gray-400 ml-1.5">{region}</span></span>
+              <span class="flex items-center gap-3 shrink-0"><span class="text-sm text-gray-500">{mgl_text(c)}</span>{hardness_gauge_mini(row_lvl)}</span>
+            </a>''' for c, region, row_lvl in items
+        )
+        tables_html += f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+          <div class="px-4 py-3 {bg} border-b {border}"><h2 class="font-bold text-gray-900">{label} ({len(items)} cities)</h2></div>
+          <div class="hbc-rows">{rows}</div>
+        </div>"""
+
+    n_cities = len(all_cities)
+    body = f"""
+<section class="bg-gradient-to-b from-sky-50 to-white px-4 py-6 border-b border-gray-100">
+  <div class="max-w-4xl mx-auto">{bc_html}</div>
+</section>
+<section class="px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">{h['title']}</h1>
+    <p class="text-gray-600 leading-relaxed mb-6">{h['intro']}</p>
+    <div class="flex flex-wrap items-center gap-2 mb-6">
+      <span class="text-sm text-gray-500 mr-1">Sort within each level:</span>
+      <button type="button" data-sort="name" class="hbc-sort px-3 py-1.5 rounded-full text-sm font-medium border bg-sky-600 text-white border-sky-600">A&ndash;Z</button>
+      <button type="button" data-sort="asc" class="hbc-sort px-3 py-1.5 rounded-full text-sm font-medium border bg-white text-gray-700 border-gray-200 hover:border-sky-300">Softest first</button>
+      <button type="button" data-sort="desc" class="hbc-sort px-3 py-1.5 rounded-full text-sm font-medium border bg-white text-gray-700 border-gray-200 hover:border-sky-300">Hardest first</button>
+    </div>
+    {tables_html}
+    <p class="text-sm text-gray-500 mb-8">Ranges are typical values from utility reporting; ~ marks a band-typical estimate where the utility publishes a classification but no number. Cities are grouped by their typical mg/L value on the USGS scale, so a city page's descriptive rating (which may follow a looser local convention) can differ by a band. Hardness affects taste and limescale, not safety &mdash; see the <a href="/water-hardness/" class="text-sky-700 hover:underline">hardness guide</a> for what the numbers mean.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/water-hardness/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">&larr; Water Hardness Guide</a>
+      <a href="/water-hardness/by-country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by country &rarr;</a>
+      <a href="/city/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">All city guides &rarr;</a>
+    </div>
+  </div>
+</section>
+{HBC_SORT_SCRIPT}
+"""
+    schemas = [bc_ld, article_schema(h["title"], h["meta_description"], f"{DOMAIN}/water-hardness/by-city/")]
+    title = f"{h['title']} | TapWaterGuide"
+    html_out = page(title, h["meta_description"], "/water-hardness/by-city/", body, schemas=schemas, active_nav="hardness")
+    write_page("/water-hardness/by-city/", html_out)
+    register("/water-hardness/by-city/", "0.8", "monthly")
+
+
 build_water_hardness_main()
 build_water_hardness_by_country()
-print("Built water hardness section (2 pages)")
+build_water_hardness_by_city()
+print("Built water hardness section (3 pages)")
 
 # ---------------------------------------------------------------------------
 # ABOUT PAGE
@@ -1842,15 +1956,20 @@ def build_us_water_data():
             u=util, r=ci["rating"],
             k=[_wq_short(c) for c in ci["contaminants"][:4]],
             e=_wq_first_sentence(ci["epa_status"]),
+            hl=hardness_level(ci["hardness"]) or 0,
+            ht=_wq_short(ci["hardness"]),
         ))
         for p in prefixes:
             zc[p] = idx
     states = {}
     for s in US_STATES:
+        sh = STATE_HARDNESS[s["abbr"]]
         states[s["abbr"]] = dict(
             n=s["name"], slug=s["slug"], sys=s["n_systems"],
             c=[name for name, _note in s["contaminants"]],
             v=_wq_first_sentence(s["violations"]),
+            hl=hardness_level(sh["label"]) or 0,
+            ht=f'{sh["label"]}, typically {sh["mn"]}–{sh["mx"]} mg/L statewide',
         )
     data = dict(zs=zs, zc=zc, cities=cities, states=states)
     os.makedirs(os.path.join(ROOT, "us-water-quality"), exist_ok=True)
@@ -1872,6 +1991,19 @@ US_WQ_LOOKUP_SCRIPT = """<script>
                 'Generally Safe':'Generally safe \\u2014 meets federal standards with local caveats worth reading in the full report.',
                 'Caution':'Use caution \\u2014 review the full report and current local advisories.',
                 'Not Safe':'Not considered reliably safe \\u2014 see the full report.'};
+  var HL = ['Soft','Moderate','Hard','Very Hard'];
+  var HC = ['bg-sky-300','bg-sky-400','bg-sky-600','bg-sky-800'];
+  function hgauge(l){
+    if (!l) return '';
+    var segs = '';
+    for (var i = 0; i < 4; i++) segs += '<div class="h-1.5 flex-1 rounded-full ' + ((i + 1) === l ? HC[i] : 'bg-gray-200') + '"></div>';
+    return '<div class="flex gap-1 max-w-[10rem] mt-1.5" aria-label="Water hardness: ' + HL[l-1] + '" title="' + HL[l-1] + '">' + segs + '</div>';
+  }
+  function hardnessBlock(ht, hl){
+    if (!ht) return '';
+    return '<div class="mb-4"><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Water hardness</div>' +
+      '<p class="text-sm text-gray-600">' + ht + ' &middot; <a href="/water-hardness/" class="text-sky-700 hover:underline">what this means</a></p>' + hgauge(hl) + '</div>';
+  }
   function load(cb){
     if (D) { cb(); return; }
     if (loading) { queued = cb; return; }
@@ -1901,6 +2033,7 @@ US_WQ_LOOKUP_SCRIPT = """<script>
         '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">EPA compliance</div><p class="text-sm text-gray-600">' + c.e + '</p>' +
         '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2 mt-3">Violations</div><p class="text-sm text-gray-600">' + viol + '</p></div>' +
       '</div>' +
+      hardnessBlock(c.ht, c.hl) +
       '<div class="flex flex-wrap gap-3">' +
         '<a href="/city/' + c.s + '/" class="px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700">Full ' + c.n + ' water report &rarr;</a>' +
         (st.slug ? '<a href="/us-water-quality/' + st.slug + '/" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:border-sky-300">' + st.n + ' overview</a>' : '') +
@@ -1919,6 +2052,7 @@ US_WQ_LOOKUP_SCRIPT = """<script>
         '<span class="text-sm text-gray-500">' + st.sys + ' community water systems</span></div>' +
       (via ? '<p class="text-sm text-gray-500 mb-4">Matched from ' + via + ' &middot; no utility-level record for this ZIP in our database yet</p>' : '<p class="mb-4"></p>') +
       '<p class="text-sm text-gray-700 mb-4">' + st.v + '</p>' +
+      hardnessBlock(st.ht, st.hl) +
       '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Common contaminants in ' + st.n + '</div>' +
       '<div class="flex flex-wrap gap-2 mb-5">' + chips + '</div>' +
       '<div class="flex flex-wrap gap-3">' +
@@ -2109,6 +2243,32 @@ def build_us_state_page(s):
 
     faq_html, faq_ld = faq_block(s["faqs"])
 
+    sh = STATE_HARDNESS[abbr]
+    sh_text = f'{sh["label"]}, typically {sh["mn"]}&ndash;{sh["mx"]} mg/L'
+    city_hardness_rows = ""
+    for ci in cities:
+        h_short = ci["hardness"].split(";")[0].split("&mdash;")[0].strip().rstrip(",.")
+        city_hardness_rows += f'''<a href="/city/{ci["slug"]}/" class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-sky-50 border-b border-gray-100 last:border-0">
+          <span class="min-w-0"><span class="text-gray-900 font-medium">{ci["name"]}</span>
+            <span class="text-sm text-gray-400 ml-1.5">{h_short}</span></span>
+          {hardness_gauge_mini(hardness_level(ci["hardness"]))}
+        </a>'''
+    city_hardness_html = ""
+    if city_hardness_rows:
+        city_hardness_html = f'''<div class="mt-5">
+          <div class="text-sm font-semibold text-gray-900 mb-2">Hardness by city in {s["name"]}</div>
+          <div class="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">{city_hardness_rows}</div>
+        </div>'''
+    hardness_html = f"""<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Water Hardness in {s['name']}</h2>
+      <div class="text-gray-600 leading-relaxed space-y-3">
+        <p><strong>{sh_text}.</strong> {sh['note']}</p>
+      </div>
+      {hardness_gauge(sh_text)}
+      {city_hardness_html}
+      <p class="text-sm text-gray-500 mt-4">Hardness affects taste, limescale, and soap &mdash; not safety. Compare levels <a href="/water-hardness/by-city/" class="text-sky-700 hover:underline">across all cities</a> or read the <a href="/water-hardness/" class="text-sky-700 hover:underline">water hardness guide</a>.</p>
+    </div>"""
+
     others = sorted([x for x in US_STATES if x["slug"] != slug], key=lambda x: x["name"])
     oi = next(i for i, x in enumerate(others) if x["name"] >= s["name"]) if any(x["name"] >= s["name"] for x in others) else 0
     window = (others[oi:oi + 3] + others[:3])[:3] + (others[oi - 3:oi] if oi >= 3 else others[-3:])
@@ -2156,6 +2316,7 @@ def build_us_state_page(s):
         <div class="grid sm:grid-cols-2 gap-3">{contam_cards}</div>
       </div>
       {section_card('Violations &amp; Compliance', f"<p>{s['violations']}</p>")}
+      {hardness_html}
       {cities_html}
       {faq_html}
       {sources_card('us')}

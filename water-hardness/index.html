@@ -58,8 +58,8 @@
 <a href="/us-water-quality/" class="text-gray-600 hover:text-sky-700">US Water</a>
 <a href="/city/" class="text-gray-600 hover:text-sky-700">World Cities</a>
 <a href="/rankings/" class="text-gray-600 hover:text-sky-700">Rankings</a>
-<a href="/water-hardness/" class="text-gray-600 hover:text-sky-700">Hardness</a>
-<a href="/guides/" class="text-sky-700 font-semibold">Guides</a>
+<a href="/water-hardness/" class="text-sky-700 font-semibold">Hardness</a>
+<a href="/guides/" class="text-gray-600 hover:text-sky-700">Guides</a>
       <div class="relative">
         <input id="navSearch" type="text" placeholder="Search&hellip;" autocomplete="off"
           class="w-40 lg:w-56 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
@@ -101,7 +101,7 @@
       <span class="text-sm text-gray-400">Last reviewed: <time datetime="2026-08-28">August 28, 2026</time></span>
     </div>
     <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Water Hardness by City and Country</h1>
-    <p class="text-lg text-gray-700 leading-relaxed mb-6">Water hardness measures dissolved calcium and magnesium in your tap water. Under 60 mg/L is soft, 61&ndash;120 mg/L is moderately hard, 121&ndash;180 mg/L is hard, and anything above 180 mg/L is very hard. Use the lookup pages below to find the hardness in <a href="/water-hardness/by-country/" class="text-sky-700 hover:underline">your country</a> or your city, or read on for how to test, what it affects, and what to do about it.</p>
+    <p class="text-lg text-gray-700 leading-relaxed mb-6">Water hardness measures dissolved calcium and magnesium in your tap water. Under 60 mg/L is soft, 61&ndash;120 mg/L is moderately hard, 121&ndash;180 mg/L is hard, and anything above 180 mg/L is very hard. Use the lookup pages below to find the hardness in <a href="/water-hardness/by-country/" class="text-sky-700 hover:underline">your country</a> or <a href="/water-hardness/by-city/" class="text-sky-700 hover:underline">your city</a>, or read on for how to test, what it affects, and what to do about it.</p>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h2 class="text-lg font-bold text-gray-900 mb-3">Quick Lookup: Popular Cities</h2>
@@ -142,7 +142,7 @@
           <div class="font-semibold text-gray-900 text-sm">Seattle</div>
           <div class="text-sky-600 text-sm font-medium">Soft</div>
         </a></div>
-      <p class="text-sm text-gray-500 mt-3">Every <a href="/city/" class="text-sky-700 hover:underline">city page</a> includes a hardness gauge and mg/L range.</p>
+      <p class="text-sm text-gray-500 mt-3">Every <a href="/city/" class="text-sky-700 hover:underline">city page</a> includes a hardness gauge and mg/L range &mdash; or <a href="/water-hardness/by-city/" class="text-sky-700 hover:underline">compare all 268 cities on one page</a>.</p>
     </div>
 
     <div class="space-y-6">
@@ -199,6 +199,7 @@
     </div>
 
     <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/water-hardness/by-city/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by city &rarr;</a>
       <a href="/water-hardness/by-country/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">Hardness by country &rarr;</a>
       <a href="/guides/water-hardness-explained/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">In-depth water hardness guide &rarr;</a>
       <a href="/guides/tds-in-drinking-water/" class="inline-flex items-center gap-1.5 text-sm text-sky-700 hover:underline">TDS explained &rarr;</a>
@@ -226,6 +227,7 @@
           <a href="/us-water-quality/" class="block hover:text-white">US Water Quality by ZIP</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
+          <a href="/water-hardness/by-city/" class="block hover:text-white">Water Hardness by City</a>
           <a href="/guides/" class="block hover:text-white">Guides</a>
           <a href="/rankings/best-tap-water/" class="block hover:text-white">Best Tap Water Worldwide</a>
           <a href="/rankings/worst-tap-water/" class="block hover:text-white">Countries to Avoid</a>
@@ -291,9 +293,10 @@ document.querySelectorAll('.faq-toggle').forEach(function(btn){
       if (!idx) { ensureIndex(render); return; }
       var m = idx.filter(function(e){ return e.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
       results.innerHTML = m.length ? m.map(function(e){
+        var meta = typeLabel[e.type] + (e.hardness ? ' &middot; ' + e.hardness + ' water' : '');
         return '<a href="'+e.href+'" class="flex items-center justify-between px-4 py-2.5 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">'+
           '<span class="text-gray-900">'+e.name+'</span>'+
-          '<span class="text-xs text-gray-400">'+typeLabel[e.type]+'</span></a>';
+          '<span class="text-xs text-gray-400">'+meta+'</span></a>';
       }).join('') : '<div class="px-4 py-3 text-sm text-gray-500">No matches</div>';
       results.classList.remove('hidden');
     }

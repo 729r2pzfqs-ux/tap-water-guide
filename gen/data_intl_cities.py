@@ -1098,4 +1098,11 @@ from expansion_americas import CITIES as _am
 from expansion_other import CITIES as _other
 INTL_CITIES.extend(_eu + _asia + _am + _other)
 
+# Structured numeric hardness, parsed from the free-text `hardness` field.
+# hardness_min/hardness_max bound the stated mg/L range; hardness_mgl is the
+# sortable midpoint (a band-typical estimate when no number is published).
+from hardness_util import parse_hardness_mgl as _parse_mgl
+for _c in INTL_CITIES:
+    _c["hardness_min"], _c["hardness_max"], _c["hardness_mgl"] = _parse_mgl(_c["hardness"])
+
 BY_SLUG = {c["slug"]: c for c in INTL_CITIES}

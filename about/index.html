@@ -176,6 +176,7 @@
           <a href="/us-water-quality/" class="block hover:text-white">US Water Quality by ZIP</a>
           <a href="/country/" class="block hover:text-white">All Countries</a>
           <a href="/city/" class="block hover:text-white">All Cities</a>
+          <a href="/water-hardness/by-city/" class="block hover:text-white">Water Hardness by City</a>
           <a href="/guides/" class="block hover:text-white">Guides</a>
           <a href="/rankings/best-tap-water/" class="block hover:text-white">Best Tap Water Worldwide</a>
           <a href="/rankings/worst-tap-water/" class="block hover:text-white">Countries to Avoid</a>
@@ -241,9 +242,10 @@ document.querySelectorAll('.faq-toggle').forEach(function(btn){
       if (!idx) { ensureIndex(render); return; }
       var m = idx.filter(function(e){ return e.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
       results.innerHTML = m.length ? m.map(function(e){
+        var meta = typeLabel[e.type] + (e.hardness ? ' &middot; ' + e.hardness + ' water' : '');
         return '<a href="'+e.href+'" class="flex items-center justify-between px-4 py-2.5 hover:bg-sky-50 border-b border-gray-100 last:border-0 text-sm">'+
           '<span class="text-gray-900">'+e.name+'</span>'+
-          '<span class="text-xs text-gray-400">'+typeLabel[e.type]+'</span></a>';
+          '<span class="text-xs text-gray-400">'+meta+'</span></a>';
       }).join('') : '<div class="px-4 py-3 text-sm text-gray-500">No matches</div>';
       results.classList.remove('hidden');
     }
