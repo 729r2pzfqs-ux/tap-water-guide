@@ -93,7 +93,7 @@ CITIES = [
         water_source="Casablanca&rsquo;s water is sourced from the Oum Er-Rbia River basin and the Bin El Ouidane and Al Massira dams, treated by ONEE (Office National de l&rsquo;Electricit&eacute; et de l&rsquo;Eau Potable) at regional plants before distribution by LYDEC through the city&rsquo;s network.",
         contaminants="The water meets Moroccan drinking standards at the treatment plant, but heavy chlorination gives a strong taste. The distribution network in older neighbourhoods like the M&eacute;dina has ageing pipes where quality may degrade. Occasional turbidity spikes follow heavy rainfall in the catchment area.",
         tips=["Bottled water is inexpensive and widely available &mdash; brands like Sidi Ali and A&iuml;n Saiss are popular local choices", "If drinking tap water, let it sit in an open jug for an hour to reduce the strong chlorine taste", "Restaurants in the Corniche and modern city centre typically serve bottled water and use purified ice"],
-        hardness="Moderate to hard, roughly 200&ndash;320 mg/L from dam and river sources in limestone terrain",
+        hardness="Very hard, roughly 200&ndash;320 mg/L from dam and river sources in limestone terrain",
         faqs=[
             ("Is Casablanca tap water safe to drink?", "Caution is advised. LYDEC treats the water to national standards, but heavy chlorination, hard water, and ageing pipes in older areas mean most visitors prefer bottled water."),
             ("Where does Casablanca get its water?", "From the Oum Er-Rbia River basin and the Bin El Ouidane and Al Massira dams. ONEE treats it at regional plants before LYDEC distributes it through the city network."),
@@ -137,7 +137,7 @@ CITIES = [
         water_source="Mombasa&rsquo;s water comes mainly from the Mzima Springs pipeline in Tsavo, a 240-kilometre gravity-fed system built in the colonial era, supplemented by boreholes at Marere, Tiwi, and Baricho along the coast. MOWASCO distributes the supply, but coverage is far below demand, with many neighbourhoods receiving water only a few hours per day.",
         contaminants="Bacterial contamination is common due to intermittent supply causing negative pressure in pipes, which draws in contaminants through cracks and joints. Saltwater intrusion affects coastal boreholes, raising salinity. E. coli and coliform bacteria are regularly detected in samples from the distribution network.",
         tips=["Drink only sealed bottled water &mdash; Keringet, Aquamist, and Dasani are widely available brands in Mombasa", "Use bottled water for brushing teeth, particularly in Old Town and Tudor areas with the oldest infrastructure", "Beach hotels along Diani and Nyali typically have on-site borehole water with filtration &mdash; confirm drinking water safety with your hotel"],
-        hardness="Moderate to hard, roughly 150&ndash;300 mg/L, higher near the coast due to saltwater intrusion into boreholes",
+        hardness="Hard to very hard, roughly 150&ndash;300 mg/L, higher near the coast due to saltwater intrusion into boreholes",
         faqs=[
             ("Is Mombasa tap water safe to drink?", "No. MOWASCO&rsquo;s supply suffers from chronic shortages, intermittent pressure, and ageing pipes that allow bacterial contamination. Always use bottled or purified water."),
             ("Where does Mombasa get its water?", "Primarily from Mzima Springs in Tsavo via a 240 km colonial-era pipeline, supplemented by coastal boreholes. The system was designed for a much smaller population and now struggles to meet demand."),

@@ -35,7 +35,7 @@ CITIES = [
         water_source="Cebu&rsquo;s water comes primarily from deep groundwater wells managed by MCWD, supplemented by the Buhisan Dam and private water providers. The city also draws from springs in the mountainous interior of Cebu Island.",
         contaminants="Groundwater quality at the source is generally acceptable, but the distribution network suffers from leaky joints and low-pressure periods that can allow soil and sewage infiltration. Saltwater intrusion into coastal aquifers is an emerging concern due to over-extraction.",
         tips=["Use bottled or filtered water for drinking &mdash; tap water may be compromised by distribution issues", "Many hotels and restaurants use water refilling stations that provide UV-treated or RO-filtered water", "When buying water, choose sealed bottles from reputable brands rather than unbranded refill stations"],
-        hardness="Moderate to hard, roughly 120&ndash;250 mg/L from limestone aquifers",
+        hardness="Moderately hard to very hard, roughly 120&ndash;250 mg/L from limestone aquifers",
         faqs=[
             ("Is Cebu tap water safe to drink?", "Caution is recommended. While MCWD treats the water, ageing pipes and intermittent pressure can compromise quality between the plant and your tap."),
             ("What do locals in Cebu drink?", "Most Cebu residents rely on water refilling stations that provide purified water at low cost, or purchase bottled water. Tap water is generally used for cooking, bathing, and cleaning."),

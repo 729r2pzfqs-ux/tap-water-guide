@@ -6,7 +6,7 @@ CITIES = [
         water_source="Antigua Guatemala&rsquo;s water comes from natural springs on the slopes of Volc&aacute;n de Agua and nearby highland aquifers. The Empresa Municipal de Agua distributes the supply, but treatment is limited &mdash; chlorination is inconsistent, and many connections bypass the municipal system entirely.",
         contaminants="Bacterial contamination (coliforms, E. coli) is frequently detected in tap samples due to inadequate disinfection and cross-contamination from ageing sewage infrastructure. Volcanic geology contributes naturally elevated mineral content. Seasonal rains can increase turbidity and pathogen loads.",
         tips=["Drink only purified bottled water or agua purificada from garrafones available at shops throughout the city", "Use bottled water for brushing teeth &mdash; the charming colonial plumbing is not reliable", "Street vendors selling aguas frescas typically use purified water, but confirm before drinking"],
-        hardness="Moderate to hard, roughly 150&ndash;280 mg/L due to volcanic mineral geology",
+        hardness="Hard to very hard, roughly 150&ndash;280 mg/L due to volcanic mineral geology",
         faqs=[
             ("Is Antigua Guatemala tap water safe to drink?", "No. The spring-fed supply receives inconsistent chlorination and the colonial-era pipe network allows contamination. Use bottled or purified water at all times."),
             ("Where does Antigua Guatemala get its water?", "From natural springs on the slopes of Volc&aacute;n de Agua and highland aquifers, distributed by the Empresa Municipal de Agua with limited treatment."),
@@ -35,7 +35,7 @@ CITIES = [
         water_source="SIMAPAG extracts water from deep groundwater wells in the surrounding Guanajuato Valley. The city&rsquo;s mountainous terrain and historic underground tunnel network complicate distribution, and the aquifer sits in arsenic-bearing volcanic rock formations.",
         contaminants="Naturally occurring arsenic and fluoride from volcanic geology are the primary concerns, with some wells exceeding Mexican drinking-water limits. The colonial-era distribution system &mdash; including repurposed mining tunnels &mdash; introduces additional contamination risk from sediment and bacteria.",
         tips=["Always drink purified bottled water &mdash; available at tiendas throughout the city and in the underground tunnel shops", "Use bottled water for brushing teeth, especially in the historic centre where plumbing is oldest", "Restaurants in the tourist zone use purified water and ice, but confirm at smaller comedores"],
-        hardness="Moderate to hard, roughly 180&ndash;300 mg/L from volcanic aquifer geology",
+        hardness="Hard to very hard, roughly 180&ndash;300 mg/L from volcanic aquifer geology",
         faqs=[
             ("Is Guanajuato tap water safe to drink?", "No. Groundwater contains naturally elevated arsenic and fluoride from volcanic rock, and the centuries-old pipe system adds further contamination risk."),
             ("Why does Guanajuato have arsenic in its water?", "The city sits on volcanic geology that naturally leaches arsenic and fluoride into the groundwater aquifer. Some wells exceed national safety limits for these substances."),
@@ -64,7 +64,7 @@ CITIES = [
         water_source="Montego Bay&rsquo;s water is supplied by the National Water Commission from the Great River watershed and deep limestone aquifer wells near Martha Brae. Treatment includes coagulation, filtration, and chlorination at the Anchovy treatment plant.",
         contaminants="Treatment at the plant generally meets Jamaican standards, but the distribution network is old in many areas, with intermittent low pressure that can allow soil and bacteria to enter through cracked joints. Post-hurricane disruptions periodically compromise supply quality.",
         tips=["Most all-inclusive resorts have on-site filtration systems &mdash; their water is generally safe to drink", "Outside resort zones, bottled water is the safer choice, especially in downtown and residential areas", "During hurricane season (June&ndash;November), check for NWC boil-water advisories before drinking tap water"],
-        hardness="Moderate to hard, roughly 150&ndash;280 mg/L from limestone geology",
+        hardness="Hard to very hard, roughly 150&ndash;280 mg/L from limestone geology",
         faqs=[
             ("Is Montego Bay tap water safe to drink?", "Caution is advised. NWC treats the water to national standards, but ageing pipes and service interruptions can compromise quality. Resorts typically filter on-site."),
             ("Do resorts in Montego Bay have safe water?", "Yes, most major all-inclusive resorts operate their own filtration and purification systems, making their tap water safe to drink."),
@@ -163,7 +163,7 @@ CITIES = [
         water_source="CAASD draws water from the Haina and Ozama rivers and groundwater wells, treating it at ageing plants including Valdesia and Haina. The distribution network loses an estimated 60% of treated water to leaks before reaching consumers.",
         contaminants="Bacterial contamination is widespread due to massive water loss from cracked pipes, frequent pressure drops that allow sewage intrusion, and cross-connections with drainage systems. Intermittent supply means water sits stagnant in building tanks, promoting bacterial growth.",
         tips=["Drink only sealed bottled water &mdash; botellones (5-gallon jugs) are the local standard and cost very little", "Use bottled water for brushing teeth, especially in the Zona Colonial where plumbing is oldest", "Confirm that restaurants use purified water and ice before ordering drinks with ice outside tourist areas"],
-        hardness="Moderate to hard, roughly 150&ndash;300 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;300 mg/L",
         faqs=[
             ("Is Santo Domingo tap water safe to drink?", "No. CAASD&rsquo;s distribution network loses roughly 60% of treated water to leaks, allowing contamination to enter the system. Bottled water is essential."),
             ("Why is Santo Domingo&rsquo;s water infrastructure so poor?", "Decades of underinvestment, rapid urbanisation, and an ageing pipe network have created chronic leaks and cross-contamination issues that CAASD has been unable to resolve at scale."),

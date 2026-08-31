@@ -8,8 +8,8 @@ GA_MEASUREMENT_ID = "G-FS0BXPE79Z"
 
 # Content dates for E-E-A-T signals. Bump LAST_REVIEWED whenever content data is updated.
 DATE_PUBLISHED = "2026-08-28"
-LAST_REVIEWED = "2026-08-28"
-LAST_REVIEWED_DISPLAY = "August 28, 2026"
+LAST_REVIEWED = "2026-08-31"
+LAST_REVIEWED_DISPLAY = "August 31, 2026"
 
 ORG_SCHEMA = {
     "@context": "https://schema.org",

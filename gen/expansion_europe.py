@@ -6,7 +6,7 @@ CITIES = [
         water_source="Bari&rsquo;s water travels long distances via the Acquedotto Pugliese system, drawing from reservoirs in Basilicata and Campania (Sele-Calore, Pertusillo, Sinni) and supplemented by karstic groundwater from the Murge plateau.",
         contaminants="No significant health concerns. Trace-level PFAS has been detected in Puglia&rsquo;s supply but well within EU limits. Some groundwater zones show mild nitrate elevation, also within standards.",
         tips=["AQP water is safe but tastes mineral-heavy &mdash; a carbon-filter bottle improves flavour noticeably", "In the old town (Bari Vecchia), let the tap run for 10&ndash;15 seconds to flush standing water from older pipes", "Many restaurants serve bottled water by default &mdash; ask specifically for &ldquo;acqua del rubinetto&rdquo; if you want free tap water"],
-        hardness="Moderately hard to hard, roughly 150&ndash;300 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;300 mg/L",
         faqs=[
             ("Is Bari tap water safe to drink?", "Generally yes. Acquedotto Pugliese tests the supply regularly and it meets EU drinking-water standards, though mineral content gives it a noticeable taste."),
             ("Where does Bari get its water?", "Bari has no local rivers, so water is piped in from reservoirs in Basilicata and Campania via one of Europe&rsquo;s longest aqueduct networks."),
@@ -20,7 +20,7 @@ CITIES = [
         water_source="Belgrade draws its water primarily from bank-filtered wells along the Sava River near Ada Ciganlija island, supplemented by Danube River sources and local groundwater wells.",
         contaminants="No major contamination at the treatment plant. The main concern is ageing distribution pipes &mdash; Soviet and post-war-era infrastructure in older neighbourhoods can leach metals. Heavy chlorination gives a noticeable chlorine taste.",
         tips=["In older buildings, let the tap run for 15&ndash;20 seconds before drinking to flush standing water from aged pipes", "Chlorine taste is strong &mdash; fill a jug and refrigerate uncovered for 30 minutes to let it dissipate", "Modern hotels and newer neighbourhoods generally have better pipe quality and cleaner-tasting water"],
-        hardness="Moderately hard, roughly 180&ndash;220 mg/L",
+        hardness="Hard to very hard, roughly 180&ndash;220 mg/L",
         faqs=[
             ("Is Belgrade tap water safe to drink?", "Generally yes at the treatment plant, but quality can vary by building age. Newer buildings are reliable; in older ones, a brief flush or a filter is wise."),
             ("Why does Belgrade water taste of chlorine?", "Belgrade Waterworks uses relatively heavy chlorination to ensure safety across the ageing pipe network, which creates a noticeable taste."),
@@ -48,7 +48,7 @@ CITIES = [
         water_source="Bordeaux&rsquo;s tap water comes from deep protected groundwater in the Eocene aquifer, naturally filtered through layers of limestone and sand over thousands of years. This source requires minimal treatment.",
         contaminants="No significant health concerns. The deep aquifer source is well protected from surface pollution. Water quality consistently scores high in national rankings.",
         tips=["Ask for &ldquo;une carafe d&rsquo;eau&rdquo; at restaurants &mdash; it&rsquo;s free by law in France", "Bordeaux&rsquo;s groundwater-sourced water is considered among the better-tasting tap waters in France", "Public drinking fountains in the city centre, including near Place de la Bourse, serve safe water"],
-        hardness="Moderately hard, roughly 150&ndash;250 mg/L depending on zone",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L depending on zone",
         faqs=[
             ("Is Bordeaux tap water safe to drink?", "Yes, it is safe and well regarded. The deep Eocene aquifer provides naturally protected groundwater that needs minimal treatment."),
             ("Where does Bordeaux tap water come from?", "From deep underground aquifers in the Eocene geological layer, where water has been naturally filtered for thousands of years."),
@@ -216,7 +216,7 @@ CITIES = [
         water_source="Lucerne blends three sources: surface water from Lake Lucerne, springs on the northern slopes of Mount Pilatus, and groundwater from the Kleine Emme valley. EWL operates a 24/7 quality-control centre.",
         contaminants="No significant health concerns. Switzerland has among the strictest drinking-water standards in Europe, and EWL takes over 2,200 samples annually to ensure compliance.",
         tips=["Public fountains throughout the old town dispense drinkable water unless marked &ldquo;Kein Trinkwasser&rdquo; (not drinking water)", "Lucerne&rsquo;s water is excellent &mdash; there is no need to buy bottled water", "The blend of lake, spring, and groundwater gives the supply a balanced, clean mineral profile"],
-        hardness="Moderate to hard, roughly 150&ndash;250 mg/L depending on neighbourhood",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L depending on neighbourhood",
         faqs=[
             ("Is Lucerne tap water safe to drink?", "Yes, it is safe and excellent. EWL tests the supply with over 2,200 samples annually under Switzerland&rsquo;s strict standards."),
             ("Can you drink from Lucerne&rsquo;s public fountains?", "Yes, all public fountains are safe unless specifically marked &ldquo;Kein Trinkwasser&rdquo; (not drinking water)."),
@@ -230,7 +230,7 @@ CITIES = [
         water_source="Lyon&rsquo;s water comes from the Cr&eacute;pieux-Charmy wellfield along the Rh&ocirc;ne River, one of Europe&rsquo;s largest alluvial groundwater capture zones. Natural sand and gravel filtration provides excellent pre-treatment.",
         contaminants="No significant health concerns. Trace PFAS/TFA has been detected (a nationwide French issue) but Lyon is not among the worst-affected areas. Over 300,000 quality analyses are conducted annually.",
         tips=["Ask for &ldquo;une carafe d&rsquo;eau&rdquo; at restaurants &mdash; it&rsquo;s free by law in France", "Lyon&rsquo;s Cr&eacute;pieux-Charmy source benefits from exceptional natural filtration through alluvial deposits", "Public drinking fountains are available throughout the Presqu&rsquo;&icirc;le and Vieux Lyon"],
-        hardness="Moderately hard, roughly 180&ndash;250 mg/L",
+        hardness="Hard to very hard, roughly 180&ndash;250 mg/L",
         faqs=[
             ("Is Lyon tap water safe to drink?", "Yes, it is safe and rigorously monitored with over 300,000 quality analyses per year from one of Europe&rsquo;s best groundwater sources."),
             ("Where does Lyon tap water come from?", "From the Cr&eacute;pieux-Charmy wellfield, a vast alluvial groundwater capture zone along the Rh&ocirc;ne where natural sand and gravel provide excellent filtration."),
@@ -258,7 +258,7 @@ CITIES = [
         water_source="Marseille receives roughly two-thirds of its water from the Durance and Verdon rivers via the historic Canal de Marseille, supplemented by local Proven&ccedil;al sources. The water travels through limestone terrain.",
         contaminants="No significant health concerns. Marseille&rsquo;s pioneering use of ozone treatment (since 1981) provides excellent disinfection. The city often ranks number one in France for tap water quality.",
         tips=["Ask for &ldquo;une carafe d&rsquo;eau&rdquo; at restaurants &mdash; it&rsquo;s free by law in France", "Marseille&rsquo;s water is considered among the very best in France &mdash; drink freely", "The Alpine source water from the Durance and Verdon gives it a clean, fresh mineral profile"],
-        hardness="Moderately hard to hard, roughly 170&ndash;235 mg/L depending on district",
+        hardness="Hard to very hard, roughly 170&ndash;235 mg/L depending on district",
         faqs=[
             ("Is Marseille tap water safe to drink?", "Yes, it is safe and often ranked the best tap water in France. The city has used advanced ozone treatment since 1981."),
             ("Where does Marseille tap water come from?", "Primarily from the Durance and Verdon rivers in the Alps, delivered via the historic Canal de Marseille built in the 19th century."),
@@ -413,7 +413,7 @@ CITIES = [
         water_source="Tallinn&rsquo;s water comes from Lake &Uuml;lemiste, a surface-water source fed by the Pirita and J&auml;gala rivers, treated at the &Uuml;lemiste water treatment plant.",
         contaminants="No significant health concerns. Tallinna Vesi achieved a 99.5% compliance rate for water samples in recent testing. The water is well-treated and consistently meets EU standards.",
         tips=["Tallinn has some of the best tap water in the Baltic states &mdash; drink directly from the tap with confidence", "No need to buy bottled water &mdash; the supply is safe, well-tested, and pleasant-tasting", "Minor limescale in kettles is normal but the taste is clean and neutral"],
-        hardness="Moderately hard, roughly 180&ndash;220 mg/L",
+        hardness="Hard to very hard, roughly 180&ndash;220 mg/L",
         faqs=[
             ("Is Tallinn tap water safe to drink?", "Yes, it is safe and excellent. Tallinna Vesi achieves a 99.5% compliance rate in quality testing, one of the highest in the Baltics."),
             ("Where does Tallinn tap water come from?", "From Lake &Uuml;lemiste, fed by the Pirita and J&auml;gala rivers, and treated at the &Uuml;lemiste water treatment plant."),
@@ -455,7 +455,7 @@ CITIES = [
         water_source="Turin&rsquo;s water comes from a blend of Alpine mountain springs (highest quality), local groundwater wells, and surface water from the Po River and its tributaries (roughly 25% of supply). SMAT serves 289 municipalities.",
         contaminants="No significant health concerns in the treated supply. Groundwater wells are monitored for agricultural and industrial soil contamination. Surface water from the Po is subject to seasonal variation but thoroughly treated.",
         tips=["Turin&rsquo;s iconic green &ldquo;toret&rdquo; fountains (bull-head design) are everywhere and dispense the same safe tap water", "The Alpine spring component gives Turin&rsquo;s water a notably clean, fresh character", "Ask for &ldquo;acqua del rubinetto&rdquo; at restaurants &mdash; Turin&rsquo;s water quality makes it a perfectly good choice"],
-        hardness="Moderately hard to hard, roughly 110&ndash;280 mg/L depending on district",
+        hardness="Moderately hard to very hard, roughly 110&ndash;280 mg/L depending on district",
         faqs=[
             ("Is Turin tap water safe to drink?", "Generally yes. SMAT rigorously tests the supply and it meets all EU standards. The Alpine spring sources contribute high-quality water."),
             ("What are Turin&rsquo;s toret fountains?", "Iconic green bull-head public drinking fountains found on nearly every block in Turin. They dispense the same safe, tested tap water as household taps."),

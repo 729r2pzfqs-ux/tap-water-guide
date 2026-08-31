@@ -75,7 +75,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards and California's additional state-level drinking water requirements, among the strictest in the U.S.",
         contaminants=["California regulates hexavalent chromium (chromium-6) and other constituents more strictly than federal minimums; San Diego's supply is monitored accordingly", "No significant compliance concerns in the treated supply"],
         comparison="California's drinking water program sets stricter monitoring requirements than federal EPA minimums for several contaminants, and San Diego's blended, diversified supply is a widely cited model for drought resilience.",
-        hardness="Moderate to hard, roughly 150&ndash;250 mg/L, varies by blend source", ph="7.5&ndash;8.0", tds="ranges 300&ndash;500 ppm",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L, varies by blend source", ph="7.5&ndash;8.0", tds="ranges 300&ndash;500 ppm",
         tips=["Water hardness varies noticeably depending on which source is blended into your area that season", "Pure Water San Diego's purified recycled water undergoes multiple advanced treatment barriers exceeding bottled water standards", "The Water Authority publishes source-blend data by service area"],
         faqs=[
             ("Is San Diego tap water safe to drink?", "Yes, it meets both federal EPA and stricter California state drinking water standards."),
@@ -123,7 +123,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards.",
         contaminants=["Long-term saltwater intrusion into the Biscayne Aquifer from sea-level rise is a monitored regional planning concern for water managers, not a current safety issue in treated tap water", "No significant compliance concerns in current supply"],
         comparison="Aquifer-sourced systems like Miami's typically need less filtration than surface water systems, though South Florida water managers are actively planning for long-term aquifer resilience as sea levels rise.",
-        hardness="Moderately hard, roughly 150&ndash;250 mg/L, typical of Florida limestone aquifer geology", ph="7.5&ndash;8.0", tds="ranges 250&ndash;400 ppm",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L, typical of Florida limestone aquifer geology", ph="7.5&ndash;8.0", tds="ranges 250&ndash;400 ppm",
         tips=["A water softener addresses hardness/taste preference but isn't required for safety", "Miami-Dade WASD publishes an annual water quality report", "No need for bottled water around the city"],
         faqs=[
             ("Is Miami tap water safe to drink?", "Yes, it's sourced from the Biscayne Aquifer and meets all EPA standards."),
@@ -203,7 +203,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards and California's additional state-level requirements, among the strictest in the U.S.",
         contaminants=["Some San Fernando Valley groundwater wells were historically affected by industrial solvent contamination (TCE/PCE), addressed through dedicated treatment facilities before that water enters the drinking supply", "California regulates additional constituents like chromium-6 more strictly than federal minimums"],
         comparison="LA's supply mix has shifted substantially toward local groundwater and recycled water (Operation NEXT, Pure Water LA) to reduce reliance on imported water amid Colorado River and Sierra snowpack variability, a widely cited model for large-city water resilience.",
-        hardness="Moderate to hard, roughly 150&ndash;250 mg/L, varies by service area", ph="7.5&ndash;8.0", tds="ranges 300&ndash;500 ppm",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L, varies by service area", ph="7.5&ndash;8.0", tds="ranges 300&ndash;500 ppm",
         tips=["Hardness and taste vary noticeably by neighborhood depending on the local source blend", "LADWP publishes water quality reports by pressure zone", "No need for bottled water around the city"],
         faqs=[
             ("Is Los Angeles tap water safe to drink?", "Yes, it meets both federal EPA and stricter California state drinking water standards."),
@@ -267,7 +267,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards.",
         contaminants=["No significant compliance concerns", "Naturally occurring minerals from limestone aquifer geology can produce a mild sulfur smell in some areas, addressed through aeration treatment; it's an aesthetic issue, not a health risk"],
         comparison="Aquifer-sourced systems like Orlando's typically require less intensive filtration than surface water systems, since the limestone itself acts as a natural filter over long residence times.",
-        hardness="Moderately hard, roughly 150&ndash;250 mg/L", ph="7.3&ndash;7.8", tds="ranges 250&ndash;350 ppm",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L", ph="7.3&ndash;7.8", tds="ranges 250&ndash;350 ppm",
         tips=["A mild sulfur smell occasionally noted from aquifer sourcing is an aesthetic issue, not a safety concern", "OUC publishes an annual water quality report", "No need for bottled water around the city"],
         faqs=[
             ("Is Orlando tap water safe to drink?", "Yes, it's sourced from the Floridan Aquifer and meets all EPA standards."),
@@ -459,7 +459,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards.",
         contaminants=["No significant compliance concerns", "Naturally occurring minerals can produce a mild sulfur smell in some areas, addressed through aeration treatment; an aesthetic issue, not a health risk"],
         comparison="As with much of North and Central Florida, Jacksonville's aquifer sourcing means comparatively light filtration needs relative to surface-water-dependent systems.",
-        hardness="Moderately hard, roughly 150&ndash;250 mg/L", ph="7.3&ndash;7.8", tds="ranges 250&ndash;350 ppm",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L", ph="7.3&ndash;7.8", tds="ranges 250&ndash;350 ppm",
         tips=["A mild sulfur smell occasionally noted from aquifer sourcing is an aesthetic issue, not a safety concern", "JEA publishes an annual water quality report", "No need for bottled water around the city"],
         faqs=[
             ("Is Jacksonville tap water safe to drink?", "Yes, it's sourced from the Floridan Aquifer and meets all EPA standards."),
@@ -475,7 +475,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards.",
         contaminants=["No significant compliance concerns"],
         comparison="Columbus's reservoir-and-river system is a typical large Midwest supply model, with treatment consistently keeping finished water within EPA limits.",
-        hardness="Moderately hard, roughly 150&ndash;250 mg/L", ph="7.4&ndash;7.9", tds="ranges 250&ndash;350 ppm",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L", ph="7.4&ndash;7.9", tds="ranges 250&ndash;350 ppm",
         tips=["Columbus Public Utilities publishes an annual water quality report", "No need for bottled water around the city"],
         faqs=[
             ("Is Columbus tap water safe to drink?", "Yes, it meets all EPA Safe Drinking Water Act standards."),
@@ -1158,7 +1158,7 @@ US_CITIES = [
         epa_status="Meets all federal Safe Drinking Water Act standards and California's stricter state requirements across both districts.",
         contaminants=["No significant compliance concerns in either district", "Imported Colorado River water in the regional blend raises hardness and TDS on the Otay side", "Sweetwater's desalination plant removes salts from local brackish groundwater, diversifying supply beyond imports"],
         comparison="Chula Vista reflects San Diego County's diversified strategy in miniature: local runoff, brackish desalination and imported water blended for resilience &mdash; with quality consistent across all three legs.",
-        hardness="Moderate to hard, roughly 120&ndash;250 mg/L depending on district and blend",
+        hardness="Moderately hard to very hard, roughly 120&ndash;250 mg/L depending on district and blend",
         ph="7.5&ndash;8.1",
         tds="300&ndash;500 mg/L",
         tips=["Check whether your address falls under Sweetwater Authority or Otay Water District &mdash; each publishes its own annual report", "Taste and hardness differ noticeably between the west (local sources) and east (imported) sides of the city", "No safety filter is needed"],

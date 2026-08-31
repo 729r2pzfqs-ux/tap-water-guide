@@ -51,7 +51,7 @@ INTL_CITIES = [
         water_source="Aigües de Barcelona blends water from the Ter and Llobregat Rivers with output from the El Prat desalination plant, one of the largest in Europe, built to buffer against periodic drought.",
         contaminants="No significant health concerns. Taste and mineral content vary depending on the desalination/river blend at a given time.",
         tips=["A filter pitcher improves taste if you're sensitive to the chlorine or mineral notes", "Ask for \"agua del grifo\" at restaurants to get free tap water", "Bottled water is inexpensive if you prefer it"],
-        hardness="Moderate to hard, roughly 200&ndash;300 mg/L",
+        hardness="Very hard, roughly 200&ndash;300 mg/L",
         faqs=[
             ("Is Barcelona tap water safe to drink?", "Yes, it's safe, though taste varies depending on how much of the supply comes from desalination versus river sources at a given time."),
             ("Why does Barcelona use desalinated water?", "The El Prat desalination plant was built to buffer the city against periodic drought affecting the Ter and Llobregat Rivers, its traditional sources."),
@@ -107,7 +107,7 @@ INTL_CITIES = [
         water_source="EYDAP supplies Athens primarily from Lake Marathon and Lake Mornos, along with the Evinos reservoir, treated to EU standards.",
         contaminants="No significant health concerns.",
         tips=["Athens tap water is genuinely good and safe, unlike on many Greek islands", "No need to buy bottled water in the city", "Public fountains in central Athens are generally safe to drink from"],
-        hardness="Moderate to hard, roughly 150&ndash;300 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;300 mg/L",
         faqs=[
             ("Is Athens tap water safe to drink?", "Yes, Athens has reliable, well-treated municipal water sourced from mainland reservoirs."),
             ("Is Athens water different from Greek island water?", "Yes, Athens draws from protected mainland reservoirs, while many islands depend on desalination or trucked-in water, which is why island tap water is often not recommended."),
@@ -121,7 +121,7 @@ INTL_CITIES = [
         water_source="Prague's water utility (Pra&#382;sk&eacute; vodovody a kanalizace) treats water from regional reservoirs and river sources to EU Drinking Water Directive standards.",
         contaminants="No significant health concerns.",
         tips=["No need to buy bottled water in restaurants", "Prague's tap water is safe despite beer sometimes being cheaper at bars &mdash; a pricing quirk, not a safety signal", "Older buildings in the historic center may benefit from running the tap briefly first"],
-        hardness="Moderate, roughly 150&ndash;250 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L",
         faqs=[
             ("Is Prague tap water safe to drink?", "Yes, it's safe and meets EU drinking water standards."),
             ("Why is beer cheaper than water in some Prague bars?", "It's a local pricing and tax quirk, not a reflection of tap water quality or safety."),
@@ -219,7 +219,7 @@ INTL_CITIES = [
         water_source="I&#304;SK&#304; treats water from a network of reservoirs surrounding the city, applying heavy chlorination to compensate for older distribution infrastructure.",
         contaminants="Heavy chlorine taste and occasional turbidity are the main complaints rather than acute health risk, though bottled water remains the recommended choice.",
         tips=["Bottled water (su) is extremely cheap and available everywhere", "Most hotels provide free bottled water", "Use bottled water for brushing teeth as a precaution"],
-        hardness="Moderate to hard, roughly 200&ndash;300 mg/L",
+        hardness="Very hard, roughly 200&ndash;300 mg/L",
         faqs=[
             ("Can you drink tap water in Istanbul?", "It's not recommended. While municipally treated, heavy chlorination and aging pipes mean bottled water is the standard choice for locals and visitors."),
             ("Is it safe to brush teeth with Istanbul tap water?", "Using bottled water is a reasonable precaution, especially for sensitive travelers."),
@@ -459,7 +459,7 @@ INTL_CITIES = [
         water_source="Metropolitana Milanese draws Milan&rsquo;s water from over 400 deep wells tapping into the extensive groundwater aquifer beneath the Po Valley. The water is naturally filtered through deep geological layers before extraction.",
         contaminants="No significant health concerns. Deep aquifer water is naturally protected and requires minimal treatment beyond aeration and occasional UV disinfection.",
         tips=["Milan has over 700 public drinking fountains (vedovelle or dragonelle) providing safe tap water", "Ask for \"acqua del rubinetto\" at restaurants for free tap water", "No need to buy bottled water &mdash; the groundwater quality is excellent"],
-        hardness="Moderate, roughly 250 mg/L",
+        hardness="Very hard, roughly 250 mg/L",
         faqs=[
             ("Is Milan tap water safe to drink?", "Yes, it is safe and comes from deep groundwater wells requiring minimal treatment due to natural geological filtration."),
             ("What are Milan's vedovelle fountains?", "Small green cast-iron public drinking fountains found throughout the city, all running safe tap water from the same municipal supply."),
@@ -473,7 +473,7 @@ INTL_CITIES = [
         water_source="Stadtwerke M&uuml;nchen (SWM) supplies Munich primarily from springs and groundwater in the Mangfall Valley and the protected Alpine foothills south of the city. The naturally filtered mountain water requires only UV treatment before distribution.",
         contaminants="No significant health concerns. The protected spring catchment areas have been safeguarded since the late 19th century, ensuring consistently clean source water.",
         tips=["Munich tap water needs no filtering &mdash; it is among Germany&rsquo;s cleanest", "Refill your bottle at any tap in the city with confidence", "The city has actively protected its spring catchment areas for over 100 years"],
-        hardness="Moderate, roughly 150&ndash;250 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L",
         faqs=[
             ("Is Munich tap water safe to drink?", "Yes, it is safe and among the best in Germany, sourced from protected Alpine foothill springs in the Mangfall Valley."),
             ("Why is Munich tap water considered so good?", "The city sources water from Alpine springs in protected catchment areas that have been safeguarded since the 1880s, producing naturally clean water needing minimal treatment."),
@@ -515,7 +515,7 @@ INTL_CITIES = [
         water_source="Veritas SpA supplies Venice from deep groundwater wells on the mainland near Treviso and Padua. Water is piped under the lagoon via a submarine pipeline to the historic island center, never drawn from the surrounding saltwater lagoon.",
         contaminants="No significant health concerns. Despite the lagoon environment, the mainland groundwater supply is clean and well treated to EU standards.",
         tips=["Venice&rsquo;s tap water comes from the mainland, not the lagoon &mdash; it is completely safe", "Look for public drinking fountains around the city&rsquo;s campi (squares)", "Bringing a refillable bottle saves money, as bottled water prices in touristy areas are steep"],
-        hardness="Moderate, roughly 200&ndash;250 mg/L",
+        hardness="Very hard, roughly 200&ndash;250 mg/L",
         faqs=[
             ("Is Venice tap water safe to drink?", "Yes, it is safe and sourced from mainland groundwater, not from the surrounding saltwater lagoon."),
             ("Where does Venice get its fresh water?", "From deep groundwater wells on the mainland near Treviso and Padua, piped to the islands via submarine pipeline under the lagoon."),
@@ -740,7 +740,7 @@ INTL_CITIES = [
         water_source="MPWiK Warszawa (Miejskie Przedsi&eogon;biorstwo Wodoci&aogon;g&oacute;w i Kanalizacji) treats Vistula River water at modern treatment plants using ozonation, activated carbon filtration, and UV disinfection.",
         contaminants="No significant health concerns. The water undergoes advanced multi-stage treatment and meets all EU Drinking Water Directive parameters.",
         tips=["Warsaw tap water has improved dramatically in recent decades and is now safe to drink directly", "In older pre-war buildings, run the tap briefly before drinking as a precaution for internal plumbing", "No need to buy bottled water in restaurants &mdash; ask for woda z kranu (tap water)"],
-        hardness="Moderate, roughly 150&ndash;250 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L",
         faqs=[
             ("Is Warsaw tap water safe to drink?", "Yes, it is safe and meets EU standards, treated with modern ozonation and activated carbon filtration at MPWiK facilities."),
             ("Has Warsaw water quality improved?", "Yes, dramatically. Major investment in treatment infrastructure since EU accession has brought Warsaw's tap water to full EU Drinking Water Directive compliance."),
@@ -754,7 +754,7 @@ INTL_CITIES = [
         water_source="MPWiK Krak&oacute;w treats water from the Rudawa and Raba Rivers and the Dobczyce Reservoir at modern treatment plants, using coagulation, sand filtration, ozonation, and chlorination.",
         contaminants="No significant health concerns. The water meets all EU Drinking Water Directive standards and is continuously monitored.",
         tips=["Krakow tap water is safe throughout the city, including in the historic Old Town", "In very old buildings, run the tap briefly before drinking as a precaution for internal pipes", "Ask for \"woda z kranu\" (tap water) at restaurants"],
-        hardness="Moderate, roughly 150&ndash;250 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L",
         faqs=[
             ("Is Krakow tap water safe to drink?", "Yes, it is safe and meets all EU standards, supplied from the Rudawa and Raba Rivers with modern treatment."),
             ("Can tourists drink tap water in Krakow's Old Town?", "Yes, tap water is safe throughout Krakow, including the Old Town. Running the tap briefly in very old buildings is a reasonable precaution."),
@@ -768,7 +768,7 @@ INTL_CITIES = [
         water_source="Eau d&rsquo;Azur (managed by Veolia) supplies Nice from the V&eacute;subie River and natural karst springs in the Maritime Alps hinterland, treated at modern facilities to French and EU drinking water standards.",
         contaminants="No significant health concerns. The mountain and karst spring sources provide naturally clean water that meets all EU Drinking Water Directive parameters.",
         tips=["Ask for \"une carafe d'eau\" at restaurants &mdash; free tap water is a legal right in France", "Nice&rsquo;s water comes from Alpine sources and is excellent quality", "Public drinking fountains along the Promenade des Anglais and in the Old Town provide safe tap water"],
-        hardness="Moderate to hard, roughly 200&ndash;300 mg/L",
+        hardness="Very hard, roughly 200&ndash;300 mg/L",
         faqs=[
             ("Is Nice tap water safe to drink?", "Yes, it is safe and sourced from Alpine rivers and karst springs in the Maritime Alps, treated to EU standards."),
             ("Can you get free tap water at Nice restaurants?", "Yes, French law requires restaurants to provide free tap water (une carafe d'eau) on request."),
@@ -782,7 +782,7 @@ INTL_CITIES = [
         water_source="Vodoopskrba i odvodnja Zagreb supplies the city from protected groundwater wells in the alluvial aquifer of the Sava River valley, providing naturally filtered water that requires only standard treatment.",
         contaminants="No significant health concerns. The protected groundwater source is consistently clean and the supply meets all EU drinking water standards.",
         tips=["Zagreb tap water is excellent quality &mdash; no need to buy bottled water", "The groundwater source provides naturally clean water with good mineral balance", "Public fountains in the city center, including near Ban Jela&ccaron;i&cacute; Square, provide safe drinking water"],
-        hardness="Moderate, roughly 200&ndash;250 mg/L",
+        hardness="Very hard, roughly 200&ndash;250 mg/L",
         faqs=[
             ("Is Zagreb tap water safe to drink?", "Yes, it is safe and among the best in Southeast Europe, sourced from protected groundwater aquifers."),
             ("Where does Zagreb's water come from?", "From deep groundwater wells in the Sava River valley's alluvial aquifer, naturally filtered through geological layers north of the city."),
@@ -796,7 +796,7 @@ INTL_CITIES = [
         water_source="Apa Nova (operated by Veolia) supplies Bucharest primarily from the Arge&scedil; river system, treated at modern facilities using coagulation, sand filtration, ozonation, and chlorination to meet EU Drinking Water Directive standards.",
         contaminants="No significant contamination concerns in the treated supply. Heavier chlorination is used to maintain safety through the distribution network. Older buildings may have aging internal plumbing that can affect water quality at the tap.",
         tips=["Run the tap briefly before drinking in older buildings to flush any standing water from aging internal pipes", "A filter pitcher is recommended to reduce the strong chlorine taste", "Bucharest&rsquo;s water quality has improved significantly since Veolia took over treatment operations"],
-        hardness="Moderate, roughly 150&ndash;250 mg/L",
+        hardness="Hard to very hard, roughly 150&ndash;250 mg/L",
         faqs=[
             ("Is Bucharest tap water safe to drink?", "Yes, it is generally safe, treated to EU standards by Apa Nova (Veolia) with monitoring at over 49 points daily."),
             ("Why does Bucharest water taste so chlorinated?", "Higher chlorine levels are used to maintain water safety through an extensive and sometimes older distribution network, producing a noticeable taste."),
@@ -924,7 +924,7 @@ INTL_CITIES = [
         water_source="Aguas Andinas supplies Santiago from the Ma&iacute;po River and its tributaries, fed by Andean snowmelt and glacial runoff. The water is treated at modern plants to Chilean standard NCh 409 before distribution.",
         contaminants="No significant health concerns under normal conditions. The water is noticeably hard and chlorinated. Occasional turbidity episodes occur after heavy Andean rainfall or volcanic activity upstream.",
         tips=["Santiago tap water is safe to drink and most locals consume it daily", "A carbon filter can improve the chlorinated taste if you find it strong", "After heavy rains the water may appear briefly cloudy &mdash; this is sediment from Andean runoff and clears quickly"],
-        hardness="Moderate to hard, roughly 150&ndash;300 mg/L from Andean mineral geology",
+        hardness="Hard to very hard, roughly 150&ndash;300 mg/L from Andean mineral geology",
         faqs=[
             ("Is Santiago tap water safe to drink?", "Yes, it is safe and meets Chilean NCh 409 drinking water standards. Most residents drink it daily without issues."),
             ("Why does Santiago water taste chlorinated?", "Aguas Andinas uses chlorine disinfection as required by Chilean regulations. The taste is more noticeable than in some cities but indicates proper treatment."),
