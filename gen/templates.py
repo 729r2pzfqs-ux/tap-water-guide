@@ -326,6 +326,7 @@ def page(title, description, path, body, extra_head="", schemas=None, active_nav
 <link rel="alternate" hreflang="x-default" href="{canonical}">
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GA_MEASUREMENT_ID}');</script>
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="w5bFlsoadEqdqFYdKOFY+Q" async></script>
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
