@@ -564,7 +564,7 @@ AFRICA_COUNTRIES = [
         meta_description="No, Mauritania tap water is not safe. Desert aquifer fluoride and Nouakchott's aging pipes make bottled water essential for all visitors."),
 
     dict(slug="mauritius", name="Mauritius", region="Africa",
-        rating="Safe",
+        rating="Generally Safe",
         quick_answer="Tap water in Mauritius is generally safe to drink, treated to World Health Organization standards by the Central Water Authority. Some visitors still prefer bottled water due to occasional discoloration from aging pipes in older buildings.",
         water_source="Mauritius relies on a network of mountain reservoirs including Mare aux Vacoas, La Nicoli&egrave;re, and Midlands Dam, fed by the island's high rainfall and volcanic highland catchments. The Central Water Authority (CWA) treats this water through modern filtration and chlorination plants before distributing it across the island via a well-maintained pipe network.",
         contaminants="Treated water leaving CWA plants meets WHO drinking water guidelines, but some older buildings in Port Louis and other urban centers have aging cast-iron pipes that can introduce rust and turbidity. Sediment discoloration after heavy tropical rains is a periodic cosmetic issue rather than a significant health risk in most areas.",
@@ -579,7 +579,7 @@ AFRICA_COUNTRIES = [
             ("Do hotels in Mauritius still provide bottled water?", "Yes, many hotels offer bottled water as a courtesy or for taste preference, even though the tap water itself is safe."),
             ("What is the source of Mauritius's tap water?", "It comes primarily from mountain reservoirs like Mare aux Vacoas and La Nicoli&egrave;re, fed by the island's abundant tropical rainfall."),
         ],
-        meta_description="Yes, tap water in Mauritius is safe to drink. The Central Water Authority treats water to WHO standards island-wide. See quality details."),
+        meta_description="Tap water in Mauritius is generally safe to drink. The Central Water Authority treats water to WHO standards island-wide. See quality details."),
 
     dict(slug="mozambique", name="Mozambique", region="Africa",
         rating="Not Safe",
@@ -708,7 +708,7 @@ AFRICA_COUNTRIES = [
         meta_description="Caution advised for Senegal tap water. Dakar's Lac de Guiers supply is treated but coastal salinity and rural gaps warrant bottled water."),
 
     dict(slug="seychelles", name="Seychelles", region="Africa",
-        rating="Safe",
+        rating="Generally Safe",
         quick_answer="Tap water in the Seychelles is treated to a high standard and generally safe to drink straight from the tap on the main islands of Mah&eacute;, Praslin, and La Digue, making it one of the few African destinations where bottled water is not strictly necessary.",
         water_source="The Public Utilities Corporation (PUC) sources water primarily from surface reservoirs including La Gogue Dam and Rochon Dam on Mah&eacute;, supplemented by increasing reliance on reverse-osmosis desalination plants to cope with seasonal shortages. Praslin and La Digue depend more heavily on desalination and smaller catchment reservoirs due to limited freshwater streams.",
         contaminants="Water quality is generally well managed, though heavy rainfall events can cause temporary turbidity spikes in reservoir-fed supply, and older pipe sections on Mah&eacute; occasionally cause discoloration. Desalinated water on smaller islands is closely monitored and rarely poses contamination risk.",
@@ -723,7 +723,7 @@ AFRICA_COUNTRIES = [
             ("Is there ever a water shortage in the Seychelles?", "Seasonal dry periods, typically June through September, can lead to reduced pressure or rationing, though this affects availability rather than safety."),
             ("Is ice safe to drink in Seychelles hotels and restaurants?", "Yes, ice is generally made from treated tap or desalinated water and is considered safe at hotels, resorts, and restaurants."),
         ],
-        meta_description="Yes, Seychelles tap water is safe to drink on Mah&eacute;, Praslin, and La Digue. PUC's reservoirs and desalination meet high standards."),
+        meta_description="Seychelles tap water is generally safe to drink on Mah&eacute;, Praslin, and La Digue. PUC's reservoirs and desalination meet high standards."),
 
     dict(slug="sierra-leone", name="Sierra Leone", region="Africa",
         rating="Not Safe",

@@ -96,7 +96,7 @@ STATE_HARDNESS = {
     "TN": dict(label="Moderate", mn=60, mx=150,
         note="Tennessee and Cumberland River systems (Memphis's soft aquifer water is the exception at the low end) are mostly moderate, with karst-spring systems harder."),
     "TX": dict(label="Very hard", mn=150, mx=350,
-        note="From Edwards Aquifer limestone water in San Antonio and Austin to Dallas-Fort Worth's reservoir blends, most Texas systems are hard to very hard; El Paso and Houston vary by source."),
+        note="From Edwards Aquifer limestone water in San Antonio to Dallas-Fort Worth's reservoir blends, most Texas systems are hard to very hard; El Paso and Houston vary by source."),
     "UT": dict(label="Very hard", mn=150, mx=300,
         note="Wasatch Front systems blend soft mountain snowmelt with hard valley groundwater; most Utah tap water lands hard to very hard."),
     "VT": dict(label="Soft", mn=20, mx=80,

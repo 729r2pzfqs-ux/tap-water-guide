@@ -9,7 +9,7 @@ STATES_1 = [
             "Most Alabamians drink surface water drawn from the Tennessee, Coosa, Cahaba, and Black Warrior river systems, treated by large regional utilities such as Birmingham Water Works and Huntsville Utilities. The big urban systems have strong compliance records and meet all federal Safe Drinking Water Act standards.",
             "The state's defining water story is PFAS: decades of discharges from the 3M plant in Decatur contaminated the Tennessee River and forced downstream utilities in the West Morgan-East Lawrence area onto advanced filtration. Smaller rural systems in the Black Belt region also struggle with aging infrastructure and occasional monitoring lapses.",
         ],
-        n_systems="about 570",
+        n_systems="about 500",
         contaminants=[
             ("PFAS (forever chemicals)", "Tennessee River systems downstream of Decatur carry a well-documented legacy of 3M-related PFAS contamination; affected utilities have added reverse osmosis or carbon treatment"),
             ("Disinfection byproducts", "River-sourced systems across the state chlorinate heavily in warm months; trihalomethane levels run closer to the federal limit in some small systems"),
@@ -25,7 +25,7 @@ STATES_1 = [
 
     dict(slug="alaska", name="Alaska", abbr="AK",
         overview=[
-            "Anchorage, Fairbanks, and Juneau enjoy some of the cleanest municipal water in the country, drawn from glacier-fed and protected mountain sources like Anchorage's Eklutna Lake. The urban systems are modern and consistently meet all EPA standards.",
+            "Anchorage, Fairbanks, and Juneau enjoy some of the cleanest municipal water in the country, much of it from glacier-fed and protected mountain sources like Anchorage's Eklutna Lake, with Fairbanks relying on groundwater wells. The urban systems are modern and consistently meet all EPA standards.",
             "Outside the cities, Alaska has the nation's starkest water-access gap: dozens of remote villages, mainly in the Yukon-Kuskokwim Delta and Arctic coast, still lack piped water entirely and rely on hauled or treated river water. Where systems exist, extreme cold, permafrost damage, and shipping costs make maintenance hard.",
         ],
         n_systems="about 400",
@@ -94,7 +94,7 @@ STATES_1 = [
             ("Chromium-6", "California set the nation's first chromium-6 limit; some inland systems blend or treat to comply"),
             ("PFAS", "Plumes near airports, bases, and industrial areas affect wells in Orange County, the Inland Empire, and elsewhere; large-scale treatment is being built"),
         ],
-        violations="Roughly 300 mostly small systems appear on California's Human Right to Water failing-systems list at any time, serving under 2% of the population. The metro systems that serve most Californians are consistently compliant, and the state aggressively consolidates failing systems into larger neighbors.",
+        violations="Roughly 390 mostly small systems appear on California's Human Right to Water failing-systems list at any time, serving under 2% of the population. The metro systems that serve most Californians are consistently compliant, and the state aggressively consolidates failing systems into larger neighbors.",
         faqs=[
             ("Is tap water safe to drink in California?", "For the vast majority, yes: Los Angeles, San Francisco, San Diego, Sacramento, and the other large systems meet all federal and stricter state standards. The exceptions are small Central Valley and rural systems on contaminated groundwater, which the state tracks publicly."),
             ("Why do small Central Valley towns have unsafe water?", "Decades of fertilizer, dairy, and fumigant use contaminated shallow groundwater with nitrate and 1,2,3-TCP, and many tiny systems cannot afford treatment. The state's SAFER program funds fixes and consolidations."),
@@ -107,7 +107,7 @@ STATES_1 = [
             "Colorado's Front Range cities drink high-mountain snowmelt collected close to the source: Denver Water's Rocky Mountain reservoirs, Colorado Springs' Pikes Peak system, and Aurora's Prairie Waters reuse project. Source quality is excellent and all major systems meet federal standards.",
             "The state's issues are legacy and local: PFAS from firefighting foam contaminated groundwater in the Widefield aquifer south of Colorado Springs and near several bases, forcing new treatment; mountain mining legacy leaves metals in some watersheds; and a handful of small plains systems exceed limits for naturally occurring radium or uranium.",
         ],
-        n_systems="about 880",
+        n_systems="about 1,060",
         contaminants=[
             ("PFAS", "The Widefield aquifer contamination from Peterson SFB foam is one of the nation's best-documented PFAS cases; affected districts installed ion-exchange treatment"),
             ("Uranium and radium", "Naturally occurring in some eastern plains groundwater; a recurring small-system violation"),
@@ -472,7 +472,7 @@ STATES_1 = [
             "Jackson's 2022 collapse, when flooding knocked out the O.B. Curtis plant and left the capital without safe water for weeks, made Mississippi the national emblem of water-infrastructure failure. A federal receiver now runs JXN Water, and service has stabilized with major EPA funding, though rebuilding continues.",
             "Most of the rest of the state drinks groundwater from prolific aquifers, and typical quality is decent where systems are maintained. The state has many small, thinly funded rural systems with recurring boil-water notices, and private wells in the Delta go largely untested.",
         ],
-        n_systems="about 1,180",
+        n_systems="about 1,010",
         contaminants=[
             ("Infrastructure-driven bacteria risk", "Pressure losses and line breaks in distressed systems (Jackson historically, small rural systems today) trigger frequent precautionary boil-water notices"),
             ("Disinfection byproducts", "A recurring exceedance in small surface-water systems"),

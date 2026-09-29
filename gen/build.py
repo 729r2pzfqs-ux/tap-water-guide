@@ -599,7 +599,7 @@ def build_homepage():
     </div>
 
     <div class="flex flex-wrap items-center justify-center gap-6 mt-10">
-      {stat_pill('Countries Covered', N_COUNTRIES)}
+      {stat_pill('Countries &amp; Territories', N_COUNTRIES)}
       {stat_pill('Cities Covered', N_CITIES)}
       {stat_pill('Data Sources', 'WHO &middot; EPA &middot; EWG &middot; CDC')}
     </div>
@@ -624,7 +624,7 @@ def build_homepage():
   <div class="max-w-6xl mx-auto">
     <h2 class="text-2xl font-bold text-gray-900 mb-5">Popular Countries</h2>
     <div class="flex flex-wrap gap-3 mb-4">{country_chips}</div>
-    <a href="/country/" class="text-sm text-sky-700 hover:underline font-medium">Browse all {N_COUNTRIES} countries &rarr;</a>
+    <a href="/country/" class="text-sm text-sky-700 hover:underline font-medium">Browse all {N_COUNTRIES} countries and territories &rarr;</a>
   </div>
 </section>
 
@@ -708,7 +708,7 @@ def build_homepage():
         "url": DOMAIN + "/",
     }, ORG_SCHEMA]
     title = "Is Tap Water Safe to Drink? Country &amp; City Guide | TapWaterGuide"
-    desc = f"Check tap water safety for {N_COUNTRIES} countries and {N_CITIES} cities worldwide, built on WHO, EPA, EWG, and CDC data. Free, answer-first drinking water guide."
+    desc = f"Check tap water safety for {N_COUNTRIES} countries and territories and {N_CITIES} cities, with water source, hardness, and traveler advice for each."
     html = page(title, desc, "/", body, schemas=schemas, active_nav="home")
     write_page("/", html)
     register("/", "1.0", "weekly")
@@ -754,14 +754,14 @@ def build_country_index():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Safety by Country</h1>
-    <p class="text-gray-600 mb-8">Drinking water safety ratings for {len(COUNTRIES)} countries worldwide, organized by region. Select a country for a full guide including water source, hardness, and traveler tips.</p>
+    <p class="text-gray-600 mb-8">Drinking water safety ratings for {len(COUNTRIES)} countries and territories worldwide, organized by region. Select a country for a full guide including water source, hardness, and traveler tips.</p>
     {sections}
   </div>
 </section>
 """
     schemas = [bc_ld]
     title = "All Countries &mdash; Tap Water Safety by Country | TapWaterGuide"
-    desc = f"Browse tap water safety ratings for all {len(COUNTRIES)} countries covered by TapWaterGuide, organized by region from Europe to Oceania."
+    desc = f"Browse tap water safety ratings for all {len(COUNTRIES)} countries and territories covered by TapWaterGuide, organized by region from Europe to Oceania."
     html = page(title, desc, "/country/", body, schemas=schemas, active_nav="countries")
     write_page("/country/", html)
     register("/country/", "0.9", "weekly")
@@ -856,7 +856,7 @@ def build_best_tap_water():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Countries with the Best Tap Water</h1>
-    <p class="text-gray-600 mb-8">Ranked by overall water quality, treatment infrastructure, and international reputation. These are countries where tap water is safe to drink everywhere, with minimal treatment needed and consistently excellent taste.</p>
+    <p class="text-gray-600 mb-8">Ordered by source quality, treatment infrastructure, and reputation. These are countries where tap water is safe to drink everywhere and consistently tastes good. The numbered order is an editorial judgement, not a measurement &mdash; see <a href="/rankings/" class="text-sky-700 hover:underline">how the rankings are made</a>.</p>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">Top 10</h2></div>
@@ -874,7 +874,7 @@ def build_best_tap_water():
 </section>
 """
     schemas = [bc_ld]
-    title = "Best Tap Water in the World: Countries Ranked | TapWaterGuide"
+    title = "Countries With the Best Tap Water in the World | TapWaterGuide"
     desc = "Iceland, Finland, and Switzerland top the list of countries with the safest, best-tasting tap water. See the full worldwide ranking."
     html = page(title, desc, "/rankings/best-tap-water/", body, schemas=schemas, active_nav="rankings")
     write_page("/rankings/best-tap-water/", html)
@@ -936,7 +936,7 @@ def build_best_tap_water_us():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Best Tap Water in US Cities</h1>
-    <p class="text-gray-600 mb-8">The {len(US_CITIES)} US cities on TapWaterGuide are all served by utilities regulated under the EPA Safe Drinking Water Act; each city page notes any recent violations. This ranking highlights cities whose water is exceptional by source quality &mdash; several draw from protected watersheds so clean they're exempt from full filtration requirements, a distinction held by only a handful of U.S. systems.</p>
+    <p class="text-gray-600 mb-8">The {len(US_CITIES)} US cities on TapWaterGuide are all served by utilities regulated under the EPA Safe Drinking Water Act; each city page notes any recent violations. This ranking highlights cities whose water is exceptional by source quality &mdash; several draw from protected watersheds so clean they're exempt from full filtration requirements, a distinction held by only a handful of U.S. systems. The numbered order is an editorial judgement, not a measurement &mdash; see <a href="/rankings/" class="text-sky-700 hover:underline">how the rankings are made</a>.</p>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">Top Tier &mdash; Exceptional Source Water</h2></div>
@@ -966,7 +966,7 @@ def build_rankings_index():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Rankings</h1>
-    <p class="text-gray-600 leading-relaxed mb-8">Four lists that sort the {len(COUNTRIES)} countries and {len(US_CITIES) + len(INTL_CITIES)} cities we cover by how far you can trust the tap. Every destination carries one of four ratings &mdash; Safe, Generally Safe, Caution, or Not Safe &mdash; and the rankings group destinations by that rating.</p>
+    <p class="text-gray-600 leading-relaxed mb-8">Four lists that sort the {len(COUNTRIES)} countries and territories and {len(US_CITIES) + len(INTL_CITIES)} cities we cover by how far you can trust the tap. Every destination carries one of four ratings &mdash; Safe, Generally Safe, Caution, or Not Safe &mdash; and the rankings group destinations by that rating.</p>
     <div class="grid md:grid-cols-2 gap-6">
       <a href="/rankings/best-tap-water/" class="block bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-100 p-6 hover:shadow-md transition-shadow">
         <h2 class="font-bold text-gray-900 mb-2">Best Tap Water Worldwide</h2>
@@ -1026,7 +1026,7 @@ def build_best_tap_water_cities():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Cities with the Best Tap Water in the World</h1>
-    <p class="text-gray-600 mb-8">Ranked by source purity, treatment quality, and taste. The top of this list is dominated by cities drawing on protected springs, alpine catchments, and glacial or volcanic sources &mdash; several need little or no chemical treatment at all.</p>
+    <p class="text-gray-600 mb-8">Ordered by source purity, treatment quality, and taste. The numbered order is an editorial judgement, not a measurement &mdash; see <a href="/rankings/" class="text-sky-700 hover:underline">how the rankings are made</a>. The top of this list is dominated by cities drawing on protected springs, alpine catchments, and glacial or volcanic sources &mdash; several need little or no chemical treatment at all.</p>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">Top 10</h2></div>
@@ -1422,7 +1422,7 @@ a:hover .mc, .mc:hover {{ opacity: .75; }}
 """
     schemas = [bc_ld]
     title = "World Tap Water Safety Map by Country | TapWaterGuide"
-    desc = f"Interactive world map of tap water safety: {len(COUNTRIES)} countries rated Safe, Generally Safe, Caution, or Not Safe. Click any country for details."
+    desc = f"Interactive world map of tap water safety: {len(COUNTRIES)} countries and territories rated Safe, Generally Safe, Caution, or Not Safe."
     html = page(title, desc, "/map/", body, schemas=schemas, active_nav="map")
     write_page("/map/", html)
     register("/map/", "0.9", "monthly")
@@ -1802,7 +1802,7 @@ def build_about():
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <h2 class="text-xl font-bold text-gray-900 mb-3">What We Cover</h2>
-      <p class="text-gray-600 leading-relaxed">TapWaterGuide currently covers {len(COUNTRIES)} countries and {len(US_CITIES) + len(INTL_CITIES)} cities ({len(US_CITIES)} US, {len(INTL_CITIES)} international), each with a safety rating, water source detail, known contaminant concerns, and practical guidance. We rate every destination on a simple four-tier scale: <strong class="text-gray-900">Safe</strong>, <strong class="text-gray-900">Generally Safe</strong>, <strong class="text-gray-900">Caution</strong>, and <strong class="text-gray-900">Not Safe</strong>.</p>
+      <p class="text-gray-600 leading-relaxed">TapWaterGuide currently covers {len(COUNTRIES)} countries and territories and {len(US_CITIES) + len(INTL_CITIES)} cities ({len(US_CITIES)} US, {len(INTL_CITIES)} international), each with a safety rating, water source detail, known contaminant concerns, and practical guidance. We rate every destination on a simple four-tier scale: <strong class="text-gray-900">Safe</strong>, <strong class="text-gray-900">Generally Safe</strong>, <strong class="text-gray-900">Caution</strong>, and <strong class="text-gray-900">Not Safe</strong>.</p>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" id="sources">

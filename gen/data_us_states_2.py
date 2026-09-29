@@ -199,7 +199,7 @@ STATES_2 = [
             "Oklahoma City pipes water from reservoirs across the state (including Canton Lake and southeast Oklahoma's Atoka pipeline) and Tulsa draws Spavinaw and Oologah lakes; both metros meet all federal standards.",
             "Rural Oklahoma shows the strain: many small systems face disinfection byproduct exceedances and aging plants, southeastern karst and old zinc-mining land (the Tar Creek Superfund site at Picher) left localized metals contamination, and naturally occurring arsenic, selenium, and chromium appear in western groundwater pockets.",
         ],
-        n_systems="about 1,300",
+        n_systems="about 890",
         contaminants=[
             ("Disinfection byproducts", "The most common exceedance across small reservoir-fed systems with long distribution runs"),
             ("Mining-legacy metals", "Tar Creek's lead and zinc contaminated Ottawa County groundwater; affected communities were relocated or connected to alternate supplies"),
@@ -256,7 +256,7 @@ STATES_2 = [
             "Providence Water's Scituate Reservoir supplies about 60% of Rhode Islanders with well-protected, consistently compliant water, and the state's compact geography keeps most residents on a handful of professional systems.",
             "The live issue is lead: Providence's old housing stock sits on one of New England's larger lead-line inventories, and the utility has cycled above the federal action level in past sampling rounds, driving an accelerating replacement program (with free replacements funded since 2023). PFAS detections in a few wells led to state limits and treatment.",
         ],
-        n_systems="about 480",
+        n_systems="about 90",
         contaminants=[
             ("Lead from service lines", "Providence's legacy inventory produced past action-level exceedances; free full-replacement programs and corrosion control are cutting readings"),
             ("PFAS", "Scattered well detections (Oakland/Burrillville among the first) brought state limits and treatment or interconnections"),
@@ -275,7 +275,7 @@ STATES_2 = [
             "South Carolina's major systems (Charleston Water, Columbia, Greenville Water's protected mountain reservoirs) meet all federal standards, with Greenville's supply regarded as one of the Southeast's best.",
             "The cautionary tale is Denmark, the small town whose decade-long use of an unapproved well additive (HaloSan) and discolored water became a national environmental-justice story. More broadly the state faces PFAS in the rivers that supply the Midlands and Pee Dee, radium in some coastal-plain aquifers, and struggling small systems that the state has pushed to consolidate.",
         ],
-        n_systems="about 660",
+        n_systems="about 560",
         contaminants=[
             ("PFAS", "River detections above new federal limits affect several Midlands and Pee Dee systems now planning treatment; textile-industry legacy contributes"),
             ("Radium", "Naturally occurring exceedances in a band of coastal-plain groundwater systems"),
@@ -330,7 +330,7 @@ STATES_2 = [
     dict(slug="texas", name="Texas", abbr="TX",
         overview=[
             "Texas runs the nation's largest water-system roster, roughly 4,600 community systems, from Dallas, Houston, and San Antonio's fully compliant metro giants (San Antonio's Edwards Aquifer supply needs little more than disinfection) down to thousands of small rural utilities where most problems live.",
-            "The 2021 winter storm exposed the grid-water nexus (14 million Texans under boil notices), and the state leads the country in boil-water advisories most years. Naturally occurring arsenic and radium in West Texas and Hill Country groundwater, nitrate in the Panhandle, and colonias along the border still lacking full service round out a state of extremes.",
+            "The 2021 winter storm exposed the grid-water nexus (nearly 15 million Texans under boil notices at the peak), and the state leads the country in boil-water advisories most years. Naturally occurring arsenic and radium in West Texas and Hill Country groundwater, nitrate in the Panhandle, and colonias along the border still lacking full service round out a state of extremes.",
         ],
         n_systems="about 4,600",
         contaminants=[
@@ -467,7 +467,7 @@ STATES_2 = [
             "Cheyenne pipes mountain water from the Laramie Range and Colorado's Little Snake headwaters, Casper treats North Platte alluvial wells, and the state's small population rides on generally clean high-plains and mountain sources. Major systems comply fully.",
             "With the nation's smallest population spread across hundreds of tiny systems, Wyoming's issues are scale and geology: naturally occurring uranium, radium, and fluoride in scattered groundwater, legacy uranium-district wells in the Gas Hills and Shirley Basin, and produced-water questions in oil-and-gas country (the Pavillion groundwater investigation remains the reference case).",
         ],
-        n_systems="about 250",
+        n_systems="about 320",
         contaminants=[
             ("Uranium and radium", "Natural occurrences plus mining-district legacy affect scattered wells and a few small systems"),
             ("Fluoride", "Naturally high in some basins, occasionally above the secondary standard"),
