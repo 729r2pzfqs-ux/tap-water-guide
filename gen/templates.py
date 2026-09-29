@@ -10,8 +10,8 @@ GA_MEASUREMENT_ID = "G-FS0BXPE79Z"
 
 # Content dates for E-E-A-T signals. Bump LAST_REVIEWED whenever content data is updated.
 DATE_PUBLISHED = "2026-08-28"
-LAST_REVIEWED = "2026-08-31"
-LAST_REVIEWED_DISPLAY = "August 31, 2026"
+LAST_REVIEWED = "2026-09-29"
+LAST_REVIEWED_DISPLAY = "September 29, 2026"
 # Cache-buster for /assets/style.css. Bump when the stylesheet changes.
 ASSET_VERSION = "20260929"
 

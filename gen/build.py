@@ -147,9 +147,18 @@ def sources_card(kind):
     </div>"""
 
 
+# Disabled in the September 2026 audit: the figures in data_water_quality.py are
+# estimates, not values transcribed from the reports they cite. Of 57 US values
+# checked against the utilities' own reports none matched and 37 were wrong.
+# Re-enable per city only once an entry has real values and a working source_url.
+RENDER_CONTAMINANT_TABLES = False
+
+
 def contaminant_table(slug):
-    """Render a structured contaminant data table for a city, if data exists."""
+    """Render a structured contaminant data table for a city, if verified data exists."""
     wq = CITY_WATER_QUALITY.get(slug)
+    if not RENDER_CONTAMINANT_TABLES and not (wq and wq.get("verified") and wq.get("source_url")):
+        return ""
     if not wq or not wq.get("contaminants"):
         return ""
     STATUS_ICON = {
@@ -389,7 +398,7 @@ def build_us_city_page(ci):
       {info_card(ICON_DROP, 'Hardness', ci['hardness'].split(',')[0])}
       {info_card(ICON_SOURCE, 'pH', ci['ph'])}
       {info_card(ICON_MAP, 'TDS', ci['tds'])}
-      {info_card(ICON_PEOPLE, 'EPA Status', 'Compliant')}
+      {info_card(ICON_PEOPLE, 'Utility', CITY_UTILITIES[slug][0])}
     </div>
     <div class="mb-8">{hardness_gauge(ci['hardness'])}</div>
 
@@ -651,7 +660,7 @@ def build_homepage():
     </a>
     <a href="/water-hardness/" class="block bg-gradient-to-br from-sky-50 to-white rounded-xl border border-sky-100 p-6 hover:shadow-md transition-shadow">
       <h3 class="font-bold text-gray-900 mb-2">Water Hardness Data</h3>
-      <p class="text-sm text-gray-600">Check hardness levels and contaminant data for any city or country.</p>
+      <p class="text-sm text-gray-600">Check hardness levels for any city or country.</p>
     </a>
   </div>
 </section>
@@ -790,7 +799,7 @@ def build_city_index():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Tap Water Safety by City</h1>
-    <p class="text-gray-600 mb-8">Drinking water safety ratings for {len(INTL_CITIES)} world cities and {len(US_CITIES)} US cities. Select a city for water source, quality data, and practical tips.</p>
+    <p class="text-gray-600 mb-8">Drinking water safety ratings for {len(INTL_CITIES)} world cities and {len(US_CITIES)} US cities. Select a city for water source, hardness, and practical tips.</p>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">World Cities ({len(INTL_CITIES)})</h2></div>
@@ -927,14 +936,14 @@ def build_best_tap_water_us():
 <section class="px-4 py-8">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Best Tap Water in US Cities</h1>
-    <p class="text-gray-600 mb-8">All {len(US_CITIES)} cities on TapWaterGuide meet EPA Safe Drinking Water Act standards. This ranking highlights cities whose water is exceptional by source quality &mdash; several draw from protected watersheds so clean they're exempt from full filtration requirements, a distinction held by only a handful of U.S. systems.</p>
+    <p class="text-gray-600 mb-8">The {len(US_CITIES)} US cities on TapWaterGuide are all served by utilities regulated under the EPA Safe Drinking Water Act; each city page notes any recent violations. This ranking highlights cities whose water is exceptional by source quality &mdash; several draw from protected watersheds so clean they're exempt from full filtration requirements, a distinction held by only a handful of U.S. systems.</p>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">Top Tier &mdash; Exceptional Source Water</h2></div>
       {top_rows}
     </div>
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">All Other Cities (All EPA-Compliant)</h2></div>
+      <div class="px-4 py-3 bg-gray-50 border-b border-gray-200"><h2 class="font-bold text-gray-900">All Other Cities</h2></div>
       {rest_rows}
     </div>
   </div>
@@ -1503,8 +1512,8 @@ def build_guides_index():
 
     <div class="mt-8">
       <a href="/water-hardness/" class="block bg-gradient-to-br from-sky-50 to-white rounded-xl border border-sky-100 p-6 hover:shadow-md transition-shadow">
-        <h2 class="font-bold text-gray-900 mb-2">Water Hardness &amp; Contaminant Data</h2>
-        <p class="text-sm text-gray-600">Look up hardness levels and water quality data for any city or country, with the hardness scale explained and practical solutions.</p>
+        <h2 class="font-bold text-gray-900 mb-2">Water Hardness Data</h2>
+        <p class="text-sm text-gray-600">Look up hardness levels for any city or country, with the hardness scale explained and practical solutions.</p>
       </a>
     </div>
   </div>
@@ -1832,6 +1841,16 @@ def build_about():
       </div>
     </div>
 
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" id="accuracy">
+      <h2 class="text-xl font-bold text-gray-900 mb-3">Accuracy &amp; Corrections</h2>
+      <div class="text-gray-600 leading-relaxed space-y-3">
+        <p>Hardness, pH, and TDS figures on city pages are typical ranges, not live measurements. Water chemistry varies by neighborhood, season, and source blend, so the figure for your own tap can differ. Your utility's annual water quality report is the authoritative record.</p>
+        <p>We do not publish contaminant concentrations unless they are taken directly from a utility's report and linked to it. A September 2026 review found that contaminant tables previously shown on city pages did not meet that standard, and they were removed.</p>
+        <p>US compliance notes are checked against the EPA's Safe Drinking Water Information System. That database lags real events and an empty record is not proof of a clean one, so treat compliance notes as a starting point.</p>
+        <p>If you find an error, email <a href="mailto:info@tapwaterguide.org" class="text-sky-700 hover:underline">info@tapwaterguide.org</a> with the page and a source. Corrections are made in the next site update.</p>
+      </div>
+    </div>
+
     <div class="bg-amber-50 border border-amber-200 rounded-xl p-6">
       <h2 class="text-xl font-bold text-amber-800 mb-3">Disclaimer</h2>
       <p class="text-amber-900 text-sm leading-relaxed">TapWaterGuide is an informational reference, not medical or travel advice. Water quality and infrastructure conditions change over time, including through drought, natural disasters, and infrastructure failures. Always check current local advisories, your accommodation, or your embassy's travel health guidance before making decisions about drinking water, especially for infants, pregnant travelers, or those who are immunocompromised.</p>
@@ -2044,7 +2063,8 @@ def build_us_water_data():
             s=ci["slug"], n=ci["name"], st=US_STATE_NAME_TO_ABBR[ci["state"]],
             u=util, r=ci["rating"],
             k=[_wq_short(c) for c in ci["contaminants"][:4]],
-            e=_wq_first_sentence(ci["epa_status"]),
+            # Keep the whole note when it records a violation, so the summary cannot hide it
+            e=_wq_plain(ci["epa_status"]) if "violation" in ci["epa_status"].lower() else _wq_first_sentence(ci["epa_status"]),
             hl=hardness_level(ci["hardness"]) or 0,
             ht=_wq_short(ci["hardness"]),
         ))
@@ -2076,8 +2096,8 @@ US_WQ_LOOKUP_SCRIPT = """<script>
             'Generally Safe':'bg-sky-50 text-sky-700 border-sky-200',
             'Caution':'bg-amber-50 text-amber-700 border-amber-200',
             'Not Safe':'bg-red-50 text-red-700 border-red-200'};
-  var ASSESS = {'Safe':'Safe to drink \\u2014 this system meets federal Safe Drinking Water Act standards.',
-                'Generally Safe':'Generally safe \\u2014 meets federal standards with local caveats worth reading in the full report.',
+  var ASSESS = {'Safe':'Rated safe to drink \\u2014 see the full report for source, treatment and compliance notes.',
+                'Generally Safe':'Generally safe \\u2014 with local caveats worth reading in the full report.',
                 'Caution':'Use caution \\u2014 review the full report and current local advisories.',
                 'Not Safe':'Not considered reliably safe \\u2014 see the full report.'};
   var HL = ['Soft','Moderate','Hard','Very Hard'];
@@ -2109,9 +2129,6 @@ US_WQ_LOOKUP_SCRIPT = """<script>
     var ks = c.k.map(function(k){
       return '<li class="flex items-start gap-2 text-sm text-gray-600"><span class="text-sky-500 mt-0.5">&bull;</span><span>' + k + '</span></li>';
     }).join('');
-    var viol = (c.r === 'Safe' || c.r === 'Generally Safe')
-      ? 'No unresolved health-based violations in current federal reporting.'
-      : 'See the full city report for current advisories.';
     return '<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-left">' +
       '<div class="flex flex-wrap items-center justify-between gap-3 mb-1">' +
         '<h3 class="text-lg font-bold text-gray-900">' + c.u + '</h3>' + badge(c.r) + '</div>' +
@@ -2120,7 +2137,7 @@ US_WQ_LOOKUP_SCRIPT = """<script>
       '<div class="grid md:grid-cols-2 gap-4 mb-4">' +
         '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">Key contaminants monitored</div><ul class="space-y-1">' + ks + '</ul></div>' +
         '<div><div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">EPA compliance</div><p class="text-sm text-gray-600">' + c.e + '</p>' +
-        '<div class="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2 mt-3">Violations</div><p class="text-sm text-gray-600">' + viol + '</p></div>' +
+        '</div>' +
       '</div>' +
       hardnessBlock(c.ht, c.hl) +
       '<div class="flex flex-wrap gap-3">' +
@@ -2285,10 +2302,10 @@ def build_us_water_index():
 """
     schemas = [bc_ld, faq_ld,
                article_schema("US Tap Water Quality by ZIP Code",
-                              "Look up US tap water quality by ZIP code or city: utility names, contaminants, EPA violations, and safety assessments for all 50 states.",
+                              "Look up US tap water quality by ZIP code or city: utility names, contaminants, EPA compliance notes, and safety assessments for all 50 states.",
                               f"{DOMAIN}/us-water-quality/")]
     title = "US Tap Water Quality by ZIP Code | TapWaterGuide"
-    desc = "Free US tap water lookup: enter a ZIP code or city to see your water utility, key contaminants, EPA violations, and a safety assessment. All 50 states covered."
+    desc = "Free US tap water lookup: enter a ZIP code or city to see your water utility, key contaminants, EPA compliance notes, and a safety rating. All 50 states."
     html = page(title, desc, "/us-water-quality/", body, schemas=schemas, active_nav="uswater")
     write_page("/us-water-quality/", html)
     register("/us-water-quality/", "0.9", "weekly")

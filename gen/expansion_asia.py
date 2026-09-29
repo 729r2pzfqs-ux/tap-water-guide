@@ -316,7 +316,7 @@ CITIES = [
     dict(slug="sapporo", name="Sapporo", country_slug="japan", country_name="Japan",
         rating="Safe",
         quick_answer="Yes, tap water in Sapporo is safe to drink. The Sapporo Waterworks Bureau treats water to Japan&rsquo;s strict 51-parameter quality standard, producing some of the best-tasting tap water in the country thanks to clean snowmelt sources.",
-        water_source="Sapporo draws its water from the Toyohira River, fed by snowmelt from the mountains of Shikotsu-Toya National Park, and from the Hoheikyo Dam reservoir. Treatment at the Moiwa and Hakusui plants uses rapid sand filtration and chlorination.",
+        water_source="Sapporo draws its water from the Toyohira River, fed by snowmelt from the mountains of Shikotsu-Toya National Park, and from the Hoheikyo Dam reservoir. Treatment at the Moiwa and Shirakawa plants uses rapid sand filtration and chlorination.",
         contaminants="No significant health concerns. Sapporo&rsquo;s water is noted for its excellent taste, attributed to the clean snowmelt source and relatively low chlorine requirements. The city&rsquo;s cold climate also reduces bacterial growth risk in the distribution system.",
         tips=["Tap water is safe and excellent everywhere in the city &mdash; fill your bottle freely at any tap or public fountain", "Sapporo&rsquo;s snowmelt-sourced water is particularly good for brewing beer and coffee, as the city&rsquo;s famous breweries can attest", "No need to buy bottled water &mdash; save money and plastic by drinking from the tap"],
         hardness="Soft, roughly 30&ndash;50 mg/L due to the volcanic and snowmelt-fed water sources",

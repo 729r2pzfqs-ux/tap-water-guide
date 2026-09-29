@@ -5,7 +5,7 @@ EUROPE_CITIES = [
     dict(slug="madrid", name="Madrid", country_slug="spain", country_name="Spain",
         rating="Safe",
         quick_answer="Yes, Madrid&rsquo;s tap water is safe to drink and widely considered among the best in Spain, sourced from protected mountain reservoirs in the Sierra de Guadarrama via Canal de Isabel II.",
-        water_source="Canal de Isabel II supplies Madrid from reservoirs in the Sierra de Guadarrama and Sierra de Guadarrama mountains northwest of the city, delivering naturally soft mountain water through an extensive distribution network.",
+        water_source="Canal de Isabel II supplies Madrid from reservoirs in the Sierra de Guadarrama mountains north of the city, delivering naturally soft mountain water through an extensive distribution network.",
         contaminants="No significant health concerns. The mountain source water requires relatively light treatment, and the supply consistently meets EU Drinking Water Directive standards.",
         tips=["Ask for \"agua del grifo\" at restaurants &mdash; it is free and safe", "Madrid&rsquo;s water is unusually soft for a Spanish city, so no filter is needed for taste", "Public drinking fountains throughout the city provide the same safe tap water"],
         hardness="Soft, roughly 40&ndash;100 mg/L",

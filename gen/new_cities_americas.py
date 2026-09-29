@@ -4,8 +4,8 @@
 AMERICAS_CITIES = [
     dict(slug="mexico-city", name="Mexico City", country_slug="mexico", country_name="Mexico",
         rating="Not Safe",
-        quick_answer="No, tap water in Mexico City is not safe to drink. SACMEX supplies the city from the Cutzamala system and groundwater wells, but aging pipes and subsidence damage compromise water quality before it reaches the tap.",
-        water_source="SACMEX (Sistema de Aguas de la Ciudad de M&eacute;xico) supplies the capital from the Cutzamala aqueduct system and deep groundwater wells. Land subsidence from over-extraction has damaged pipes throughout the distribution network.",
+        quick_answer="No, tap water in Mexico City is not safe to drink. The city water agency supplies the city from the Cutzamala system and groundwater wells, but aging pipes and subsidence damage compromise water quality before it reaches the tap.",
+        water_source="The city water agency SEGIAGUA (formerly SACMEX) supplies the capital from the Cutzamala aqueduct system and deep groundwater wells. Land subsidence from over-extraction has damaged pipes throughout the distribution network.",
         contaminants="Bacterial contamination from cracked and leaking pipes is common. Heavy metals, sediment, and residual chlorine levels vary widely by neighborhood due to infrastructure damage caused by subsidence.",
         tips=["Buy garrafones (20-liter purified water jugs) from trusted brands like Bonafont or Ciel for daily use", "Use purified water for brushing teeth as well as drinking", "Street food vendors typically use purified water for ice and drinks, but confirm before consuming"],
         hardness="Hard, roughly 200&ndash;400 mg/L depending on the source mix of surface and groundwater",
