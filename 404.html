@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 &mdash; Page Not Found | TapWaterGuide</title>
 <meta name="description" content="The page you're looking for doesn't exist. Browse our full list of countries and cities instead.">
-<link rel="canonical" href="https://tapwaterguide.org/404/">
-<link rel="alternate" hreflang="en" href="https://tapwaterguide.org/404/">
-<link rel="alternate" hreflang="x-default" href="https://tapwaterguide.org/404/">
+
+<meta name="robots" content="noindex">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FS0BXPE79Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-FS0BXPE79Z');</script>
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="w5bFlsoadEqdqFYdKOFY+Q" async></script>
@@ -17,7 +16,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/assets/site.webmanifest">
 <meta name="theme-color" content="#0284c7">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v=20260929">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -49,7 +48,7 @@
         <div class="text-xs text-gray-500 leading-tight">Worldwide water safety reference</div>
       </div>
     </a>
-    <nav class="hidden md:flex items-center gap-6 text-sm">
+    <nav class="hidden xl:flex items-center gap-5 text-sm whitespace-nowrap">
       <a href="/" class="text-gray-600 hover:text-sky-700">Home</a>
 <a href="/map/" class="text-gray-600 hover:text-sky-700">Map</a>
 <a href="/country/" class="text-gray-600 hover:text-sky-700">Countries</a>
@@ -61,15 +60,15 @@
 <a href="/guides/" class="text-gray-600 hover:text-sky-700">Guides</a>
       <div class="relative">
         <input id="navSearch" type="text" placeholder="Search&hellip;" autocomplete="off"
-          class="w-40 lg:w-56 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
+          class="w-44 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
         <div id="navSearchResults" class="hidden absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 text-left"></div>
       </div>
     </nav>
-    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden p-2" aria-label="Menu">
+    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="xl:hidden p-2" aria-label="Menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+  <div id="mobileMenu" class="hidden xl:hidden border-t border-gray-200 bg-white">
     <div class="px-4 py-3 space-y-1">
       <div class="relative pb-2">
         <input id="navSearchMobile" type="text" placeholder="Search a country or city&hellip;" autocomplete="off"

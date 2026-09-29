@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Shared HTML building blocks for TapWaterGuide.org"""
+import html as _html
 import json
+import re as _re
 
 SITE = "TapWaterGuide"
 DOMAIN = "https://tapwaterguide.org"
@@ -10,6 +12,8 @@ GA_MEASUREMENT_ID = "G-FS0BXPE79Z"
 DATE_PUBLISHED = "2026-08-28"
 LAST_REVIEWED = "2026-08-31"
 LAST_REVIEWED_DISPLAY = "August 31, 2026"
+# Cache-buster for /assets/style.css. Bump when the stylesheet changes.
+ASSET_VERSION = "20260929"
 
 ORG_SCHEMA = {
     "@context": "https://schema.org",
@@ -111,19 +115,19 @@ def nav(active=""):
         <div class="text-xs text-gray-500 leading-tight">Worldwide water safety reference</div>
       </div>
     </a>
-    <nav class="hidden md:flex items-center gap-6 text-sm">
+    <nav class="hidden xl:flex items-center gap-5 text-sm whitespace-nowrap">
       {desktop}
       <div class="relative">
         <input id="navSearch" type="text" placeholder="Search&hellip;" autocomplete="off"
-          class="w-40 lg:w-56 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
+          class="w-44 bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 text-sm outline-none focus:border-sky-400 focus:bg-white transition-colors">
         <div id="navSearchResults" class="hidden absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 text-left"></div>
       </div>
     </nav>
-    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden p-2" aria-label="Menu">
+    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="xl:hidden p-2" aria-label="Menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+  <div id="mobileMenu" class="hidden xl:hidden border-t border-gray-200 bg-white">
     <div class="px-4 py-3 space-y-1">
       <div class="relative pb-2">
         <input id="navSearchMobile" type="text" placeholder="Search a country or city&hellip;" autocomplete="off"
@@ -307,13 +311,41 @@ def stat_pill(label, value):
     </div>"""
 
 
-def page(title, description, path, body, extra_head="", schemas=None, active_nav="", og_type="website"):
+def plain_text(s):
+    """Strip tags and decode entities: JSON-LD and meta values must be plain text."""
+    return _re.sub(r"\s+", " ", _html.unescape(_re.sub(r"<[^>]+>", "", s))).strip()
+
+
+def _clean_ld(obj):
+    if isinstance(obj, dict):
+        return {k: _clean_ld(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_clean_ld(v) for v in obj]
+    if isinstance(obj, str) and not obj.startswith("http"):
+        return plain_text(obj)
+    return obj
+
+
+def fit_title(*candidates, limit=60):
+    """First candidate that fits the ~60 character SERP title width, else the shortest."""
+    for c in candidates:
+        if len(plain_text(c)) <= limit:
+            return c
+    return min(candidates, key=lambda c: len(plain_text(c)))
+
+
+def page(title, description, path, body, extra_head="", schemas=None, active_nav="", og_type="website",
+         robots=None, canonical=True):
     """path like '/country/japan/' (must start and end with /, or '' for home)"""
-    canonical = DOMAIN + path
+    canonical_url = DOMAIN + path
     schemas = schemas or []
     schema_scripts = "\n".join(
-        f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False)}</script>' for s in schemas
+        f'<script type="application/ld+json">{json.dumps(_clean_ld(s), ensure_ascii=False).replace("</", "<\\/")}</script>'
+        for s in schemas
     )
+    canonical_tag = f'<link rel="canonical" href="{canonical_url}">' if canonical else ""
+    robots_tag = f'<meta name="robots" content="{robots}">' if robots else ""
+    canonical = canonical_url
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -321,9 +353,8 @@ def page(title, description, path, body, extra_head="", schemas=None, active_nav
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
 <meta name="description" content="{description}">
-<link rel="canonical" href="{canonical}">
-<link rel="alternate" hreflang="en" href="{canonical}">
-<link rel="alternate" hreflang="x-default" href="{canonical}">
+{canonical_tag}
+{robots_tag}
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GA_MEASUREMENT_ID}');</script>
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="w5bFlsoadEqdqFYdKOFY+Q" async></script>
@@ -333,7 +364,7 @@ def page(title, description, path, body, extra_head="", schemas=None, active_nav
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/assets/site.webmanifest">
 <meta name="theme-color" content="#0284c7">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v={ASSET_VERSION}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
